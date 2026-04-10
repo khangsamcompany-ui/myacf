@@ -241,7 +241,7 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#F5F2EE}body,but
     <div><div class="greet-txt" id="greetTxt">-</div><div class="greet-sub" id="greetSub">-</div></div>
     <button class="greet-btn" onclick="switchMode('mem',document.getElementById('mbt-mem'))">👤 Profile</button>
   </div>
-  <div id="contactBar" class="cbar"><input class="ci" id="contact" oninput="document.getElementById('contact2').value=this.value"></div>
+  <div id="contactBar" class="cbar"><input class="ci" id="contact" inputmode="text" autocomplete="off" oninput="document.getElementById('contact2').value=this.value"></div>
   <div id="sec-cafe">
     <div class="tabs">
       <div class="tab on" id="tb-drinks" onclick="showTab('drinks',this)"></div>
@@ -298,11 +298,11 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#F5F2EE}body,but
     <div class="logo" style="font-size:16px" id="cart-title">-</div>
     <div style="width:60px"></div>
   </div>
-  <div class="cc"><div style="font-size:13px;font-weight:700;color:var(--nv);margin-bottom:6px" id="cc-lbl">-</div><input id="contact2" oninput="clearErr()"></div>
+  <div class="cc"><div style="font-size:13px;font-weight:700;color:var(--nv);margin-bottom:6px" id="cc-lbl">-</div><input id="contact2" inputmode="text" autocomplete="off" oninput="clearErr()"></div>
   <div class="warn" id="warn" style="margin-top:7px"></div>
   <div class="room-input-wrap" id="roomWrap">
     <div class="room-input-lbl" id="room-lbl">-</div>
-    <input class="room-inp" id="roomInput" oninput="this.classList.remove('err')">
+    <input class="room-inp" id="roomInput" inputmode="numeric" autocomplete="off" oninput="this.classList.remove('err')">
   </div>
   <div class="warn" id="warn-room" style="margin-top:0;margin-bottom:6px"></div>
   <div class="opt-section">
@@ -425,8 +425,8 @@ function srRow(lbl,val){return '<div class="sr"><div class="srl">'+lbl+'</div><d
 
 const slotNotes={'06:00':'Sáng sớm','06:30':'Sáng sớm','07:00':'Sáng','07:30':'Sáng','08:00':'Sáng','08:30':'Sáng','09:00':'Buổi sáng','09:30':'Buổi sáng','10:00':'Buổi sáng','10:30':'Buổi sáng','11:00':'Trưa','11:30':'Trưa','12:00':'Trưa','12:30':'Trưa','13:00':'Chiều','13:30':'Chiều','14:00':'Chiều','14:30':'Chiều','15:00':'Xế chiều','15:30':'Xế chiều','16:00':'Xế chiều','16:30':'Xế chiều','17:00':'Chiều tối','17:30':'Chiều tối','18:00':'Chiều tối','18:30':'Chiều tối','19:00':'Tối','19:30':'Tối','20:00':'Tối','20:30':'Tối','21:00':'Tối muộn','21:30':'Cuối ngày'};
 
-async function loadData(){try{const r=await window.storage.get('mya_member');if(r)member=JSON.parse(r.value);}catch(e){}try{const r=await window.storage.get('mya_orders');if(r)orderHistory=JSON.parse(r.value);}catch(e){}try{const r=await window.storage.get('mya_names');if(r)registeredNames=JSON.parse(r.value);}catch(e){}}
-async function saveAll(){try{await window.storage.set('mya_member',JSON.stringify(member));}catch(e){}try{await window.storage.set('mya_orders',JSON.stringify(orderHistory));}catch(e){}try{await window.storage.set('mya_names',JSON.stringify(registeredNames));}catch(e){}}
+async function loadData(){try{const r=localStorage.getItem('mya_member');if(r)member=JSON.parse(r);}catch(e){}try{const r=localStorage.getItem('mya_orders');if(r)orderHistory=JSON.parse(r);}catch(e){}try{const r=localStorage.getItem('mya_names');if(r)registeredNames=JSON.parse(r);}catch(e){}}
+async function saveAll(){try{localStorage.setItem('mya_member',JSON.stringify(member));}catch(e){}try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}try{localStorage.setItem('mya_names',JSON.stringify(registeredNames));}catch(e){}}
 
 const CAFE=[
   {id:'d1',e:'🍋',vi:'Trà chanh vàng',en:'Lemon Tea',zh:'黄柠檬茶',p:30000,t:'drinks'},
@@ -520,7 +520,7 @@ function updateModeTabs(){document.getElementById('mbt-cafe').innerHTML='☕ CAF
 function renderMember(){const el=document.getElementById('memContent');if(!member){el.innerHTML='<div class="mem-bg"><div class="mem-hero"><div class="mem-hero-icon">🎁</div><div class="mem-hero-title">'+t('hero_title')+'</div><div class="mem-hero-sub">'+t('hero_sub').replace(/\n/g,'<br>')+'</div></div><div class="perks"><div class="perk"><div class="perk-icon">🚀</div><div class="perk-lbl">'+t('perk1').replace(/\n/g,'<br>')+'</div></div><div class="perk"><div class="perk-icon">📋</div><div class="perk-lbl">'+t('perk2').replace(/\n/g,'<br>')+'</div></div><div class="perk"><div class="perk-icon">⭐</div><div class="perk-lbl">'+t('perk3').replace(/\n/g,'<br>')+'</div></div></div><div class="mem-form"><div class="mem-form-title">'+t('form_title')+'</div><div class="field"><label>'+t('f_name')+' <span class="req">*</span></label><input id="rn" placeholder="'+t('ph_name')+'" oninput="filterName(this)"><div class="err-msg" id="err-rn">'+t('err_name')+'</div></div><div class="field"><label>'+t('f_contact')+' <span class="req">*</span> <span style="color:var(--mu);font-weight:400;font-size:11px">'+t('choose1')+'</span></label><div class="csbox" id="csBox"><div class="ctype-row"><button class="ctype on" onclick="selCType(\'phone\',this)">'+t('ct_phone')+'</button><button class="ctype" onclick="selCType(\'wechat\',this)">'+t('ct_wechat')+'</button><button class="ctype" onclick="selCType(\'zalo\',this)">'+t('ct_zalo')+'</button></div><div class="cinput-wrap"><input id="rc" placeholder="'+t('ph_phone')+'"></div><div class="chint" id="rc-hint">'+t('hint_phone')+'</div></div><div class="err-msg" id="err-rc">'+t('err_contact')+'</div></div><button class="reg-btn" onclick="registerMember()">'+t('reg_btn')+'</button></div><div class="hotline-box"><div class="hl-sub">'+t('hl_sub')+'</div><div class="hl-num">'+t('hl_num')+'</div></div></div>';contactType='phone';}else{const ini=member.name.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();const ctIcon=member.contactType==='wechat'?'💚':member.contactType==='zalo'?'🔵':'📱';const ctLabel=member.contactType==='wechat'?'WeChat':member.contactType==='zalo'?'Zalo':'SĐT';const filtered=orderFilter==='all'?orderHistory:orderHistory.filter(o=>o.status===orderFilter);const oh=filtered.length===0?'<div class="empty-state"><div style="font-size:36px;margin-bottom:8px">📭</div><div style="font-size:15px">'+t('no_orders')+'</div></div>':filtered.slice().reverse().map(o=>'<div class="order-card"><div class="order-card-hdr"><div><div class="order-id">MYA-'+o.id+'</div><div class="order-time">'+fdate(o.time)+'</div></div><span class="st st-'+o.status+'">'+t('st_'+o.status)+'</span></div><div class="order-items-txt">'+o.items+'</div><div class="order-footer"><span class="order-total">'+ff(o.total)+'</span></div></div>').join('');el.innerHTML='<div><div class="profile-hdr"><div class="avatar">'+ini+'</div><div class="profile-name">'+member.name+'</div><span class="mem-badge">⭐ MYA Member</span></div><div class="profile-body"><div class="info-card"><div class="info-card-hdr">'+t('prof_info')+'</div><div class="mi"><span class="mi-icon">'+ctIcon+'</span><div><div class="mi-lbl">'+ctLabel+'</div><div class="mi-val">'+member.contact+'</div></div></div><div class="mi"><span class="mi-icon">📅</span><div><div class="mi-lbl">'+t('joined')+'</div><div class="mi-val">'+fdate(member.joinDate)+'</div></div></div></div><div class="action-row"><button class="act-btn btn-edit" onclick="editMember()">✏️ '+t('edit')+'</button><button class="act-btn btn-out" onclick="logoutMember()">🚪 '+t('logout')+'</button></div><div class="info-card" style="margin-top:13px"><div class="info-card-hdr">'+t('ord_title')+' ('+orderHistory.length+')</div><div class="order-tabs"><button class="otab'+(orderFilter==='all'?' on':'')+'" onclick="setOF(\'all\')">'+t('ord_all')+'</button><button class="otab'+(orderFilter==='pending'?' on':'')+'" onclick="setOF(\'pending\')">'+t('ord_pending')+'</button><button class="otab'+(orderFilter==='done'?' on':'')+'" onclick="setOF(\'done\')">'+t('ord_done')+'</button></div><div style="padding:4px 0 8px">'+oh+'</div></div></div></div>';}}
 function setOF(f){orderFilter=f;renderMember();}
 function filterName(inp){inp.value=inp.value.replace(/[^a-zA-Z0-9 ]/g,'');inp.classList.remove('err');document.getElementById('err-rn').classList.remove('show');}
-function selCType(type,btn){contactType=type;document.querySelectorAll('.ctype').forEach(b=>b.className='ctype');btn.className='ctype on';const ph={phone:t('ph_phone'),wechat:t('ph_wechat'),zalo:t('ph_zalo')};const hint={phone:t('hint_phone'),wechat:t('hint_wechat'),zalo:t('hint_zalo')};document.getElementById('rc').placeholder=ph[type];document.getElementById('rc').value='';document.getElementById('rc-hint').textContent=hint[type];document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}
+function selCType(type,btn){contactType=type;document.querySelectorAll('.ctype').forEach(b=>b.className='ctype');btn.className='ctype on';const ph={phone:t('ph_phone'),wechat:t('ph_wechat'),zalo:t('ph_zalo')};const hint={phone:t('hint_phone'),wechat:t('hint_wechat'),zalo:t('hint_zalo')};document.getElementById('rc').placeholder=ph[type];document.getElementById('rc').value='';document.getElementById('rc').inputMode=type==='phone'?'tel':'text';document.getElementById('rc-hint').textContent=hint[type];document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}
 function registerMember(){const name=document.getElementById('rn').value.trim();const contact=document.getElementById('rc').value.trim();let ok=true;if(!name||!/^[a-zA-Z0-9 ]+$/.test(name)){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_name');document.getElementById('err-rn').classList.add('show');ok=false;}else if(registeredNames.includes(name.toLowerCase().replace(/ /g,''))){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_dup');document.getElementById('err-rn').classList.add('show');ok=false;}else{document.getElementById('rn').classList.remove('err');document.getElementById('err-rn').classList.remove('show');}if(!contact){document.getElementById('csBox').classList.add('err');document.getElementById('err-rc').classList.add('show');ok=false;}else{document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}if(!ok)return;registeredNames.push(name.toLowerCase().replace(/ /g,''));member={name,contact,contactType,joinDate:Date.now()};saveAll();updateGreetBar();renderMember();}
 function editMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;saveAll();updateGreetBar();renderMember();}
 function logoutMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;orderHistory=[];saveAll();updateGreetBar();renderMember();}
@@ -581,8 +581,19 @@ async function placeOrder(){
   const memLine=isMember?'\n👤 '+member.name+'  '+ctIcon+': '+contact+roomTG:'\n📋 '+contact;
   const msg='☕ ĐƠN MYA CAFÉ'+memLine+'\n'+dIcon+' '+dVI+'  '+tIcon+' '+tVI+'\n'+pIcons[payMode]+' '+payVI+'\n─────────────\n'+lines+'\n─────────────\n💰 '+ff(tot)+(note?'\n📝 '+note:'');
   const btn=document.getElementById('obtn');btn.disabled=true;document.getElementById('order-lbl').textContent=t('sending');
-  try{await fetch('https://api.telegram.org/bot'+TG+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT,text:msg})});}catch(e){}
-  if(isMember){orderHistory.push({id:Date.now().toString().slice(-6),items:itemsText,total:tot,time:Date.now(),status:'pending'});try{await window.storage.set('mya_orders',JSON.stringify(orderHistory));}catch(e){}}
+  let _ok=false;
+  try{
+    const _r=await fetch('https://api.telegram.org/bot'+TG+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT,text:msg})});
+    const _j=await _r.json();
+    _ok=_j.ok===true;
+  }catch(e){_ok=false;}
+  if(!_ok){
+    btn.disabled=false;
+    document.getElementById('order-lbl').textContent=t('order');
+    alert(lang==='zh'?'⚠️ 网络错误，请重试':lang==='en'?'⚠️ Network error, please retry':'⚠️ Lỗi mạng, vui lòng thử lại');
+    return;
+  }
+  if(isMember){orderHistory.push({id:Date.now().toString().slice(-6),items:itemsText,total:tot,time:Date.now(),status:'pending'});try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}}
   const noticeKey='ok_notice_'+deliveryMode+'_'+(timeMode==='now'?'now':'sch');
   const dayLocal=curDay==='today'?t('today'):t('tomorrow');const tLocal=timeMode==='now'?t('now').replace(/^[^\w\u4e00-\u9fa5]+/,''):dayLocal+(curTime?' '+curTime:'');
   const schNote=timeMode==='sch'&&curTime?'\n📅 '+tLocal:'';
