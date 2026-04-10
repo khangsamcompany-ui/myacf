@@ -329,8 +329,8 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#F5F2EE}body,but
       <div class="reception-box">
         <div class="reception-lbl" id="lbl-other-time">-</div>
         <div class="rec-row">
-          <div class="rec-btn" onclick="window.open('tel:0123456')"><span class="rec-icon">📞</span><div><div class="rec-lbl" id="lbl-call">-</div><div class="rec-sub">0123456</div></div></div>
-          <div class="rec-btn" onclick="alert('WeChat: abcdean')"><span class="rec-icon">💚</span><div><div class="rec-lbl" id="lbl-wc-rec">-</div><div class="rec-sub">abcdean</div></div></div>
+          <div class="rec-btn" onclick="window.open('tel:0123456')"><span class="rec-icon">📞</span><div><div class="rec-lbl" id="lbl-call">-</div><div class="rec-sub" id="rec-hotline">0123456</div></div></div>
+          <div class="rec-btn" onclick="alert('WeChat: abcdean')"><span class="rec-icon">💚</span><div><div class="rec-lbl" id="lbl-wc-rec">-</div><div class="rec-sub" id="rec-wechat">abcdean</div></div></div>
         </div>
       </div>
       <div id="time-result"></div>
@@ -340,11 +340,11 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#F5F2EE}body,but
     <div class="opt-title" id="lbl-opt-pay">-</div>
     <div class="pay-row">
       <div class="pay-btn on" id="pay-vcb" onclick="setPayment('vcb')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">🏦</span><div><div class="pay-name">VCB Chuyển khoản</div><div class="pay-sub-txt">Vietcombank</div></div></div>
-      <div class="pay-detail show" id="detail-vcb"><div class="pay-acct">STK: <b>xxxx xxxx xxxx</b></div><div class="pay-name2">NGUYEN VAN HUY · VCB Hải Phòng</div><div class="pay-note" id="vcb-note">-</div></div>
+      <div class="pay-detail show" id="detail-vcb"><div class="pay-acct" id="vcb-acct">STK: <b>xxxx xxxx xxxx</b></div><div class="pay-name2" id="vcb-owner">NGUYEN VAN HUY · VCB Hải Phòng</div><div class="pay-note" id="vcb-note">-</div></div>
       <div class="pay-btn" id="pay-wechat" onclick="setPayment('wechat')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">💚</span><div><div class="pay-name">WeChat Pay 微信支付</div><div class="pay-sub-txt">扫码付款</div></div></div>
-      <div class="pay-detail" id="detail-wechat"><div class="pay-acct">WeChat ID: <b>abcdean</b></div><div class="pay-note" id="wechat-note">-</div></div>
+      <div class="pay-detail" id="detail-wechat"><div class="pay-acct" id="wechat-acct">WeChat ID: <b>abcdean</b></div><div class="pay-note" id="wechat-note">-</div></div>
       <div class="pay-btn" id="pay-alipay" onclick="setPayment('alipay')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">🔵</span><div><div class="pay-name">Alipay 支付宝</div><div class="pay-sub-txt">支付宝付款</div></div></div>
-      <div class="pay-detail" id="detail-alipay"><div class="pay-acct">Alipay ID: <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="493131313109243028673f27">[email&#160;protected]</a></b></div><div class="pay-note" id="alipay-note">-</div></div>
+      <div class="pay-detail" id="detail-alipay"><div class="pay-acct" id="alipay-acct">Alipay ID: <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="493131313109243028673f27">[email&#160;protected]</a></b></div><div class="pay-note" id="alipay-note">-</div></div>
       <div class="pay-btn" id="pay-cash" onclick="setPayment('cash')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">💵</span><div><div class="pay-name" id="lbl-cash">-</div><div class="pay-sub-txt" id="sub-cash">-</div></div></div>
       <div class="pay-detail" id="detail-cash"><div class="pay-note" id="cash-note">-</div></div>
     </div>
@@ -373,6 +373,7 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#F5F2EE}body,but
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const TG='8550546799:AAGwgvJT3St333n-0xlZ9hImgNs-unmkYow';
 const CHAT='-1003761092026';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbz6HjTNmgdPkbDW_G-Qntrjn1ROjCoPX_VmnPZeqz7ag8dE_3S4m4vJNpPHVjYin51TZw/exec';
 const ff=n=>n.toLocaleString('vi-VN')+'đ';
 const fdate=ts=>{const d=new Date(ts);return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()+' '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');};
 let cart={},lang='zh',mode='cafe',contactType='phone';
@@ -424,6 +425,36 @@ function bv(k){const vi=(B[k]||{}).vi||k;if(lang==='vi')return '<div class="srv-
 function srRow(lbl,val){return '<div class="sr"><div class="srl">'+lbl+'</div><div class="srv">'+val+'</div></div>';}
 
 const slotNotes={'06:00':'Sáng sớm','06:30':'Sáng sớm','07:00':'Sáng','07:30':'Sáng','08:00':'Sáng','08:30':'Sáng','09:00':'Buổi sáng','09:30':'Buổi sáng','10:00':'Buổi sáng','10:30':'Buổi sáng','11:00':'Trưa','11:30':'Trưa','12:00':'Trưa','12:30':'Trưa','13:00':'Chiều','13:30':'Chiều','14:00':'Chiều','14:30':'Chiều','15:00':'Xế chiều','15:30':'Xế chiều','16:00':'Xế chiều','16:30':'Xế chiều','17:00':'Chiều tối','17:30':'Chiều tối','18:00':'Chiều tối','18:30':'Chiều tối','19:00':'Tối','19:30':'Tối','20:00':'Tối','20:30':'Tối','21:00':'Tối muộn','21:30':'Cuối ngày'};
+
+
+// ===== SHEET CONNECTION =====
+async function loadFromSheet(){
+  const CACHE_KEY='mya_sheet_cache';
+  const CACHE_TTL=5*60*1000;
+  try{
+    const cached=localStorage.getItem(CACHE_KEY);
+    if(cached){const {ts,data}=JSON.parse(cached);if(Date.now()-ts<CACHE_TTL){_applySheetData(data);return;}}
+  }catch(e){}
+  try{
+    const r=await fetch(SCRIPT_URL+'?action=all',{method:'GET'});
+    if(!r.ok)throw new Error('fail');
+    const res=await r.json();
+    if(res&&res.ok&&res.data){
+      _applySheetData(res.data);
+      try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),data:res.data}));}catch(e){}
+    }
+  }catch(e){console.warn('Sheet offline:',e.message);}
+}
+function _applySheetData(d){
+  const c=d.config||{};
+  if(c.vcb_account){const el=document.getElementById('vcb-acct');if(el)el.innerHTML='STK: <b>'+c.vcb_account+'</b>';}
+  if(c.vcb_owner){const el=document.getElementById('vcb-owner');if(el)el.textContent=c.vcb_owner+(c.vcb_bank?' · '+c.vcb_bank:'');}
+  if(c.wechat_pay_id){const el=document.getElementById('wechat-acct');if(el)el.innerHTML='WeChat ID: <b>'+c.wechat_pay_id+'</b>';}
+  if(c.alipay_id){const el=document.getElementById('alipay-acct');if(el)el.innerHTML='Alipay ID: <b>'+c.alipay_id+'</b>';}
+  if(c.hotline){const el=document.getElementById('rec-hotline');if(el)el.textContent=c.hotline;}
+  if(c.wechat_reception){const el=document.getElementById('rec-wechat');if(el)el.textContent=c.wechat_reception;}
+  if(c.wifi_name&&c.wifi_password){const faq=FAQS.find(q=>q.vi==='WiFi?');if(faq){faq.avi=c.wifi_name+' — '+c.wifi_password;faq.azh='WiFi：'+c.wifi_name+'  密码：'+c.wifi_password;faq.aen=c.wifi_name+' — '+c.wifi_password;renderFaq();}}
+}
 
 async function loadData(){try{const r=localStorage.getItem('mya_member');if(r)member=JSON.parse(r);}catch(e){}try{const r=localStorage.getItem('mya_orders');if(r)orderHistory=JSON.parse(r);}catch(e){}try{const r=localStorage.getItem('mya_names');if(r)registeredNames=JSON.parse(r);}catch(e){}}
 async function saveAll(){try{localStorage.setItem('mya_member',JSON.stringify(member));}catch(e){}try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}try{localStorage.setItem('mya_names',JSON.stringify(registeredNames));}catch(e){}}
@@ -521,7 +552,9 @@ function renderMember(){const el=document.getElementById('memContent');if(!membe
 function setOF(f){orderFilter=f;renderMember();}
 function filterName(inp){inp.value=inp.value.replace(/[^a-zA-Z0-9 ]/g,'');inp.classList.remove('err');document.getElementById('err-rn').classList.remove('show');}
 function selCType(type,btn){contactType=type;document.querySelectorAll('.ctype').forEach(b=>b.className='ctype');btn.className='ctype on';const ph={phone:t('ph_phone'),wechat:t('ph_wechat'),zalo:t('ph_zalo')};const hint={phone:t('hint_phone'),wechat:t('hint_wechat'),zalo:t('hint_zalo')};document.getElementById('rc').placeholder=ph[type];document.getElementById('rc').value='';document.getElementById('rc').inputMode=type==='phone'?'tel':'text';document.getElementById('rc-hint').textContent=hint[type];document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}
-function registerMember(){const name=document.getElementById('rn').value.trim();const contact=document.getElementById('rc').value.trim();let ok=true;if(!name||!/^[a-zA-Z0-9 ]+$/.test(name)){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_name');document.getElementById('err-rn').classList.add('show');ok=false;}else if(registeredNames.includes(name.toLowerCase().replace(/ /g,''))){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_dup');document.getElementById('err-rn').classList.add('show');ok=false;}else{document.getElementById('rn').classList.remove('err');document.getElementById('err-rn').classList.remove('show');}if(!contact){document.getElementById('csBox').classList.add('err');document.getElementById('err-rc').classList.add('show');ok=false;}else{document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}if(!ok)return;registeredNames.push(name.toLowerCase().replace(/ /g,''));member={name,contact,contactType,joinDate:Date.now()};saveAll();updateGreetBar();renderMember();}
+function registerMember(){const name=document.getElementById('rn').value.trim();const contact=document.getElementById('rc').value.trim();let ok=true;if(!name||!/^[a-zA-Z0-9 ]+$/.test(name)){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_name');document.getElementById('err-rn').classList.add('show');ok=false;}else if(registeredNames.includes(name.toLowerCase().replace(/ /g,''))){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_dup');document.getElementById('err-rn').classList.add('show');ok=false;}else{document.getElementById('rn').classList.remove('err');document.getElementById('err-rn').classList.remove('show');}if(!contact){document.getElementById('csBox').classList.add('err');document.getElementById('err-rc').classList.add('show');ok=false;}else{document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}if(!ok)return;registeredNames.push(name.toLowerCase().replace(/ /g,''));member={name,contact,contactType,joinDate:Date.now()};saveAll();updateGreetBar();renderMember();
+  try{fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'member',name,contact,contact_type:contactType,lang:lang})}).catch(()=>{});}catch(e){}
+}
 function editMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;saveAll();updateGreetBar();renderMember();}
 function logoutMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;orderHistory=[];saveAll();updateGreetBar();renderMember();}
 function applyLang(){updateGreetBar();updateModeTabs();updateCartLabels();document.getElementById('note').placeholder=t('note_ph');document.getElementById('snote').placeholder=t('note_ph');['drinks','food','combo','sv','lc'].forEach(k=>{const el=document.getElementById('tb-'+k);if(el)el.textContent=t('tab_'+k);});document.getElementById('cart-lbl').textContent=t('cart_lbl');document.getElementById('back-lbl').textContent=t('back');document.getElementById('cart-title').textContent=t('cart_title');document.getElementById('cc-lbl').textContent=t('cc_lbl');document.getElementById('contact2').placeholder=t('cc_ph');document.getElementById('warn').innerHTML=t('warn');document.getElementById('warn-room').innerHTML=t('warn_room');document.getElementById('tot-lbl').textContent=t('tot');document.getElementById('order-lbl').textContent=t('order');document.getElementById('ok-hdr').textContent=t('ok_hdr');document.getElementById('ok-h').textContent=t('ok_h');document.getElementById('ok-sub').textContent=t('ok_sub');document.getElementById('home-btn').textContent=t('home');renderFaq();if(mode==='mem')renderMember();}
@@ -593,6 +626,27 @@ async function placeOrder(){
     alert(lang==='zh'?'⚠️ 网络错误，请重试':lang==='en'?'⚠️ Network error, please retry':'⚠️ Lỗi mạng, vui lòng thử lại');
     return;
   }
+  // POST lên sheet song song
+  try{
+    const itemsVI=Object.entries(cart).map(([k,v])=>Nvi[k]+'×'+v).join(', ');
+    fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      type:'order',
+      member_id:isMember?(member.member_id||''):'',
+      member_name:isMember?member.name:'',
+      contact:isMember?member.contact:contact,
+      contact_type:isMember?(member.contactType||''):'',
+      room_no:roomNo,
+      items_zh:itemsText,
+      items_vi:itemsVI,
+      items_lines:lines,
+      total:tot,
+      delivery:deliveryMode,
+      time_slot:timeMode==='now'?'Giao ngay':(curDay==='today'?'Hôm nay':'Ngày mai')+(curTime?' '+curTime:''),
+      payment:payVI,
+      note:note,
+      lang:lang
+    })}).catch(()=>{});
+  }catch(e){}
   if(isMember){orderHistory.push({id:Date.now().toString().slice(-6),items:itemsText,total:tot,time:Date.now(),status:'pending'});try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}}
   const noticeKey='ok_notice_'+deliveryMode+'_'+(timeMode==='now'?'now':'sch');
   const dayLocal=curDay==='today'?t('today'):t('tomorrow');const tLocal=timeMode==='now'?t('now').replace(/^[^\w\u4e00-\u9fa5]+/,''):dayLocal+(curTime?' '+curTime:'');
@@ -620,6 +674,7 @@ async function init(){
   updateModeTabs();
   renderAll();
   applyLang();
+  loadFromSheet(); // chạy nền, apply config sau render
 }
 init();
 </script>
