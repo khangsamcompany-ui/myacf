@@ -553,7 +553,7 @@ function setOF(f){orderFilter=f;renderMember();}
 function filterName(inp){inp.value=inp.value.replace(/[^a-zA-Z0-9 ]/g,'');inp.classList.remove('err');document.getElementById('err-rn').classList.remove('show');}
 function selCType(type,btn){contactType=type;document.querySelectorAll('.ctype').forEach(b=>b.className='ctype');btn.className='ctype on';const ph={phone:t('ph_phone'),wechat:t('ph_wechat'),zalo:t('ph_zalo')};const hint={phone:t('hint_phone'),wechat:t('hint_wechat'),zalo:t('hint_zalo')};document.getElementById('rc').placeholder=ph[type];document.getElementById('rc').value='';document.getElementById('rc').inputMode=type==='phone'?'tel':'text';document.getElementById('rc-hint').textContent=hint[type];document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}
 function registerMember(){const name=document.getElementById('rn').value.trim();const contact=document.getElementById('rc').value.trim();let ok=true;if(!name||!/^[a-zA-Z0-9 ]+$/.test(name)){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_name');document.getElementById('err-rn').classList.add('show');ok=false;}else if(registeredNames.includes(name.toLowerCase().replace(/ /g,''))){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_dup');document.getElementById('err-rn').classList.add('show');ok=false;}else{document.getElementById('rn').classList.remove('err');document.getElementById('err-rn').classList.remove('show');}if(!contact){document.getElementById('csBox').classList.add('err');document.getElementById('err-rc').classList.add('show');ok=false;}else{document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}if(!ok)return;registeredNames.push(name.toLowerCase().replace(/ /g,''));member={name,contact,contactType,joinDate:Date.now()};saveAll();updateGreetBar();renderMember();
-  try{fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'member',name,contact,contact_type:contactType,lang:lang})}).catch(()=>{});}catch(e){}
+  try{const _mp=new URLSearchParams({action:'add_member',name,contact,contact_type:contactType,lang:lang});fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(Object.fromEntries(_mp))}).catch(()=>{});}catch(e){}
 }
 function editMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;saveAll();updateGreetBar();renderMember();}
 function logoutMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;orderHistory=[];saveAll();updateGreetBar();renderMember();}
@@ -626,11 +626,11 @@ async function placeOrder(){
     alert(lang==='zh'?'⚠️ 网络错误，请重试':lang==='en'?'⚠️ Network error, please retry':'⚠️ Lỗi mạng, vui lòng thử lại');
     return;
   }
-  // POST lên sheet song song
+  // Ghi sheet qua GET (tránh CORS)
   try{
     const itemsVI=Object.entries(cart).map(([k,v])=>Nvi[k]+'×'+v).join(', ');
-    fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      type:'order',
+    const _p=new URLSearchParams({
+      action:'add_order',
       member_id:isMember?(member.member_id||''):'',
       member_name:isMember?member.name:'',
       contact:isMember?member.contact:contact,
@@ -645,7 +645,8 @@ async function placeOrder(){
       payment:payVI,
       note:note,
       lang:lang
-    })}).catch(()=>{});
+    });
+    fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(Object.fromEntries(_p))}).catch(()=>{});
   }catch(e){}
   if(isMember){orderHistory.push({id:Date.now().toString().slice(-6),items:itemsText,total:tot,time:Date.now(),status:'pending'});try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}}
   const noticeKey='ok_notice_'+deliveryMode+'_'+(timeMode==='now'?'now':'sch');
