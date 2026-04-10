@@ -1,419 +1,600 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>MYA CAFÉ</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-:root{
-  --navy:#1B3A6B;--teal:#0F6E56;--teal2:#1D9E75;--cream:#FAF8F4;--warm:#F5F0E8;
-  --text:#1A1A1A;--muted:#888;--border:#E8E4DC;--gold:#C8973A;
-}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Be+Vietnam+Pro:wght@400;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--cream);font-family:'Be Vietnam Pro',sans-serif;color:var(--text);max-width:430px;margin:0 auto;overflow-x:hidden}
+body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC',sans-serif}
+:root{--nv:#1B3A6B;--gd:#E8A830;--br:#E2DDD5;--mu:#8A8480;--red:#E24B4A}
+.hdr{background:var(--nv);padding:10px 14px;display:flex;flex-direction:column;gap:9px}
+.hdr-top{display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:Georgia,serif;font-size:20px;color:#fff;letter-spacing:2px;font-weight:700;line-height:1}
+.logos{font-size:11px;color:#9FE1CB;letter-spacing:1px;margin-top:2px}
+.hdr-r{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.nb-sm{width:28px;height:28px;border-radius:7px;border:1.5px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;user-select:none;flex-shrink:0}
+.nb-sm.on{background:var(--gd);border-color:var(--gd);color:#111}
+.cart-rel{position:relative;flex-shrink:0}
+.cbadge{position:absolute;top:-4px;right:-4px;background:var(--gd);color:#111;width:14px;height:14px;border-radius:50%;font-size:8px;font-weight:700;align-items:center;justify-content:center;display:none}
+.nb-wide{flex:1;height:36px;padding:0 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;user-select:none}
+.nb-wide.on{background:var(--gd);border-color:var(--gd);color:#111}
+.hdr-modes{display:flex;gap:6px}
+.greet-bar{background:#EEF2F8;border-bottom:1px solid #C5D0E0;padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
+.greet-txt{font-size:15px;font-weight:700;color:var(--nv)}.greet-sub{font-size:12px;color:var(--mu);margin-top:1px}
+.greet-btn{font-size:13px;font-weight:700;color:var(--nv);background:#fff;border:1.5px solid var(--nv);border-radius:6px;padding:6px 12px;cursor:pointer}
+.cbar{background:#EEF2F8;padding:10px 13px;border-bottom:1px solid #C5D0E0}
+.ci{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:11px 13px;font-size:15px;color:var(--nv);outline:none}
+.tabs{display:flex;gap:7px;padding:10px 12px;background:#fff;border-bottom:1px solid var(--br)}
+.tab{flex:1;height:40px;border-radius:8px;border:2px solid var(--nv);background:#fff;color:var(--nv);font-size:15px;font-weight:700;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;white-space:nowrap;user-select:none}
+.tab.on{background:var(--gd);border-color:var(--gd);color:#111}
+.sec{padding:12px 14px 5px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--nv);opacity:.6;font-weight:700}
+.lst{padding:0 12px 8px;display:flex;flex-direction:column;gap:8px}
+.row{background:#fff;border-radius:10px;border:1px solid var(--br);display:flex;align-items:center;gap:10px;padding:11px 13px}
+.em{font-size:20px;width:46px;height:46px;background:#EEF2F8;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.em:hover{background:#D8E4F0}
+.nm{font-size:15px;font-weight:700;color:#111;cursor:pointer}
+.nm:hover{color:var(--nv)}
+.zn{font-size:13px;color:#555;font-weight:500;margin-top:2px}
+.pr{font-size:14px;font-weight:700;color:var(--nv);margin-top:3px}
+.ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.qb{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--br);background:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;color:#333}
+.qb.p{background:var(--nv);border-color:var(--nv);color:#fff}
+.qn{font-size:14px;font-weight:700;min-width:18px;text-align:center;color:var(--nv)}
+.cmbo{background:var(--nv);border-radius:12px;padding:15px;margin:0 12px 8px;color:#fff;cursor:pointer}
+.cmbo:hover{opacity:.92}
+.nt{padding:9px 13px 13px;background:#fff;border-top:1px solid var(--br)}
+.nt textarea{width:100%;border:1.5px solid var(--br);border-radius:9px;padding:10px 12px;font-size:14px;resize:none;background:#FAF8F4;outline:none;color:#333}
+.shop-item{background:#fff;border-radius:10px;border:1px solid var(--br);padding:12px 13px;margin:0 12px 8px}
+.scat{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;display:inline-block;margin-bottom:3px}
+.cat-a{background:#EEF2F8;color:var(--nv)}.cat-b{background:#FEF3C7;color:#92400E}
+.sf{display:flex;align-items:center;justify-content:space-between;margin-top:9px;padding-top:9px;border-top:1px solid #EDE8DF}
+.bot{background:var(--nv);padding:10px 13px 16px}
+.cart-btn{width:100%;height:50px;border-radius:10px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 16px;user-select:none}
+.cart-btn.empty{color:rgba(255,255,255,0.4);border-color:rgba(255,255,255,0.3)}
+.vcnt{background:var(--gd);color:#111;width:22px;height:22px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.vtot{font-size:15px;font-weight:700;color:var(--gd)}
+.pg{display:none}.pg.on{display:block}
+.bk{height:34px;padding:0 13px;border-radius:8px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;user-select:none}
+.ci2{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--br);background:#fff}
+.ci2x{background:none;border:none;color:#ccc;font-size:20px;cursor:pointer;padding:2px 5px;line-height:1}
+.tr{display:flex;justify-content:space-between;align-items:center;padding:14px;background:#fff;border-top:2px solid var(--br)}
+.obtn{display:block;width:calc(100% - 26px);margin:10px 13px;background:var(--nv);color:#fff;border:none;border-radius:10px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;text-align:center}
+.obtn:disabled{background:var(--br);color:var(--mu);cursor:not-allowed}
+.cc{padding:12px 14px;background:#EEF2F8;border-bottom:1px solid #C5D0E0}
+.cc input{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:11px 13px;font-size:15px;color:var(--nv);outline:none}
+.cc input.err{border-color:var(--red);background:#fff5f5;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.warn{margin:0 14px;background:#fff3cd;border:1.5px solid #ffc107;border-radius:9px;padding:9px 13px;font-size:13px;color:#664d03;display:none;line-height:1.6}
+.warn.on{display:block}
+.room-input-wrap{padding:8px 14px 10px;background:#EEF2F8;border-bottom:1px solid #C5D0E0;display:none}
+.room-input-wrap.show{display:block}
+.room-input-lbl{font-size:13px;font-weight:700;color:var(--nv);margin-bottom:5px}
+.room-inp{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:10px 13px;font-size:15px;color:var(--nv);outline:none}
+.room-inp.err{border-color:var(--red);background:#fff5f5}
+.opt-section{padding:10px 14px;background:#fff;border-bottom:1px solid var(--br)}
+.opt-title{font-size:11px;font-weight:700;color:var(--nv);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;opacity:.7}
+.opt-row{display:flex;gap:7px}
+.opt-btn{flex:1;padding:9px 8px;border-radius:9px;border:2px solid var(--br);background:#fff;cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px}
+.opt-btn.on{border-color:var(--nv);background:#EEF2F8}
+.opt-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.opt-btn.on .opt-dot{border-color:var(--nv);background:var(--nv)}
+.opt-dot-inner{width:6px;height:6px;border-radius:50%;background:#fff}
+.opt-text{text-align:left}
+.opt-lbl{font-size:14px;font-weight:700;color:var(--nv);line-height:1.3}
+.opt-sub{font-size:11px;color:var(--mu);margin-top:1px}
+.pay-row{display:flex;flex-direction:column;gap:6px}
+.pay-btn{padding:10px 12px;border-radius:9px;border:2px solid var(--br);background:#fff;cursor:pointer;user-select:none;display:flex;align-items:center;gap:10px}
+.pay-btn.on{border-color:var(--nv);background:#EEF2F8}
+.pay-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pay-btn.on .pay-dot{border-color:var(--nv);background:var(--nv)}
+.pay-icon{font-size:18px;flex-shrink:0}
+.pay-name{font-size:14px;font-weight:700;color:var(--nv)}
+.pay-sub-txt{font-size:11px;color:var(--mu);margin-top:1px}
+.pay-detail{margin-top:6px;background:#F5F8FF;border-radius:9px;padding:11px 13px;border:1.5px solid #C5D0E0;display:none}
+.pay-detail.show{display:block}
+.pay-acct{font-size:15px;font-weight:700;color:var(--nv);margin-bottom:2px}
+.pay-name2{font-size:12px;color:var(--mu)}
+.pay-note{font-size:12px;color:#555;margin-top:6px;line-height:1.6;background:#fff;border-radius:7px;padding:8px 10px;border:1px solid var(--br)}
+.sch-box{margin-top:9px;display:none}.sch-box.show{display:block}
+.day-row{display:flex;gap:7px;margin-bottom:8px}
+.day-btn{flex:1;padding:8px 10px;border-radius:8px;border:1.5px solid var(--br);background:#fff;cursor:pointer;user-select:none;display:flex;align-items:center;gap:7px}
+.day-btn.on{border-color:var(--nv);background:#EEF2F8}
+.day-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--br);flex-shrink:0}
+.day-btn.on .day-dot{border-color:var(--nv);background:var(--nv)}
+.day-name{font-size:13px;font-weight:700;color:var(--nv)}.day-date{font-size:11px;color:var(--mu);margin-top:1px}
+.time-lbl{font-size:11px;font-weight:700;color:var(--nv);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;opacity:.7}
+.time-note{font-size:11px;color:var(--mu);margin-bottom:7px}
+.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.tslot{padding:8px 3px;border-radius:7px;border:1.5px solid var(--br);background:#fff;cursor:pointer;text-align:center;user-select:none;font-size:13px;font-weight:700;color:var(--nv);line-height:1.2}
+.tslot .tnote{font-size:8px;font-weight:400;color:var(--mu);margin-top:2px}
+.tslot.on{background:var(--nv);border-color:var(--nv);color:#fff}
+.tslot.on .tnote{color:rgba(255,255,255,.7)}
+.tslot.off{opacity:.3;cursor:not-allowed}
+.reception-box{margin-top:9px;padding-top:9px;border-top:1px solid var(--br)}
+.reception-lbl{font-size:11px;color:var(--mu);margin-bottom:6px;text-align:center}
+.rec-row{display:flex;gap:7px}
+.rec-btn{flex:1;padding:9px 8px;border-radius:8px;border:1.5px solid var(--br);background:#fff;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.rec-btn:active{background:#EEF2F8}
+.rec-icon{font-size:16px}.rec-lbl{font-size:13px;font-weight:700;color:var(--nv)}.rec-sub{font-size:11px;color:var(--mu)}
+.time-result{margin-top:9px;background:#EEF2F8;border-radius:8px;padding:9px 12px;font-size:14px;color:var(--nv);font-weight:700;text-align:center}
+.no-slot{background:#FEF3C7;border-radius:8px;padding:9px 12px;font-size:13px;color:#92400E;font-weight:700;text-align:center;line-height:1.6;margin-top:7px}
+.scard{background:#fff;border-radius:11px;border:1px solid var(--br);padding:13px 15px;text-align:left;margin-bottom:14px}
+.sr{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid #EDE8DF;gap:8px}
+.sr:last-child{border:none;padding-top:9px}
+.srl{color:var(--mu);flex-shrink:0;font-size:12px;padding-top:1px}
+.srv{text-align:right}
+.srv-f{font-size:13px;font-weight:600;color:#111}
+.srv-vi{font-size:11px;color:var(--mu);margin-top:1px}
+.srv-tot{font-size:15px;font-weight:700;color:var(--nv)}
+.faq-item{border-bottom:1px solid var(--br);background:#fff}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;gap:10px}
+.faq-q-txt{font-size:15px;font-weight:700;color:var(--nv);flex:1}
+.faq-arr{font-size:16px;color:var(--mu);transition:transform .2s}
+.faq-arr.open{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 16px 16px;font-size:14px;color:#333;line-height:1.8}
+.faq-a.open{display:block}
+.mem-bg{background:#FAF8F4;padding-bottom:24px}
+.mem-hero{background:var(--nv);padding:22px 16px 18px;text-align:center;color:#fff}
+.mem-hero-icon{font-size:40px;margin-bottom:9px}
+.mem-hero-title{font-size:19px;font-weight:700;margin-bottom:3px}
+.mem-hero-sub{font-size:13px;color:#9FE1CB;line-height:1.6}
+.perks{display:flex;background:#fff;border-bottom:1px solid var(--br)}
+.perk{flex:1;padding:12px 4px;text-align:center}
+.perk-icon{font-size:21px;margin-bottom:3px}
+.perk-lbl{font-size:12px;font-weight:700;color:var(--nv);line-height:1.4}
+.mem-form{padding:16px 14px}
+.mem-form-title{font-size:15px;font-weight:700;color:var(--nv);margin-bottom:13px;padding-bottom:9px;border-bottom:1px solid var(--br)}
+.field{margin-bottom:12px}
+.field label{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--nv);margin-bottom:5px}
+.req{color:var(--red)}
+.field input{width:100%;background:#fff;border:1.5px solid var(--br);border-radius:9px;padding:11px 13px;font-size:15px;color:var(--nv);outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--nv)}
+.field input.err{border-color:var(--red);background:#fff5f5}
+.err-msg{font-size:12px;color:var(--red);margin-top:4px;display:none}
+.err-msg.show{display:block}
+.csbox{background:#fff;border:1.5px solid var(--br);border-radius:11px;overflow:hidden}
+.csbox.err{border-color:var(--red)}
+.ctype-row{display:flex;border-bottom:1px solid var(--br)}
+.ctype{flex:1;padding:11px 4px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:var(--mu);border-bottom:2.5px solid transparent;background:none;border-top:none;border-left:none;border-right:none}
+.ctype.on{color:var(--nv);border-bottom-color:var(--nv);background:#F5F8FF}
+.cinput-wrap{padding:11px 13px}
+.cinput-wrap input{width:100%;border:none;outline:none;font-size:15px;color:var(--nv);background:transparent;font-family:inherit}
+.chint{font-size:12px;color:var(--mu);padding:0 13px 9px}
+.reg-btn{width:100%;background:var(--nv);color:#fff;border:none;border-radius:10px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;margin-top:4px}
+.hotline-box{margin:13px 14px 0;background:#EEF2F8;border-radius:10px;padding:13px;text-align:center}
+.hl-sub{font-size:13px;color:var(--mu);margin-bottom:4px}
+.hl-num{font-size:16px;font-weight:700;color:var(--nv)}
+.profile-hdr{background:var(--nv);padding:20px 16px;text-align:center;color:#fff}
+.avatar{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,0.15);border:2.5px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:700;color:#fff;margin:0 auto 10px}
+.profile-name{font-size:19px;font-weight:700;margin-bottom:6px}
+.mem-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gd);color:#111;font-size:12px;font-weight:700;padding:5px 13px;border-radius:20px}
+.profile-body{padding:0 14px 20px;background:#FAF8F4}
+.info-card{background:#fff;border-radius:12px;border:1px solid var(--br);margin-top:13px;overflow:hidden}
+.info-card-hdr{padding:10px 14px;font-size:12px;font-weight:700;color:var(--mu);letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--br);background:#FAFAFA}
+.mi{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--br)}
+.mi:last-child{border:none}
+.mi-icon{font-size:16px;flex-shrink:0;width:22px;text-align:center}
+.mi-lbl{font-size:12px;color:var(--mu)}
+.mi-val{font-size:15px;font-weight:600;color:var(--nv);margin-top:1px}
+.action-row{display:flex;gap:9px;margin-top:13px}
+.act-btn{flex:1;padding:12px 8px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;border:none}
+.btn-edit{background:#EEF2F8;color:var(--nv)}.btn-out{background:#FFF0F0;color:var(--red)}
+.order-tabs{display:flex;border-bottom:1px solid var(--br)}
+.otab{flex:1;padding:11px 4px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;color:var(--mu);border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none}
+.otab.on{color:var(--nv);border-bottom-color:var(--nv)}
+.order-card{background:#fff;border-radius:10px;border:1px solid var(--br);margin:8px 14px 0;overflow:hidden}
+.order-card-hdr{padding:9px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--br)}
+.order-id{font-size:13px;font-weight:700;color:var(--nv)}.order-time{font-size:12px;color:var(--mu)}
+.st{font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px}
+.st-pending{background:#FEF3C7;color:#92400E}.st-done{background:#D1FAE5;color:#065F46}
+.order-items-txt{padding:9px 12px;font-size:13px;color:#444;line-height:1.6;border-bottom:1px solid var(--br)}
+.order-footer{padding:9px 12px}
+.order-total{font-size:15px;font-weight:700;color:var(--nv)}
+.empty-state{text-align:center;padding:28px 20px;color:var(--mu)}
 
-/* ── HEADER ── */
-.header{background:var(--navy);padding:0;position:sticky;top:0;z-index:100}
-.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px}
-.logo{font-family:'Playfair Display',serif;font-size:22px;color:#fff;letter-spacing:1px}
-.logo span{color:#9FE1CB;font-size:13px;display:block;font-family:'Be Vietnam Pro',sans-serif;font-weight:300;letter-spacing:2px;margin-top:-2px}
-.cart-btn{position:relative;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
-.cart-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center}
-.cart-count.hide{display:none}
-
-/* ── ROOM BAR ── */
-.room-bar{background:var(--warm);border-bottom:1px solid var(--border);padding:10px 18px;display:flex;align-items:center;gap:10px}
-.room-label{font-size:12px;color:var(--muted);white-space:nowrap}
-.room-input{flex:1;border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:13px;font-family:inherit;background:#fff;color:var(--text)}
-.room-input:focus{outline:none;border-color:var(--teal)}
-
-/* ── TABS ── */
-.tabs{display:flex;background:#fff;border-bottom:1px solid var(--border);padding:0 18px;gap:4px;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:12px 14px 10px;font-size:13px;font-weight:500;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;transition:color .2s}
-.tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:600}
-
-/* ── SECTION LABEL ── */
-.section-label{padding:16px 18px 8px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600}
-
-/* ── ITEM CARD ── */
-.items{padding:0 18px 100px;display:flex;flex-direction:column;gap:10px}
-.item{background:#fff;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:12px 14px;transition:border-color .15s}
-.item:active{border-color:var(--teal)}
-.item-emoji{font-size:30px;width:44px;height:44px;background:var(--warm);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.item-info{flex:1;min-width:0}
-.item-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
-.item-name-zh{font-size:11px;color:var(--muted);margin-bottom:4px}
-.item-price{font-size:13px;font-weight:600;color:var(--teal)}
-.item-badge{display:inline-block;background:#FEF3C7;color:#92400E;font-size:10px;padding:2px 6px;border-radius:20px;margin-left:6px;font-weight:500}
-.item-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.qty-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text);font-family:inherit;transition:all .15s}
-.qty-btn.plus{background:var(--teal);border-color:var(--teal);color:#fff}
-.qty-btn:active{transform:scale(0.92)}
-.qty-num{font-size:14px;font-weight:600;min-width:16px;text-align:center;color:var(--text)}
-
-/* ── COMBO CARD ── */
-.combo-card{background:var(--navy);border-radius:14px;padding:16px;margin:0 18px 10px;color:#fff;position:relative;overflow:hidden}
-.combo-card::before{content:"";position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.05);border-radius:50%}
-.combo-title{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:4px}
-.combo-sub{font-size:11px;color:#9FE1CB;margin-bottom:10px}
-.combo-items{font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:12px;line-height:1.7}
-.combo-price{display:flex;align-items:center;gap:8px}
-.combo-price .new{font-size:20px;font-weight:700;color:var(--gold)}
-.combo-price .old{font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through}
-.combo-add{position:absolute;bottom:16px;right:16px;background:var(--gold);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-
-/* ── TIME PICKER ── */
-.time-section{padding:0 18px 8px}
-.time-label{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.time-options{display:flex;gap:8px;flex-wrap:wrap}
-.time-opt{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--text);font-family:inherit;transition:all .15s}
-.time-opt.on{background:var(--teal);border-color:var(--teal);color:#fff}
-.time-custom{display:flex;align-items:center;gap:8px;margin-top:8px}
-.time-custom input{border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;width:120px;background:#fff}
-.time-custom input:focus{outline:none;border-color:var(--teal)}
-
-/* ── NOTE ── */
-.note-section{padding:0 18px 16px}
-.note-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;font-family:inherit;resize:none;background:#fff;color:var(--text)}
-.note-input:focus{outline:none;border-color:var(--teal)}
-
-/* ── CART DRAWER ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
-.overlay.on{opacity:1;pointer-events:all}
-.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:430px;background:#fff;border-radius:20px 20px 0 0;z-index:201;transition:transform .3s cubic-bezier(.32,.72,0,1);padding:0 0 24px;max-height:85vh;overflow-y:auto}
-.drawer.on{transform:translateX(-50%) translateY(0)}
-.drawer-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
-.drawer-title{padding:14px 20px 12px;font-family:'Playfair Display',serif;font-size:18px;border-bottom:1px solid var(--border)}
-.cart-items{padding:12px 20px}
-.cart-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
-.cart-row:last-child{border-bottom:none}
-.cart-row-name{flex:1;font-size:13px}
-.cart-row-qty{font-size:12px;color:var(--muted);margin-top:1px}
-.cart-row-price{font-size:13px;font-weight:600;color:var(--teal)}
-.cart-remove{background:none;border:none;color:#E24B4A;cursor:pointer;font-size:16px;padding:2px 6px}
-.cart-total{margin:8px 20px 0;padding:12px;background:var(--warm);border-radius:10px;display:flex;justify-content:space-between;align-items:center}
-.cart-total-label{font-size:13px;color:var(--muted)}
-.cart-total-val{font-size:20px;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif}
-.order-btn{margin:14px 20px 0;background:var(--teal);color:#fff;border:none;border-radius:12px;padding:16px;width:calc(100% - 40px);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.5px;transition:background .15s}
-.order-btn:active{background:var(--teal2)}
-.order-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
-
-/* ── BOTTOM BAR ── */
-.bottom-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;padding:12px 18px 20px;background:linear-gradient(transparent,var(--cream) 40%);pointer-events:none}
-.view-cart-btn{pointer-events:all;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:16px 20px;width:100%;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:space-between;transition:background .15s}
-.view-cart-btn:active{background:#0f2548}
-.view-cart-btn.hide{display:none}
-.vcb-left{display:flex;align-items:center;gap:10px}
-.vcb-count{background:var(--gold);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
-.vcb-total{font-size:15px;font-weight:700}
-
-/* ── SUCCESS ── */
-.success-screen{display:none;position:fixed;inset:0;background:var(--cream);z-index:300;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;max-width:430px;margin:0 auto;left:50%;transform:translateX(-50%)}
-.success-screen.on{display:flex}
-.success-icon{font-size:64px;margin-bottom:20px}
-.success-title{font-family:'Playfair Display',serif;font-size:26px;color:var(--navy);margin-bottom:10px}
-.success-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:8px}
-.order-details{background:#fff;border-radius:14px;padding:16px 20px;width:100%;text-align:left;margin:16px 0;border:1px solid var(--border)}
-.od-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)}
-.od-row:last-child{border:none;font-weight:600;color:var(--teal);font-size:14px;padding-top:8px}
-.back-btn{background:var(--navy);color:#fff;border:none;border-radius:12px;padding:14px 32px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px}
+/* ===== POPUP SẢN PHẨM ===== */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex}
+.popup-sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding-bottom:24px;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1)}
+.popup-overlay.show .popup-sheet{transform:translateY(0)}
+.popup-handle{width:36px;height:4px;background:#DDD;border-radius:2px;margin:12px auto 0}
+.popup-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:#F0F0F0;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#666}
+.popup-header{position:relative;padding:0 16px;margin-top:6px}
+.popup-emoji{font-size:64px;text-align:center;display:block;margin:10px 0 8px}
+.popup-name-zh{font-size:22px;font-weight:700;color:var(--nv);text-align:center}
+.popup-name-vi{font-size:15px;color:var(--mu);text-align:center;margin-top:3px;font-weight:500}
+.popup-price{font-size:24px;font-weight:700;color:var(--gd);text-align:center;margin-top:8px}
+.popup-divider{height:1px;background:var(--br);margin:14px 16px}
+.popup-body{padding:0 16px}
+.popup-desc-lbl{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.popup-desc{font-size:15px;color:#333;line-height:1.75;margin-bottom:12px}
+.popup-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.popup-tag{font-size:12px;padding:4px 10px;border-radius:20px;background:#EEF2F8;color:var(--nv);font-weight:600}
+.popup-add-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:0 16px;background:var(--nv);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer}
+.popup-add-btn.in-cart{background:var(--gd);color:#111}
+.popup-qty-wrap{display:flex;align-items:center;justify-content:center;gap:14px;width:calc(100% - 32px);margin:0 16px}
+.popup-qty-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--nv);background:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--nv);font-weight:700}
+.popup-qty-btn.plus{background:var(--nv);color:#fff}
+.popup-qty-num{font-size:22px;font-weight:700;color:var(--nv);min-width:32px;text-align:center}
 </style>
-</head>
-<body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-inner">
-    <div class="logo">MYA CAFÉ<span>Mỹ Anh 58 Homestay</span></div>
-    <div class="cart-btn" onclick="openCart()">
-      🛒<span class="cart-count hide" id="cartCount">0</span>
+<!-- MENU -->
+<div id="pgMenu" class="pg on">
+  <div class="hdr">
+    <div class="hdr-top">
+      <div><div class="logo">MYA CAFE</div><div class="logos">Lk1-43 Hoàng Huy · Hải Phòng</div></div>
+      <div class="hdr-r">
+        <div class="nb-sm" onclick="setLang('vi',this)">VN</div>
+        <div class="nb-sm" onclick="setLang('en',this)">EN</div>
+        <div class="nb-sm on" onclick="setLang('zh',this)">中</div>
+        <div class="cart-rel"><div class="nb-sm" style="font-size:13px" onclick="openCart()">🛒</div><div class="cbadge" id="cbadge">0</div></div>
+      </div>
+    </div>
+    <div class="hdr-modes">
+      <div class="nb-wide on" id="mbt-cafe" onclick="switchMode('cafe',this)">☕ CAFE</div>
+      <div class="nb-wide" id="mbt-shop" onclick="switchMode('shop',this)">🛍️ SHOP</div>
+      <div class="nb-wide" id="mbt-faq" onclick="switchMode('faq',this)">❓ FAQ</div>
+      <div class="nb-wide" id="mbt-mem" onclick="switchMode('mem',this)">👤 <span id="lbl-mem">会员</span></div>
+    </div>
+  </div>
+  <div id="greetBar" style="display:none" class="greet-bar">
+    <div><div class="greet-txt" id="greetTxt">-</div><div class="greet-sub" id="greetSub">-</div></div>
+    <button class="greet-btn" onclick="switchMode('mem',document.getElementById('mbt-mem'))">👤 Profile</button>
+  </div>
+  <div id="contactBar" class="cbar"><input class="ci" id="contact" oninput="document.getElementById('contact2').value=this.value"></div>
+  <div id="sec-cafe">
+    <div class="tabs">
+      <div class="tab on" id="tb-drinks" onclick="showTab('drinks',this)"></div>
+      <div class="tab" id="tb-food" onclick="showTab('food',this)"></div>
+      <div class="tab" id="tb-combo" onclick="showTab('combo',this)"></div>
+    </div>
+    <div id="tab-drinks"></div><div id="tab-food" style="display:none"></div><div id="tab-combo" style="display:none"></div>
+    <div class="nt"><textarea id="note" rows="2"></textarea></div>
+  </div>
+  <div id="sec-shop" style="display:none">
+    <div class="tabs">
+      <div class="tab on" id="tb-sv" onclick="showShopTab('sv',this)"></div>
+      <div class="tab" id="tb-lc" onclick="showShopTab('lc',this)"></div>
+    </div>
+    <div id="tab-sv"></div><div id="tab-lc" style="display:none"></div>
+    <div class="nt"><textarea id="snote" rows="2"></textarea></div>
+  </div>
+  <div id="sec-faq" style="display:none"><div id="faqList"></div><div style="height:16px"></div></div>
+  <div id="sec-mem" style="display:none"><div id="memContent"></div></div>
+  <div style="padding-bottom:80px"></div>
+  <div class="bot">
+    <div class="cart-btn empty" id="mainBtn" onclick="openCart()">
+      <div style="display:flex;align-items:center;gap:10px"><span class="vcnt" id="vcnt">0</span><span id="cart-lbl">-</span></div>
+      <span class="vtot" id="vtot"></span>
     </div>
   </div>
 </div>
 
-<!-- ROOM BAR -->
-<div class="room-bar">
-  <span class="room-label">Phòng / 房间号</span>
-  <input class="room-input" type="text" id="roomInput" placeholder="Nhập số phòng (vd: 101)  / 请输入房间号">
-</div>
-
-<!-- TABS -->
-<div class="tabs">
-  <button class="tab on" onclick="switchTab('drinks',this)">☕ Đồ uống</button>
-  <button class="tab" onclick="switchTab('food',this)">🍽️ Đồ ăn</button>
-  <button class="tab" onclick="switchTab('combo',this)">🎁 Combo</button>
-</div>
-
-<!-- ── DRINKS ── -->
-<div id="tab-drinks">
-  <div class="section-label">Đồ uống · 饮品  —  đồng giá 30,000đ</div>
-  <div class="items" id="items-drinks"></div>
-</div>
-
-<!-- ── FOOD ── -->
-<div id="tab-food" style="display:none">
-  <div class="section-label">Đồ ăn sáng · 早餐</div>
-  <div class="items" id="items-food"></div>
-</div>
-
-<!-- ── COMBO ── -->
-<div id="tab-combo" style="display:none">
-  <div class="section-label">Combo tiết kiệm · 超值套餐</div>
-  <div id="combo-list"></div>
-</div>
-
-<!-- TIME + NOTE (always visible at bottom of menu) -->
-<div id="order-options" style="display:none">
-  <div class="time-section">
-    <div class="time-label">⏰ Thời gian giao · 送达时间</div>
-    <div class="time-options">
-      <button class="time-opt on" onclick="setTime('Càng sớm càng tốt',this)">Ngay bây giờ<br><span style="font-size:10px;opacity:.7">尽快送达</span></button>
-      <button class="time-opt" onclick="setTime('15 phút nữa',this)">15 phút nữa<br><span style="font-size:10px;opacity:.7">15分钟后</span></button>
-      <button class="time-opt" onclick="setTime('30 phút nữa',this)">30 phút nữa<br><span style="font-size:10px;opacity:.7">30分钟后</span></button>
+<!-- POPUP SẢN PHẨM -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopupIfOverlay(event)">
+  <div class="popup-sheet" id="popupSheet">
+    <div class="popup-handle"></div>
+    <div class="popup-header">
+      <button class="popup-close" onclick="closePopup()">×</button>
+      <span class="popup-emoji" id="pop-emoji">☕</span>
+      <div class="popup-name-zh" id="pop-name-main">-</div>
+      <div class="popup-name-vi" id="pop-name-sub">-</div>
+      <div class="popup-price" id="pop-price">-</div>
     </div>
-    <div class="time-custom">
-      <span style="font-size:12px;color:var(--muted)">Hẹn giờ cụ thể / 指定时间:</span>
-      <input type="time" id="customTime" onchange="setCustomTime(this.value)">
+    <div class="popup-divider"></div>
+    <div class="popup-body">
+      <div class="popup-desc-lbl" id="pop-desc-lbl">介绍 · Giới thiệu</div>
+      <div class="popup-desc" id="pop-desc">-</div>
+      <div class="popup-tags" id="pop-tags"></div>
     </div>
-  </div>
-  <div class="note-section">
-    <div class="time-label" style="margin-bottom:6px">📝 Ghi chú · 备注</div>
-    <textarea class="note-input" id="noteInput" rows="2" placeholder="Ít đường, nhiều đá... / 少糖多冰..."></textarea>
+    <div id="pop-action"></div>
   </div>
 </div>
 
-<!-- BOTTOM BAR -->
-<div class="bottom-bar">
-  <button class="view-cart-btn hide" id="viewCartBtn" onclick="openCart()">
-    <div class="vcb-left">
-      <span class="vcb-count" id="vcbCount">0</span>
-      <span>Xem giỏ hàng · 查看订单</span>
-    </div>
-    <span class="vcb-total" id="vcbTotal">0đ</span>
-  </button>
-</div>
-
-<!-- CART DRAWER -->
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
-<div class="drawer" id="drawer">
-  <div class="drawer-handle"></div>
-  <div class="drawer-title">Đơn hàng của bạn · 您的订单</div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-total">
-    <span class="cart-total-label">Tổng cộng / 总计</span>
-    <span class="cart-total-val" id="drawerTotal">0đ</span>
+<!-- CART -->
+<div id="pgCart" class="pg">
+  <div class="hdr" style="flex-direction:row;align-items:center;justify-content:space-between;padding:11px 14px">
+    <div class="bk" onclick="goPage('pgMenu')" id="back-lbl">←</div>
+    <div class="logo" style="font-size:16px" id="cart-title">-</div>
+    <div style="width:60px"></div>
   </div>
-  <button class="order-btn" id="orderBtn" onclick="placeOrder()">
-    Đặt món · 下单  🚀
-  </button>
+  <div class="cc"><div style="font-size:13px;font-weight:700;color:var(--nv);margin-bottom:6px" id="cc-lbl">-</div><input id="contact2" oninput="clearErr()"></div>
+  <div class="warn" id="warn" style="margin-top:7px"></div>
+  <div class="room-input-wrap" id="roomWrap">
+    <div class="room-input-lbl" id="room-lbl">-</div>
+    <input class="room-inp" id="roomInput" oninput="this.classList.remove('err')">
+  </div>
+  <div class="warn" id="warn-room" style="margin-top:0;margin-bottom:6px"></div>
+  <div class="opt-section">
+    <div class="opt-title" id="lbl-opt-delivery">-</div>
+    <div class="opt-row">
+      <div class="opt-btn on" id="opt-room" onclick="setDelivery('room')"><div class="opt-dot"><div class="opt-dot-inner"></div></div><div class="opt-text"><div class="opt-lbl" id="lbl-room">-</div><div class="opt-sub" id="sub-room">-</div></div></div>
+      <div class="opt-btn" id="opt-counter" onclick="setDelivery('counter')"><div class="opt-dot"><div class="opt-dot-inner"></div></div><div class="opt-text"><div class="opt-lbl" id="lbl-counter">-</div><div class="opt-sub" id="sub-counter">-</div></div></div>
+    </div>
+  </div>
+  <div class="opt-section">
+    <div class="opt-title" id="lbl-opt-time">-</div>
+    <div class="opt-row">
+      <div class="opt-btn on" id="opt-now" onclick="setTimeMode('now')"><div class="opt-dot"><div class="opt-dot-inner"></div></div><div class="opt-text"><div class="opt-lbl" id="lbl-now">-</div><div class="opt-sub" id="sub-now">-</div></div></div>
+      <div class="opt-btn" id="opt-sch" onclick="setTimeMode('sch')"><div class="opt-dot"><div class="opt-dot-inner"></div></div><div class="opt-text"><div class="opt-lbl" id="lbl-sch">-</div><div class="opt-sub" id="sub-sch">-</div></div></div>
+    </div>
+    <div class="sch-box" id="schBox">
+      <div class="day-row">
+        <div class="day-btn on" id="d-today" onclick="selDay('today')"><div class="day-dot"></div><div><div class="day-name" id="lbl-today">-</div><div class="day-date" id="dt-today"></div></div></div>
+        <div class="day-btn" id="d-tomorrow" onclick="selDay('tomorrow')"><div class="day-dot"></div><div><div class="day-name" id="lbl-tomorrow">-</div><div class="day-date" id="dt-tomorrow"></div></div></div>
+      </div>
+      <div class="time-lbl" id="lbl-pick-time">-</div>
+      <div class="time-note" id="timeNote"></div>
+      <div id="slot-area"></div>
+      <div class="reception-box">
+        <div class="reception-lbl" id="lbl-other-time">-</div>
+        <div class="rec-row">
+          <div class="rec-btn" onclick="window.open('tel:0123456')"><span class="rec-icon">📞</span><div><div class="rec-lbl" id="lbl-call">-</div><div class="rec-sub">0123456</div></div></div>
+          <div class="rec-btn" onclick="alert('WeChat: abcdean')"><span class="rec-icon">💚</span><div><div class="rec-lbl" id="lbl-wc-rec">-</div><div class="rec-sub">abcdean</div></div></div>
+        </div>
+      </div>
+      <div id="time-result"></div>
+    </div>
+  </div>
+  <div class="opt-section" style="border-bottom:none">
+    <div class="opt-title" id="lbl-opt-pay">-</div>
+    <div class="pay-row">
+      <div class="pay-btn on" id="pay-vcb" onclick="setPayment('vcb')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">🏦</span><div><div class="pay-name">VCB Chuyển khoản</div><div class="pay-sub-txt">Vietcombank</div></div></div>
+      <div class="pay-detail show" id="detail-vcb"><div class="pay-acct">STK: <b>xxxx xxxx xxxx</b></div><div class="pay-name2">NGUYEN VAN HUY · VCB Hải Phòng</div><div class="pay-note" id="vcb-note">-</div></div>
+      <div class="pay-btn" id="pay-wechat" onclick="setPayment('wechat')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">💚</span><div><div class="pay-name">WeChat Pay 微信支付</div><div class="pay-sub-txt">扫码付款</div></div></div>
+      <div class="pay-detail" id="detail-wechat"><div class="pay-acct">WeChat ID: <b>abcdean</b></div><div class="pay-note" id="wechat-note">-</div></div>
+      <div class="pay-btn" id="pay-alipay" onclick="setPayment('alipay')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">🔵</span><div><div class="pay-name">Alipay 支付宝</div><div class="pay-sub-txt">支付宝付款</div></div></div>
+      <div class="pay-detail" id="detail-alipay"><div class="pay-acct">Alipay ID: <b>xxxx@mya.vn</b></div><div class="pay-note" id="alipay-note">-</div></div>
+      <div class="pay-btn" id="pay-cash" onclick="setPayment('cash')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">💵</span><div><div class="pay-name" id="lbl-cash">-</div><div class="pay-sub-txt" id="sub-cash">-</div></div></div>
+      <div class="pay-detail" id="detail-cash"><div class="pay-note" id="cash-note">-</div></div>
+    </div>
+  </div>
+  <div id="cartBody"></div>
+  <div class="tr"><span style="font-size:15px;color:var(--mu)" id="tot-lbl">-</span><span style="font-size:24px;font-weight:700;color:var(--nv)" id="cartTot">0đ</span></div>
+  <button class="obtn" id="obtn" onclick="placeOrder()"><span id="order-lbl">-</span></button>
+  <div style="height:16px"></div>
 </div>
 
-<!-- SUCCESS SCREEN -->
-<div class="success-screen" id="successScreen">
-  <div class="success-icon">✅</div>
-  <div class="success-title">Đặt món thành công!</div>
-  <div class="success-sub">下单成功！请稍等，我们马上为您准备<br>Nhân viên sẽ mang đến phòng bạn trong ít phút</div>
-  <div class="order-details" id="orderDetails"></div>
-  <button class="back-btn" onclick="resetOrder()">Đặt thêm · 继续点单</button>
+<!-- SUCCESS -->
+<div id="pgOk" class="pg">
+  <div class="hdr" style="flex-direction:row;align-items:center;justify-content:center;padding:11px 14px">
+    <div class="logo" style="font-size:16px" id="ok-hdr">-</div>
+  </div>
+  <div style="padding:28px 16px;text-align:center;background:#FAF8F4">
+    <div style="font-size:52px;margin-bottom:12px">✅</div>
+    <div style="font-size:21px;font-weight:700;color:var(--nv);margin-bottom:5px" id="ok-h">-</div>
+    <div style="font-size:15px;color:var(--mu);margin-bottom:14px" id="ok-sub">-</div>
+    <div style="background:#EEF2F8;border-radius:10px;padding:13px 14px;font-size:14px;color:var(--nv);margin-bottom:14px;text-align:left;line-height:1.8;white-space:pre-line" id="ok-notice">-</div>
+    <div class="scard" id="sucCard"></div>
+    <button class="obtn" onclick="goPage('pgMenu')" style="margin:0" id="home-btn">-</button>
+  </div>
 </div>
 
 <script>
-const MENU = {
-  drinks: [
-    {id:"d1", emoji:"🍋", name:"Trà chanh vàng", zh:"柠檬茶", price:30000},
-    {id:"d2", emoji:"🍋", name:"Nước chanh", zh:"柠檬水", price:30000},
-    {id:"d3", emoji:"🥛", name:"Sữa mè đen", zh:"黑芝麻牛奶", price:30000},
-    {id:"d4", emoji:"☕", name:"Cà phê nâu", zh:"奶咖", price:30000},
-    {id:"d5", emoji:"☕", name:"Cà phê đen", zh:"黑咖", price:30000},
-    {id:"d6", emoji:"☕", name:"Americano", zh:"美式咖啡", price:30000},
-    {id:"d7", emoji:"🍯", name:"Nước chanh gừng mật ong", zh:"柠檬姜蜜饮", price:30000},
-  ],
-  food: [
-    {id:"f1", emoji:"🥐", name:"Bánh sừng bò", zh:"牛角面包", price:25000},
-    {id:"f2", emoji:"🍜", name:"Mỳ trộn", zh:"拌面", price:35000},
-    {id:"f3", emoji:"🥖", name:"Bánh mì", zh:"法棍面包", price:20000},
-    {id:"f4", emoji:"🧆", name:"Bánh bao", zh:"包子", price:15000},
-  ],
-  combos: [
-    {id:"c1", emoji:"🌅", name:"Combo Sáng", zh:"早餐套餐", desc:"1 đồ uống bất kỳ + Bánh mì hoặc Bánh bao\n任意饮品 + 法棍或包子", price:50000, original:55000},
-    {id:"c2", emoji:"☀️", name:"Combo Ngày", zh:"日间套餐", desc:"1 đồ uống bất kỳ + Bánh sừng bò\n任意饮品 + 牛角面包", price:50000, original:55000},
-  ]
+const TG='8550546799:AAGwgvJT3St333n-0xlZ9hImgNs-unmkYow';
+const CHAT='-1003761092026';
+const ff=n=>n.toLocaleString('vi-VN')+'đ';
+const fdate=ts=>{const d=new Date(ts);return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()+' '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');};
+let cart={},lang='zh',mode='cafe',contactType='phone';
+let member=null,orderHistory=[],orderFilter='all',registeredNames=[];
+let deliveryMode='room',timeMode='now',curDay='today',curTime='',payMode='vcb';
+const P={},Nvi={},Nzh={},Nen={};
+
+// ===== MÔ TẢ SẢN PHẨM (sau kết nối GSheet sẽ dynamic) =====
+const DESC={
+  d1:{zh:'清爽酸甜，采用新鲜黄柠檬，加冰口感更佳。',vi:'Vị chua ngọt thanh mát, dùng chanh vàng tươi, thêm đá càng ngon.',en:'Refreshing sweet-sour taste with fresh yellow lemons. Best served with ice.',tags:{zh:['🍋 清爽','❄️ 多冰更佳'],vi:['🍋 Thanh mát','❄️ Ngon khi thêm đá'],en:['🍋 Refreshing','❄️ Great with ice']}},
+  d2:{zh:'100%新鲜柠檬榨汁，酸甜适中，消暑解渴。',vi:'100% nước cốt chanh tươi vắt, vị chua ngọt cân bằng, giải nhiệt tốt.',en:'100% freshly squeezed lemon juice. Perfectly balanced sweet and sour.',tags:{zh:['🍋 纯鲜榨','🌿 无添加'],vi:['🍋 Tươi vắt','🌿 Không phụ gia'],en:['🍋 Freshly squeezed','🌿 No additives']}},
+  d3:{zh:'香浓黑芝麻与鲜奶完美融合，营养丰富，口感细腻。',vi:'Mè đen rang thơm xay nhuyễn với sữa tươi, béo ngậy và bổ dưỡng.',en:'Roasted black sesame blended with fresh milk. Rich, creamy and nutritious.',tags:{zh:['🥛 营养丰富','🌰 芝麻香浓'],vi:['🥛 Bổ dưỡng','🌰 Thơm mè rang'],en:['🥛 Nutritious','🌰 Aromatic sesame']}},
+  d4:{zh:'越南特色奶咖，浓缩咖啡配甜炼奶，香甜醇厚。',vi:'Cà phê phin đặc truyền thống pha với sữa đặc ngọt, đậm đà hương vị Việt.',en:'Vietnamese-style coffee with condensed milk. Bold espresso meets sweet creamy milk.',tags:{zh:['☕ 越南风味','🥛 浓缩奶咖'],vi:['☕ Đặc trưng Việt','🥛 Cà phê phin'],en:['☕ Vietnamese style','🥛 Condensed milk']}},
+  d5:{zh:'纯黑咖啡，无糖无奶，苦中带香，提神醒脑。',vi:'Cà phê đen phin không đường, đắng nhẹ hậu vị thơm, tỉnh táo cả buổi sáng.',en:'Pure black coffee, no sugar no milk. Subtly bitter with aromatic finish.',tags:{zh:['☕ 纯咖啡','⚡ 提神'],vi:['☕ Nguyên chất','⚡ Tỉnh táo'],en:['☕ Pure coffee','⚡ Energizing']}},
+  d6:{zh:'蜂蜜柠檬配鲜姜，暖胃护喉，特别适合感冒季节。',vi:'Mật ong chanh gừng tươi, ấm bụng, tốt cho cổ họng, uống nóng càng tuyệt.',en:'Honey lemon with fresh ginger. Warming, soothing for throat, great hot or cold.',tags:{zh:['🍯 蜂蜜暖身','🫚 生姜护喉'],vi:['🍯 Mật ong thơm','🫚 Gừng ấm bụng'],en:['🍯 Honey warming','🫚 Ginger soothing']}},
+  f1:{zh:'酥脆可口的法式牛角包，外脆内软，早餐首选。',vi:'Bánh sừng bò vỏ giòn tan, ruột mềm xốp, ăn kèm cà phê buổi sáng rất hợp.',en:'Flaky French croissant, crispy outside and soft inside. Perfect breakfast choice.',tags:{zh:['🥐 法式经典','☕ 搭配咖啡'],vi:['🥐 Giòn tan','☕ Hợp với cà phê'],en:['🥐 French classic','☕ Pairs with coffee']}},
+  f2:{zh:'越南特色拌面，配特制酱汁，爽口有嚼劲。',vi:'Mỳ trộn sốt đặc biệt của quán, dai ngon, ăn kèm rau thơm và đậu phộng rang.',en:'Vietnamese mixed noodles with signature sauce, chewy and flavorful with herbs and peanuts.',tags:{zh:['🍜 越南特色','🥜 花生香脆'],vi:['🍜 Đặc trưng quán','🥜 Đậu phộng rang'],en:['🍜 Vietnamese style','🥜 Crunchy peanuts']}},
+  f3:{zh:'越式三明治，鸡蛋嫩滑，面包松软，简单美味。',vi:'Bánh mì trứng ốp la nóng giòn, kẹp rau thơm, ăn sáng no lâu.',en:'Vietnamese egg sandwich with fresh herbs. Crispy bread, silky egg, filling breakfast.',tags:{zh:['🥖 越式三明治','🍳 嫩滑鸡蛋'],vi:['🥖 Bánh mì Việt','🍳 Trứng ốp la'],en:['🥖 Vietnamese baguette','🍳 Fried egg']}},
+  f4:{zh:'软糯可口的越南包子，内馅丰富，热乎乎最好吃。',vi:'Bánh bao nhân thịt heo và trứng cút, vỏ mềm trắng, ăn nóng ngon nhất.',en:'Soft steamed bun with pork and quail egg filling. Best enjoyed fresh and hot.',tags:{zh:['🧆 软糯Q弹','🌡️ 热吃最佳'],vi:['🧆 Mềm xốp','🌡️ Ngon nhất khi nóng'],en:['🧆 Soft & fluffy','🌡️ Best served hot']}},
+  c1:{zh:'早餐经典组合：黑咖啡提神 + 牛角包饱腹，优惠套餐。',vi:'Combo sáng tiết kiệm: cà phê đen tỉnh táo + bánh sừng bò giòn tan. Tiết kiệm hơn gọi lẻ.',en:'Classic morning combo: energizing black coffee + flaky croissant. Better value than ordering separate.',tags:{zh:['⚡ 提神早餐','💰 超值优惠'],vi:['⚡ Tỉnh táo buổi sáng','💰 Tiết kiệm'],en:['⚡ Energizing start','💰 Great value']}},
+  c2:{zh:'午间完美搭配：清爽柠檬茶 + 美味拌面，饱腹又解渴。',vi:'Combo ngày lý tưởng: trà chanh giải nhiệt + mỳ trộn đặc biệt no bụng. Tiết kiệm hơn gọi lẻ.',en:'Perfect daytime combo: refreshing lemon tea + satisfying mixed noodles. Save more than ordering separate.',tags:{zh:['🍜 饱腹美味','💰 超值优惠'],vi:['🍜 No bụng','💰 Tiết kiệm'],en:['🍜 Filling meal','💰 Great value']}},
+  s1:{zh:'海防特色纪念钥匙扣，精美工艺，送礼自用两相宜。',vi:'Móc khóa lưu niệm Hải Phòng, thiết kế tinh tế, quà tặng ý nghĩa.',en:'Haiphong souvenir keychain, delicate craftsmanship, great as a gift or keepsake.',tags:{zh:['🎁 送礼佳品','🏙️ 海防特色'],vi:['🎁 Quà tặng ý nghĩa','🏙️ Đặc trưng HP'],en:['🎁 Perfect gift','🏙️ Haiphong special']}},
+  s2:{zh:'手工刺绣布袋，越南传统工艺，环保实用又美观。',vi:'Túi vải thêu tay thủ công, nghề truyền thống Việt Nam, thân thiện môi trường.',en:'Hand-embroidered fabric bag, Vietnamese traditional craft, eco-friendly and beautiful.',tags:{zh:['👜 手工刺绣','♻️ 环保材质'],vi:['👜 Thêu tay thủ công','♻️ Thân thiện môi trường'],en:['👜 Hand embroidered','♻️ Eco-friendly']}},
+  s3:{zh:'海防城市主题冰箱贴，色彩鲜艳，装饰收藏两相宜。',vi:'Nam châm tủ lạnh chủ đề thành phố Hải Phòng, màu sắc tươi sáng, trang trí đẹp.',en:'Haiphong city theme fridge magnet, vibrant colors, decorative and collectible.',tags:{zh:['🧲 装饰收藏','🎨 色彩鲜艳'],vi:['🧲 Trang trí đẹp','🎨 Màu sắc tươi'],en:['🧲 Decorative','🎨 Vibrant colors']}},
+  l1:{zh:'海防传统绿豆糕，细腻香甜，正宗地道老字号口味。',vi:'Bánh đậu xanh Hải Phòng chính gốc, mềm mịn thơm ngọt, đặc sản trăm năm tuổi.',en:'Authentic Haiphong green bean cake, smooth and sweet, a century-old local specialty.',tags:{zh:['🍡 百年老字号','🌿 天然绿豆'],vi:['🍡 Đặc sản trăm năm','🌿 Đậu xanh tự nhiên'],en:['🍡 Century-old recipe','🌿 Natural green bean']}},
+  l2:{zh:'下龙湾墨鱼饼，新鲜墨鱼制作，Q弹鲜美，海鲜一绝。',vi:'Chả mực Hạ Long làm từ mực tươi nguyên chất, dai giòn đậm vị biển, đặc sản nổi tiếng.',en:"Ha Long Bay squid cake made from fresh squid, chewy and flavorful, a famous seafood specialty.",tags:{zh:['🦑 新鲜墨鱼','🌊 下龙湾特产'],vi:['🦑 Mực tươi nguyên chất','🌊 Đặc sản Hạ Long'],en:['🦑 Fresh squid','🌊 Ha Long Bay specialty']}},
+  l3:{zh:'西湖莲花茶，荷香清幽，手工窨制，高雅礼品首选。',vi:'Trà sen Tây Hồ ướp bằng hoa sen tươi hái buổi sáng, hương thơm thanh khiết, quà tặng cao cấp.',en:'West Lake lotus tea, hand-scented with fresh morning lotus flowers, elegant premium gift.',tags:{zh:['🍵 荷香清幽','🎁 高雅礼品'],vi:['🍵 Hương sen tinh khiết','🎁 Quà tặng cao cấp'],en:['🍵 Delicate lotus aroma','🎁 Premium gift']}},
 };
 
-let cart = {};
-let selectedTime = "Càng sớm càng tốt";
+const B={
+  del_room:{zh:'送到房间',en:'Room Delivery',vi:'Giao đến phòng'},
+  del_counter:{zh:'前台自取',en:'Counter Pickup',vi:'Đến quầy lấy'},
+  time_now:{zh:'立即配送',en:'ASAP',vi:'Giao ngay'},
+  pay_vcb:{zh:'VCB转账',en:'VCB Transfer',vi:'VCB Chuyển khoản'},
+  pay_wechat:{zh:'微信支付',en:'WeChat Pay',vi:'WeChat Pay'},
+  pay_alipay:{zh:'支付宝',en:'Alipay',vi:'Alipay'},
+  pay_cash:{zh:'现金付款',en:'Cash',vi:'Tiền mặt'},
+  lbl_del:{zh:'取餐方式',en:'Pickup',vi:'Hình thức nhận'},
+  lbl_time:{zh:'配送时间',en:'Time',vi:'Thời gian'},
+  lbl_pay:{zh:'付款方式',en:'Payment',vi:'Thanh toán'},
+  lbl_contact:{zh:'联系方式',en:'Contact',vi:'Liên hệ'},
+  lbl_room:{zh:'房间号',en:'Room',vi:'Số phòng'},
+  lbl_name:{zh:'用户名',en:'Name',vi:'Tên'},
+  lbl_note:{zh:'备注',en:'Notes',vi:'Ghi chú'},
+  lbl_total:{zh:'合计',en:'Total',vi:'Tổng cộng'},
+};
+function bl(k){return(B[k]||{})[lang]||(B[k]||{}).vi||k;}
+function bv(k){const vi=(B[k]||{}).vi||k;if(lang==='vi')return '<div class="srv-f">'+vi+'</div>';const f=(B[k]||{})[lang]||vi;return '<div class="srv-f">'+f+'</div><div class="srv-vi">'+vi+'</div>';}
+function srRow(lbl,val){return '<div class="sr"><div class="srl">'+lbl+'</div><div class="srv">'+val+'</div></div>';}
 
-function fmt(n){ return n.toLocaleString('vi-VN')+'đ'; }
+const slotNotes={'06:00':'Sáng sớm','06:30':'Sáng sớm','07:00':'Sáng','07:30':'Sáng','08:00':'Sáng','08:30':'Sáng','09:00':'Buổi sáng','09:30':'Buổi sáng','10:00':'Buổi sáng','10:30':'Buổi sáng','11:00':'Trưa','11:30':'Trưa','12:00':'Trưa','12:30':'Trưa','13:00':'Chiều','13:30':'Chiều','14:00':'Chiều','14:30':'Chiều','15:00':'Xế chiều','15:30':'Xế chiều','16:00':'Xế chiều','16:30':'Xế chiều','17:00':'Chiều tối','17:30':'Chiều tối','18:00':'Chiều tối','18:30':'Chiều tối','19:00':'Tối','19:30':'Tối','20:00':'Tối','20:30':'Tối','21:00':'Tối muộn','21:30':'Cuối ngày'};
 
-// ── Render menus ──────────────────────────────────────────────
-function renderDrinks(){
-  const el = document.getElementById('items-drinks');
-  el.innerHTML = MENU.drinks.map(item => `
-    <div class="item">
-      <div class="item-emoji">${item.emoji}</div>
-      <div class="item-info">
-        <div class="item-name">${item.name}</div>
-        <div class="item-name-zh">${item.zh}</div>
-        <div class="item-price">${fmt(item.price)}</div>
-      </div>
-      <div class="item-ctrl">
-        ${cart[item.id] ? `
-          <button class="qty-btn" onclick="updateCart('${item.id}',-1,${item.price},'${item.name}')">−</button>
-          <span class="qty-num">${cart[item.id]}</span>
-        ` : ''}
-        <button class="qty-btn plus" onclick="updateCart('${item.id}',1,${item.price},'${item.name}')">+</button>
-      </div>
-    </div>`).join('');
+async function loadData(){try{const r=await window.storage.get('mya_member');if(r)member=JSON.parse(r.value);}catch(e){}try{const r=await window.storage.get('mya_orders');if(r)orderHistory=JSON.parse(r.value);}catch(e){}try{const r=await window.storage.get('mya_names');if(r)registeredNames=JSON.parse(r.value);}catch(e){}}
+async function saveAll(){try{await window.storage.set('mya_member',JSON.stringify(member));}catch(e){}try{await window.storage.set('mya_orders',JSON.stringify(orderHistory));}catch(e){}try{await window.storage.set('mya_names',JSON.stringify(registeredNames));}catch(e){}}
+
+const CAFE=[
+  {id:'d1',e:'🍋',vi:'Trà chanh vàng',en:'Lemon Tea',zh:'黄柠檬茶',p:30000,t:'drinks'},
+  {id:'d2',e:'🍋',vi:'Nước chanh tươi',en:'Fresh Lemonade',zh:'鲜柠檬水',p:30000,t:'drinks'},
+  {id:'d3',e:'🥛',vi:'Sữa mè đen',en:'Black Sesame Milk',zh:'黑芝麻奶',p:35000,t:'drinks'},
+  {id:'d4',e:'☕',vi:'Cà phê nâu',en:'Milk Coffee',zh:'越南奶咖',p:30000,t:'drinks'},
+  {id:'d5',e:'☕',vi:'Cà phê đen',en:'Black Coffee',zh:'黑咖啡',p:25000,t:'drinks'},
+  {id:'d6',e:'🍯',vi:'Chanh gừng mật ong',en:'Ginger Honey Lemon',zh:'蜂蜜姜柠',p:35000,t:'drinks'},
+  {id:'f1',e:'🥐',vi:'Bánh sừng bò',en:'Croissant',zh:'牛角包',p:25000,t:'food'},
+  {id:'f2',e:'🍜',vi:'Mỳ trộn',en:'Mixed Noodles',zh:'拌面',p:35000,t:'food'},
+  {id:'f3',e:'🥖',vi:'Bánh mì trứng',en:'Egg Sandwich',zh:'鸡蛋三明治',p:25000,t:'food'},
+  {id:'f4',e:'🧆',vi:'Bánh bao',en:'Steamed Bun',zh:'包子',p:20000,t:'food'},
+  {id:'c1',e:'🌅',vi:'Combo Sáng',en:'Morning Combo',zh:'早餐套餐',p:50000,t:'combo',dvi:'Cà phê đen + Bánh sừng bò',dzh:'黑咖啡 + 牛角包'},
+  {id:'c2',e:'☀️',vi:'Combo Ngày',en:'Day Combo',zh:'日间套餐',p:55000,t:'combo',dvi:'Trà chanh vàng + Mỳ trộn',dzh:'黄柠檬茶 + 拌面'},
+];
+const SHOP=[
+  {id:'s1',e:'🧧',vi:'Móc khóa Hải Phòng',en:'HP Keychain',zh:'海防钥匙扣',p:35000,t:'sv',cvi:'Lưu niệm',czh:'纪念品'},
+  {id:'s2',e:'👜',vi:'Túi vải thêu tay',en:'Embroidered Bag',zh:'手绣布袋',p:85000,t:'sv',cvi:'Lưu niệm',czh:'纪念品'},
+  {id:'s3',e:'🧲',vi:'Nam châm HP',en:'HP Fridge Magnet',zh:'冰箱贴',p:25000,t:'sv',cvi:'Lưu niệm',czh:'纪念品'},
+  {id:'l1',e:'🍡',vi:'Bánh đậu xanh HP',en:'Green Bean Cake',zh:'海防绿豆糕',p:45000,t:'lc',cvi:'Đặc sản',czh:'特产'},
+  {id:'l2',e:'🦑',vi:'Chả mực Hạ Long',en:'Squid Cake',zh:'墨鱼饼',p:85000,t:'lc',cvi:'Đặc sản',czh:'特产'},
+  {id:'l3',e:'🍵',vi:'Trà sen Tây Hồ',en:'Lotus Tea',zh:'西湖莲花茶',p:65000,t:'lc',cvi:'Đặc sản',czh:'特产'},
+];
+[...CAFE,...SHOP].forEach(i=>{P[i.id]=i.p;Nvi[i.id]=i.vi;Nzh[i.id]=i.zh;Nen[i.id]=i.en;});
+
+const FAQS=[
+  {icon:'🕐',vi:'Giờ phục vụ?',en:'Hours?',zh:'营业时间？',avi:'6:00–22:00. Giao phòng 6:00–21:30.',aen:'6AM–10PM. Delivery 6AM–9:30PM.',azh:'营业：6:00–22:00。送餐：6:00–21:30。'},
+  {icon:'💳',vi:'Thanh toán?',en:'Payment?',zh:'怎么付款？',avi:'VCB, WeChat Pay, Alipay, tiền mặt.',aen:'VCB, WeChat Pay, Alipay or cash.',azh:'VCB、微信支付、支付宝、现金。'},
+  {icon:'📦',vi:'Giao bao lâu?',en:'Delivery?',zh:'多久送达？',avi:'10–20 phút.',aen:'10–20 min.',azh:'10-20分钟。'},
+  {icon:'📶',vi:'WiFi?',en:'WiFi?',zh:'WiFi密码？',avi:'MyaHomestay — mya123456',aen:'MyaHomestay — mya123456',azh:'WiFi：MyaHomestay  密码：mya123456'},
+];
+
+const TXT={
+  zh:{contact_ph:'📋 请输入房间号或地址（访客）',tab_drinks:'☕ 饮品',tab_food:'🍽️ 餐食',tab_combo:'🎁 套餐',tab_sv:'🎀 纪念品',tab_lc:'🍱 特产',sec_drinks:'饮品',sec_food:'早餐',sec_combo:'超值套餐',sec_sv:'纪念品',sec_lc:'海防特产',note_ph:'📝 备注（少糖、多冰...）',cart_lbl:'查看订单',back:'← 返回',cart_title:'购物车',cc_lbl:'📋 房间号或联系方式',cc_ph:'请输入房间号或地址...',warn:'<b>⚠️ 请填写联系方式！</b>',room_lbl:'🚪 房间号',room_ph:'例如：101、205...',warn_room:'<b>⚠️ 请填写房间号！</b>',tot:'合计',order:'✅ 立即下单',sending:'发送中...',empty:'暂无商品',ok_hdr:'下单成功！',ok_h:'订单已收到！',ok_sub:'工作人员将尽快联系您确认',home:'🏠 返回首页',faq_title:'常见问题',mem_tab:'会员',greet:'你好',greet_sub:'⭐ MYA会员',opt_delivery:'📦 取餐方式',room:'🚪 送到房间',room_sub:'员工送到您房间',counter:'🏪 前台自取',counter_sub:'更快，到前台拿',opt_time:'🕐 配送时间',now:'⚡ 立即配送',now_sub:'有货即送',sch:'📅 预约时间',sch_sub:'选日期和时间',today:'今天',tomorrow:'明天',pick_time:'⏰ 选择时间',time_note_today:'灰色为已过时间',time_note_tom:'可预约全天',other_time:'其他时间？联系前台',call_lbl:'致电前台',wechat_lbl:'微信联系前台',opt_pay:'💳 付款方式',cash:'💵 现金',cash_sub:'收货时付款',vcb_note:'📝 转账备注：[房间/姓名] + MYA',wechat_note:'💚 转账后截图发给工作人员',alipay_note:'🔵 转账后截图发给工作人员',cash_note:'💵 工作人员送货时或前台付款',ok_notice_room_now:'📲 工作人员确认后尽快送到您的房间。\n请按所选方式完成付款后告知工作人员。',ok_notice_room_sch:'📲 工作人员将在预约时间送到您的房间。\n请按所选方式完成付款。',ok_notice_counter_now:'🏪 准备好后通知您到前台取餐并付款。',ok_notice_counter_sch:'🏪 请在预约时间到前台取餐并付款。',hero_title:'MYA 会员专属',hero_sub:'注册即享优先服务\n历史订单随时查看',perk1:'优先\n配送',perk2:'历史\n订单',perk3:'专属\n优惠',form_title:'填写注册信息',f_name:'用户名',f_contact:'联系方式',ph_name:'只能输入字母和数字',ct_phone:'📱 电话',ct_wechat:'💚 微信',ct_zalo:'🔵 Zalo',hint_phone:'工作人员致电确认',hint_wechat:'通过微信联系',hint_zalo:'通过Zalo联系',ph_phone:'手机号码',ph_wechat:'微信号',ph_zalo:'Zalo ID',err_name:'请填写用户名',err_dup:'该用户名已存在',err_contact:'请选择联系方式',reg_btn:'立即注册',hl_sub:'或致电热线',hl_num:'热线：0123456',prof_info:'个人信息',joined:'注册日期',edit:'修改信息',logout:'退出登录',ord_title:'历史订单',ord_all:'全部',ord_pending:'处理中',ord_done:'已完成',st_pending:'处理中',st_done:'已完成',no_orders:'暂无订单',choose1:'选择一种',pop_add:'+ 加入购物车',pop_desc_lbl:'产品介绍'},
+  vi:{contact_ph:'📋 Số phòng hoặc địa chỉ (khách vãng lai)',tab_drinks:'☕ ĐỒ UỐNG',tab_food:'🍽️ ĐỒ ĂN',tab_combo:'🎁 COMBO',tab_sv:'🎀 LƯU NIỆM',tab_lc:'🍱 ĐẶC SẢN',sec_drinks:'Đồ uống',sec_food:'Đồ ăn sáng',sec_combo:'Combo tiết kiệm',sec_sv:'Quà lưu niệm',sec_lc:'Đặc sản Hải Phòng',note_ph:'📝 Ghi chú (ít đường, nhiều đá...)',cart_lbl:'Xem giỏ hàng',back:'← Quay lại',cart_title:'Giỏ hàng',cc_lbl:'📋 Số phòng / địa chỉ',cc_ph:'Nhập số phòng hoặc địa chỉ...',warn:'<b>⚠️ Chưa có thông tin liên hệ!</b>',room_lbl:'🚪 Số phòng',room_ph:'Ví dụ: P101, 205...',warn_room:'<b>⚠️ Vui lòng nhập số phòng!</b>',tot:'Tổng',order:'✅ Đặt hàng ngay',sending:'Đang gửi...',empty:'Chưa có món',ok_hdr:'Thành công!',ok_h:'Đã nhận đơn!',ok_sub:'Nhân viên sẽ liên hệ xác nhận',home:'🏠 Về trang chủ',faq_title:'Câu hỏi thường gặp',mem_tab:'Thành viên',greet:'Xin chào',greet_sub:'⭐ Thành viên MYA',opt_delivery:'📦 Hình thức nhận',room:'🚪 Giao đến phòng',room_sub:'Nhân viên mang đến',counter:'🏪 Đến quầy lấy',counter_sub:'Nhanh hơn, tự lấy',opt_time:'🕐 Thời gian',now:'⚡ Giao ngay',now_sub:'Khi có hàng sẵn',sch:'📅 Hẹn giờ',sch_sub:'Chọn ngày và giờ',today:'Hôm nay',tomorrow:'Ngày mai',pick_time:'⏰ Chọn giờ',time_note_today:'Giờ mờ = đã qua',time_note_tom:'Đặt toàn bộ khung giờ',other_time:'Giờ khác? Liên hệ lễ tân',call_lbl:'Gọi lễ tân',wechat_lbl:'WeChat lễ tân',opt_pay:'💳 Thanh toán',cash:'💵 Tiền mặt',cash_sub:'Trả khi nhận / tại quầy',vcb_note:'📝 Nội dung CK: [Số phòng / Tên] + MYA',wechat_note:'💚 Chuyển tiền → chụp màn hình → gửi nhân viên',alipay_note:'🔵 Chuyển tiền → chụp màn hình → gửi nhân viên',cash_note:'💵 Nhân viên thu tiền khi giao / tại quầy.',ok_notice_room_now:'📲 Nhân viên xác nhận và mang đến phòng sớm nhất.\nVui lòng thanh toán theo hình thức đã chọn.',ok_notice_room_sch:'📲 Nhân viên sẽ giao đến phòng đúng giờ hẹn.\nVui lòng thanh toán theo hình thức đã chọn.',ok_notice_counter_now:'🏪 Chuẩn bị xong sẽ báo ra quầy lấy và thanh toán.',ok_notice_counter_sch:'🏪 Vui lòng đến quầy đúng giờ hẹn để lấy và thanh toán.',hero_title:'Ưu đãi thành viên MYA',hero_sub:'Đăng ký để được phục vụ ưu tiên\nvà theo dõi đơn hàng',perk1:'Giao\nưu tiên',perk2:'Lịch sử\nđơn hàng',perk3:'Ưu đãi\nriêng',form_title:'Điền thông tin đăng ký',f_name:'Tên đăng nhập',f_contact:'Liên hệ',ph_name:'Chỉ dùng a-z, A-Z, 0-9',ct_phone:'📱 SĐT',ct_wechat:'💚 WeChat',ct_zalo:'🔵 Zalo',hint_phone:'Nhân viên gọi xác nhận',hint_wechat:'Nhân viên liên hệ qua WeChat',hint_zalo:'Nhân viên liên hệ qua Zalo',ph_phone:'Số điện thoại',ph_wechat:'WeChat ID',ph_zalo:'Zalo ID',err_name:'Vui lòng nhập tên hợp lệ',err_dup:'Tên đã tồn tại',err_contact:'Vui lòng chọn 1 cách liên hệ',reg_btn:'Đăng ký thành viên',hl_sub:'Hoặc gọi hotline',hl_num:'Hotline: 0123456',prof_info:'Thông tin cá nhân',joined:'Ngày tham gia',edit:'Chỉnh sửa',logout:'Đăng xuất',ord_title:'Lịch sử đơn hàng',ord_all:'Tất cả',ord_pending:'Đang xử lý',ord_done:'Hoàn thành',st_pending:'Đang xử lý',st_done:'Hoàn thành',no_orders:'Chưa có đơn hàng',choose1:'Chọn 1 trong 3',pop_add:'+ Thêm vào giỏ',pop_desc_lbl:'Giới thiệu sản phẩm'},
+  en:{contact_ph:'📋 Room no. or address',tab_drinks:'☕ DRINKS',tab_food:'🍽️ FOOD',tab_combo:'🎁 COMBO',tab_sv:'🎀 SOUVENIRS',tab_lc:'🍱 LOCAL',sec_drinks:'Drinks',sec_food:'Breakfast',sec_combo:'Combos',sec_sv:'Souvenirs',sec_lc:'Haiphong Specialties',note_ph:'📝 Notes...',cart_lbl:'View Cart',back:'← Back',cart_title:'Cart',cc_lbl:'📋 Room / address',cc_ph:'Enter room no...',warn:'<b>⚠️ Contact required!</b>',room_lbl:'🚪 Room number',room_ph:'E.g.: 101, 205...',warn_room:'<b>⚠️ Please enter room number!</b>',tot:'Total',order:'✅ Place Order',sending:'Sending...',empty:'No items',ok_hdr:'Success!',ok_h:'Order Received!',ok_sub:'Staff will contact you to confirm',home:'🏠 Back to Home',faq_title:'FAQ',mem_tab:'Member',greet:'Hello',greet_sub:'⭐ MYA Member',opt_delivery:'📦 Pickup Method',room:'🚪 Room Delivery',room_sub:'Staff delivers to room',counter:'🏪 Counter Pickup',counter_sub:'Faster, self pickup',opt_time:'🕐 Delivery Time',now:'⚡ ASAP',now_sub:'When ready',sch:'📅 Schedule',sch_sub:'Choose date & time',today:'Today',tomorrow:'Tomorrow',pick_time:'⏰ Pick time',time_note_today:'Grey = past',time_note_tom:'Full day available',other_time:'Other time? Contact reception',call_lbl:'Call reception',wechat_lbl:'WeChat reception',opt_pay:'💳 Payment',cash:'💵 Cash',cash_sub:'Pay when receiving',vcb_note:'📝 Transfer note: [Room/Name] + MYA',wechat_note:'💚 Transfer → screenshot → send to staff',alipay_note:'🔵 Transfer → screenshot → send to staff',cash_note:'💵 Staff collects on delivery or at counter.',ok_notice_room_now:'📲 Staff will confirm and deliver ASAP.\nPlease complete payment as selected.',ok_notice_room_sch:'📲 Staff will deliver at your scheduled time.\nPlease complete payment as selected.',ok_notice_counter_now:'🏪 We will notify you when ready for pickup.',ok_notice_counter_sch:'🏪 Please come to counter at scheduled time.',hero_title:'MYA Membership',hero_sub:'Register for priority service\nand order tracking',perk1:'Priority\nDelivery',perk2:'Order\nHistory',perk3:'Member\nDeals',form_title:'Registration',f_name:'Username',f_contact:'Contact',ph_name:'Letters and numbers only',ct_phone:'📱 Phone',ct_wechat:'💚 WeChat',ct_zalo:'🔵 Zalo',hint_phone:'Staff calls to confirm',hint_wechat:'Staff contacts via WeChat',hint_zalo:'Staff contacts via Zalo',ph_phone:'Phone number',ph_wechat:'WeChat ID',ph_zalo:'Zalo ID',err_name:'Valid username only',err_dup:'Name exists',err_contact:'Please choose one',reg_btn:'Register Now',hl_sub:'Or call hotline',hl_num:'Hotline: 0123456',prof_info:'Profile',joined:'Member Since',edit:'Edit',logout:'Log Out',ord_title:'Order History',ord_all:'All',ord_pending:'Processing',ord_done:'Done',st_pending:'Processing',st_done:'Completed',no_orders:'No orders yet',choose1:'Choose one',pop_add:'+ Add to cart',pop_desc_lbl:'Product Info'},
+};
+function t(k){return(TXT[lang]||TXT.zh)[k]||k;}
+function iname(i){return lang==='zh'?i.zh:lang==='en'?i.en:i.vi;}
+function isub(i){return lang==='zh'?i.vi:i.zh;}
+
+// ===== POPUP =====
+let curPopupId=null;
+function openPopup(id){
+  curPopupId=id;
+  const all=[...CAFE,...SHOP];
+  const item=all.find(i=>i.id===id);
+  if(!item)return;
+  const d=DESC[id]||{};
+  const nameMain=lang==='zh'?item.zh:lang==='en'?item.en:item.vi;
+  const nameSub=lang==='vi'?'':item.vi;
+  const desc=(d[lang]||d.vi||'');
+  const tags=(d.tags&&d.tags[lang])||[];
+  document.getElementById('pop-emoji').textContent=item.e;
+  document.getElementById('pop-name-main').textContent=nameMain;
+  document.getElementById('pop-name-sub').textContent=nameSub;
+  document.getElementById('pop-price').textContent=ff(item.p);
+  document.getElementById('pop-desc-lbl').textContent=t('pop_desc_lbl');
+  document.getElementById('pop-desc').textContent=desc||(lang==='zh'?'暂无介绍':'Chưa có mô tả');
+  document.getElementById('pop-tags').innerHTML=tags.map(tg=>'<span class="popup-tag">'+tg+'</span>').join('');
+  renderPopupAction();
+  document.getElementById('popupOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
 }
-
-function renderFood(){
-  const el = document.getElementById('items-food');
-  el.innerHTML = MENU.food.map(item => `
-    <div class="item">
-      <div class="item-emoji">${item.emoji}</div>
-      <div class="item-info">
-        <div class="item-name">${item.name}</div>
-        <div class="item-name-zh">${item.zh}</div>
-        <div class="item-price">${fmt(item.price)}</div>
-      </div>
-      <div class="item-ctrl">
-        ${cart[item.id] ? `
-          <button class="qty-btn" onclick="updateCart('${item.id}',-1,${item.price},'${item.name}')">−</button>
-          <span class="qty-num">${cart[item.id]}</span>
-        ` : ''}
-        <button class="qty-btn plus" onclick="updateCart('${item.id}',1,${item.price},'${item.name}')">+</button>
-      </div>
-    </div>`).join('');
-}
-
-function renderCombos(){
-  const el = document.getElementById('combo-list');
-  el.innerHTML = MENU.combos.map(c => `
-    <div class="combo-card" style="margin-bottom:10px">
-      <div class="combo-title">${c.emoji} ${c.name} · ${c.zh}</div>
-      <div class="combo-sub">超值套餐 · Combo tiết kiệm</div>
-      <div class="combo-items">${c.desc.replace(/\n/,'<br>')}</div>
-      <div class="combo-price">
-        <span class="new">${fmt(c.price)}</span>
-        <span class="old">${fmt(c.original)}</span>
-      </div>
-      <button class="combo-add" onclick="updateCart('${c.id}',1,${c.price},'${c.name}')">+ Thêm</button>
-    </div>`).join('');
-}
-
-// ── Cart logic ────────────────────────────────────────────────
-const prices = {};
-const names  = {};
-[...MENU.drinks,...MENU.food,...MENU.combos].forEach(i=>{prices[i.id]=i.price;names[i.id]=i.name});
-
-function updateCart(id, delta, price, name){
-  prices[id]=price; names[id]=name;
-  cart[id] = (cart[id]||0) + delta;
-  if(cart[id]<=0) delete cart[id];
-  updateUI();
-}
-
-function updateUI(){
-  renderDrinks(); renderFood(); renderCombos();
-  const total = Object.keys(cart).reduce((s,k)=>s+(cart[k]*prices[k]),0);
-  const count = Object.values(cart).reduce((s,v)=>s+v,0);
-
-  document.getElementById('cartCount').textContent = count;
-  document.getElementById('cartCount').classList.toggle('hide', count===0);
-
-  const btn = document.getElementById('viewCartBtn');
-  btn.classList.toggle('hide', count===0);
-  document.getElementById('vcbCount').textContent = count;
-  document.getElementById('vcbTotal').textContent = fmt(total);
-
-  document.getElementById('order-options').style.display = count>0 ? 'block' : 'none';
-
-  // Update drawer
-  const ci = document.getElementById('cartItems');
-  if(Object.keys(cart).length===0){
-    ci.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Chưa có món nào · 还没有选择任何餐品</div>';
-  } else {
-    ci.innerHTML = Object.keys(cart).map(k=>`
-      <div class="cart-row">
-        <div>
-          <div class="cart-row-name">${names[k]}</div>
-          <div class="cart-row-qty">× ${cart[k]}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="cart-row-price">${fmt(cart[k]*prices[k])}</span>
-          <button class="cart-remove" onclick="updateCart('${k}',-${cart[k]},${prices[k]},'${names[k]}')">×</button>
-        </div>
-      </div>`).join('');
+function renderPopupAction(){
+  const id=curPopupId;if(!id)return;
+  const q=cart[id]||0;
+  const el=document.getElementById('pop-action');
+  if(q===0){
+    el.innerHTML='<button class="popup-add-btn" onclick="popAdd()">'+t('pop_add')+' · '+ff(P[id])+'</button>';
+  }else{
+    el.innerHTML='<div class="popup-qty-wrap"><div class="popup-qty-btn" onclick="popMinus()">−</div><div class="popup-qty-num">'+q+'</div><div class="popup-qty-btn plus" onclick="popPlus()">+</div></div>';
   }
-  document.getElementById('drawerTotal').textContent = fmt(total);
-  document.getElementById('orderBtn').disabled = count===0;
+}
+function popAdd(){upd(curPopupId,1);renderPopupAction();}
+function popPlus(){upd(curPopupId,1);renderPopupAction();}
+function popMinus(){upd(curPopupId,-1);renderPopupAction();}
+function closePopup(){document.getElementById('popupOverlay').classList.remove('show');document.body.style.overflow='';curPopupId=null;}
+function closePopupIfOverlay(e){if(e.target===document.getElementById('popupOverlay'))closePopup();}
+
+function updateRoomWrap(){const show=!!member&&deliveryMode==='room';document.getElementById('roomWrap').className='room-input-wrap'+(show?' show':'');if(show){document.getElementById('room-lbl').innerHTML=t('room_lbl')+' <span style="color:var(--red)">*</span>';document.getElementById('roomInput').placeholder=t('room_ph');}}
+function setDelivery(m){deliveryMode=m;document.getElementById('opt-room').className='opt-btn'+(m==='room'?' on':'');document.getElementById('opt-counter').className='opt-btn'+(m==='counter'?' on':'');updateRoomWrap();}
+function setTimeMode(m){timeMode=m;curTime='';document.getElementById('opt-now').className='opt-btn'+(m==='now'?' on':'');document.getElementById('opt-sch').className='opt-btn'+(m==='sch'?' on':'');document.getElementById('schBox').className='sch-box'+(m==='sch'?' show':'');if(m==='sch')buildSlots();}
+function selDay(d){curDay=d;curTime='';document.getElementById('d-today').className='day-btn'+(d==='today'?' on':'');document.getElementById('d-tomorrow').className='day-btn'+(d==='tomorrow'?' on':'');document.getElementById('time-result').innerHTML='';buildSlots();}
+function buildSlots(){const now=new Date();const isToday=curDay==='today';let minAvail=isToday?(now.getHours()*60+now.getMinutes()+30):0;minAvail=Math.ceil(minAvail/30)*30;const all=[];for(let m=6*60;m<=21*60+30;m+=30)all.push({t:String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'),min:m});const sa=document.getElementById('slot-area'),noteEl=document.getElementById('timeNote');if(isToday&&all.filter(s=>s.min>=minAvail).length===0){sa.innerHTML='<div class="no-slot">⚠️ '+(lang==='zh'?'今日已结束':lang==='en'?'No slots today':'Hôm nay hết slot')+'</div>';noteEl.textContent='';return;}noteEl.textContent=isToday?t('time_note_today'):t('time_note_tom');sa.innerHTML='<div class="time-grid">'+all.map(s=>{const ok=!isToday||s.min>=minAvail;const n=slotNotes[s.t]||'';return'<div class="tslot'+(ok?'':' off')+'"'+(ok?' onclick="pickSlot(\''+s.t+'\',this)"':'')+'>'+s.t+'<div class="tnote">'+n+'</div></div>';}).join('')+'</div>';}
+function pickSlot(t_,el){curTime=t_;document.querySelectorAll('.tslot:not(.off)').forEach(b=>b.classList.remove('on'));el.classList.add('on');document.getElementById('time-result').innerHTML='<div class="time-result">✅ '+(curDay==='today'?t('today'):t('tomorrow'))+' · '+t_+'</div>';}
+function setPayment(m){payMode=m;['vcb','wechat','alipay','cash'].forEach(p=>{document.getElementById('pay-'+p).className='pay-btn'+(p===m?' on':'');document.getElementById('detail-'+p).className='pay-detail'+(p===m?' show':'');});document.getElementById('vcb-note').textContent=t('vcb_note');document.getElementById('wechat-note').textContent=t('wechat_note');document.getElementById('alipay-note').textContent=t('alipay_note');document.getElementById('cash-note').textContent=t('cash_note');}
+function updateCartLabels(){document.getElementById('lbl-opt-delivery').textContent=t('opt_delivery');document.getElementById('lbl-room').textContent=t('room');document.getElementById('sub-room').textContent=t('room_sub');document.getElementById('lbl-counter').textContent=t('counter');document.getElementById('sub-counter').textContent=t('counter_sub');document.getElementById('lbl-opt-time').textContent=t('opt_time');document.getElementById('lbl-now').textContent=t('now');document.getElementById('sub-now').textContent=t('now_sub');document.getElementById('lbl-sch').textContent=t('sch');document.getElementById('sub-sch').textContent=t('sch_sub');document.getElementById('lbl-today').textContent=t('today')+(lang!=='en'?' · 今天':'');document.getElementById('lbl-tomorrow').textContent=t('tomorrow')+(lang!=='en'?' · 明天':'');document.getElementById('lbl-pick-time').textContent=t('pick_time');document.getElementById('lbl-other-time').textContent=t('other_time');document.getElementById('lbl-call').textContent=t('call_lbl');document.getElementById('lbl-wc-rec').textContent=t('wechat_lbl');document.getElementById('lbl-opt-pay').textContent=t('opt_pay');document.getElementById('lbl-cash').textContent=t('cash');document.getElementById('sub-cash').textContent=t('cash_sub');document.getElementById('vcb-note').textContent=t('vcb_note');document.getElementById('wechat-note').textContent=t('wechat_note');document.getElementById('alipay-note').textContent=t('alipay_note');document.getElementById('cash-note').textContent=t('cash_note');updateRoomWrap();}
+function updateGreetBar(){if(member){document.getElementById('greetBar').style.display='flex';document.getElementById('contactBar').style.display='none';document.getElementById('greetTxt').textContent=t('greet')+', '+member.name+' 👋';document.getElementById('greetSub').textContent=t('greet_sub');}else{document.getElementById('greetBar').style.display='none';document.getElementById('contactBar').style.display='block';document.getElementById('contact').placeholder=t('contact_ph');}}
+function updateModeTabs(){document.getElementById('mbt-cafe').innerHTML='☕ CAFE';document.getElementById('mbt-shop').innerHTML='🛍️ SHOP';document.getElementById('mbt-faq').innerHTML='❓ FAQ';document.getElementById('mbt-mem').innerHTML='👤 <span id="lbl-mem">'+t('mem_tab')+'</span>';document.querySelectorAll('.hdr-modes .nb-wide').forEach(b=>b.classList.remove('on'));const el=document.getElementById('mbt-'+mode);if(el)el.classList.add('on');}
+function renderMember(){const el=document.getElementById('memContent');if(!member){el.innerHTML='<div class="mem-bg"><div class="mem-hero"><div class="mem-hero-icon">🎁</div><div class="mem-hero-title">'+t('hero_title')+'</div><div class="mem-hero-sub">'+t('hero_sub').replace(/\n/g,'<br>')+'</div></div><div class="perks"><div class="perk"><div class="perk-icon">🚀</div><div class="perk-lbl">'+t('perk1').replace(/\n/g,'<br>')+'</div></div><div class="perk"><div class="perk-icon">📋</div><div class="perk-lbl">'+t('perk2').replace(/\n/g,'<br>')+'</div></div><div class="perk"><div class="perk-icon">⭐</div><div class="perk-lbl">'+t('perk3').replace(/\n/g,'<br>')+'</div></div></div><div class="mem-form"><div class="mem-form-title">'+t('form_title')+'</div><div class="field"><label>'+t('f_name')+' <span class="req">*</span></label><input id="rn" placeholder="'+t('ph_name')+'" oninput="filterName(this)"><div class="err-msg" id="err-rn">'+t('err_name')+'</div></div><div class="field"><label>'+t('f_contact')+' <span class="req">*</span> <span style="color:var(--mu);font-weight:400;font-size:11px">'+t('choose1')+'</span></label><div class="csbox" id="csBox"><div class="ctype-row"><button class="ctype on" onclick="selCType(\'phone\',this)">'+t('ct_phone')+'</button><button class="ctype" onclick="selCType(\'wechat\',this)">'+t('ct_wechat')+'</button><button class="ctype" onclick="selCType(\'zalo\',this)">'+t('ct_zalo')+'</button></div><div class="cinput-wrap"><input id="rc" placeholder="'+t('ph_phone')+'"></div><div class="chint" id="rc-hint">'+t('hint_phone')+'</div></div><div class="err-msg" id="err-rc">'+t('err_contact')+'</div></div><button class="reg-btn" onclick="registerMember()">'+t('reg_btn')+'</button></div><div class="hotline-box"><div class="hl-sub">'+t('hl_sub')+'</div><div class="hl-num">'+t('hl_num')+'</div></div></div>';contactType='phone';}else{const ini=member.name.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();const ctIcon=member.contactType==='wechat'?'💚':member.contactType==='zalo'?'🔵':'📱';const ctLabel=member.contactType==='wechat'?'WeChat':member.contactType==='zalo'?'Zalo':'SĐT';const filtered=orderFilter==='all'?orderHistory:orderHistory.filter(o=>o.status===orderFilter);const oh=filtered.length===0?'<div class="empty-state"><div style="font-size:36px;margin-bottom:8px">📭</div><div style="font-size:15px">'+t('no_orders')+'</div></div>':filtered.slice().reverse().map(o=>'<div class="order-card"><div class="order-card-hdr"><div><div class="order-id">MYA-'+o.id+'</div><div class="order-time">'+fdate(o.time)+'</div></div><span class="st st-'+o.status+'">'+t('st_'+o.status)+'</span></div><div class="order-items-txt">'+o.items+'</div><div class="order-footer"><span class="order-total">'+ff(o.total)+'</span></div></div>').join('');el.innerHTML='<div><div class="profile-hdr"><div class="avatar">'+ini+'</div><div class="profile-name">'+member.name+'</div><span class="mem-badge">⭐ MYA Member</span></div><div class="profile-body"><div class="info-card"><div class="info-card-hdr">'+t('prof_info')+'</div><div class="mi"><span class="mi-icon">'+ctIcon+'</span><div><div class="mi-lbl">'+ctLabel+'</div><div class="mi-val">'+member.contact+'</div></div></div><div class="mi"><span class="mi-icon">📅</span><div><div class="mi-lbl">'+t('joined')+'</div><div class="mi-val">'+fdate(member.joinDate)+'</div></div></div></div><div class="action-row"><button class="act-btn btn-edit" onclick="editMember()">✏️ '+t('edit')+'</button><button class="act-btn btn-out" onclick="logoutMember()">🚪 '+t('logout')+'</button></div><div class="info-card" style="margin-top:13px"><div class="info-card-hdr">'+t('ord_title')+' ('+orderHistory.length+')</div><div class="order-tabs"><button class="otab'+(orderFilter==='all'?' on':'')+'" onclick="setOF(\'all\')">'+t('ord_all')+'</button><button class="otab'+(orderFilter==='pending'?' on':'')+'" onclick="setOF(\'pending\')">'+t('ord_pending')+'</button><button class="otab'+(orderFilter==='done'?' on':'')+'" onclick="setOF(\'done\')">'+t('ord_done')+'</button></div><div style="padding:4px 0 8px">'+oh+'</div></div></div></div>';}}
+function setOF(f){orderFilter=f;renderMember();}
+function filterName(inp){inp.value=inp.value.replace(/[^a-zA-Z0-9 ]/g,'');inp.classList.remove('err');document.getElementById('err-rn').classList.remove('show');}
+function selCType(type,btn){contactType=type;document.querySelectorAll('.ctype').forEach(b=>b.className='ctype');btn.className='ctype on';const ph={phone:t('ph_phone'),wechat:t('ph_wechat'),zalo:t('ph_zalo')};const hint={phone:t('hint_phone'),wechat:t('hint_wechat'),zalo:t('hint_zalo')};document.getElementById('rc').placeholder=ph[type];document.getElementById('rc').value='';document.getElementById('rc-hint').textContent=hint[type];document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}
+function registerMember(){const name=document.getElementById('rn').value.trim();const contact=document.getElementById('rc').value.trim();let ok=true;if(!name||!/^[a-zA-Z0-9 ]+$/.test(name)){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_name');document.getElementById('err-rn').classList.add('show');ok=false;}else if(registeredNames.includes(name.toLowerCase().replace(/ /g,''))){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_dup');document.getElementById('err-rn').classList.add('show');ok=false;}else{document.getElementById('rn').classList.remove('err');document.getElementById('err-rn').classList.remove('show');}if(!contact){document.getElementById('csBox').classList.add('err');document.getElementById('err-rc').classList.add('show');ok=false;}else{document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}if(!ok)return;registeredNames.push(name.toLowerCase().replace(/ /g,''));member={name,contact,contactType,joinDate:Date.now()};saveAll();updateGreetBar();renderMember();}
+function editMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;saveAll();updateGreetBar();renderMember();}
+function logoutMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;orderHistory=[];saveAll();updateGreetBar();renderMember();}
+function applyLang(){updateGreetBar();updateModeTabs();updateCartLabels();document.getElementById('note').placeholder=t('note_ph');document.getElementById('snote').placeholder=t('note_ph');['drinks','food','combo','sv','lc'].forEach(k=>{const el=document.getElementById('tb-'+k);if(el)el.textContent=t('tab_'+k);});document.getElementById('cart-lbl').textContent=t('cart_lbl');document.getElementById('back-lbl').textContent=t('back');document.getElementById('cart-title').textContent=t('cart_title');document.getElementById('cc-lbl').textContent=t('cc_lbl');document.getElementById('contact2').placeholder=t('cc_ph');document.getElementById('warn').innerHTML=t('warn');document.getElementById('warn-room').innerHTML=t('warn_room');document.getElementById('tot-lbl').textContent=t('tot');document.getElementById('order-lbl').textContent=t('order');document.getElementById('ok-hdr').textContent=t('ok_hdr');document.getElementById('ok-h').textContent=t('ok_h');document.getElementById('ok-sub').textContent=t('ok_sub');document.getElementById('home-btn').textContent=t('home');renderFaq();if(mode==='mem')renderMember();}
+function renderFaq(){document.getElementById('faqList').innerHTML='<div style="padding:14px 15px 6px;font-size:12px;font-weight:700;color:var(--mu);letter-spacing:1px;text-transform:uppercase">'+t('faq_title')+'</div>'+FAQS.map((q,i)=>{const qtxt=lang==='zh'?q.zh:lang==='en'?q.en:q.vi;const atxt=lang==='zh'?q.azh:lang==='en'?q.aen:q.avi;return'<div class="faq-item"><div class="faq-q" onclick="toggleFaq('+i+')"><span class="faq-q-txt">'+q.icon+' '+qtxt+'</span><span class="faq-arr" id="fa'+i+'">▼</span></div><div class="faq-a" id="fan'+i+'">'+atxt+'</div></div>';}).join('');}
+function toggleFaq(i){const a=document.getElementById('fan'+i),ar=document.getElementById('fa'+i);const op=a.classList.contains('open');document.querySelectorAll('.faq-a').forEach(e=>e.classList.remove('open'));document.querySelectorAll('.faq-arr').forEach(e=>e.classList.remove('open'));if(!op){a.classList.add('open');ar.classList.add('open');}}
+function setLang(l,el){lang=l;document.querySelectorAll('.hdr-r .nb-sm').forEach(b=>b.classList.remove('on'));el.classList.add('on');applyLang();renderAll();}
+
+function renderCafe(){
+  ['drinks','food','combo'].forEach(tp=>{
+    const items=CAFE.filter(i=>i.t===tp);
+    document.getElementById('tab-'+tp).innerHTML='<div class="sec">'+t('sec_'+tp)+'</div><div class="lst">'+items.map(item=>{
+      const q=cart[item.id]||0;
+      if(item.dvi){
+        const desc=lang==='zh'?item.dzh:item.dvi;
+        // Combo: bấm vào phần trên để xem popup, nút + vẫn thêm trực tiếp
+        return '<div class="cmbo" onclick="openPopup(\''+item.id+'\')"><div style="font-size:16px;font-weight:700">'+item.e+' '+iname(item)+'</div><div style="font-size:14px;color:rgba(255,255,255,.85);font-weight:500;margin:4px 0 10px">'+desc+'</div><div style="display:flex;align-items:center;justify-content:space-between" onclick="event.stopPropagation()"><span style="font-size:20px;font-weight:700;color:var(--gd)">'+ff(item.p)+'</span><div style="display:flex;align-items:center;gap:7px">'+(q>0?'<div class="qb" style="color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.15)" onclick="upd(\''+item.id+'\',-1)">−</div><span style="font-size:14px;font-weight:700;color:var(--gd);min-width:18px;text-align:center">'+q+'</span>':'')+'<div class="qb p" onclick="upd(\''+item.id+'\',1)">+</div></div></div></div>';
+      }
+      return '<div class="row"><div class="em" onclick="openPopup(\''+item.id+'\')">'+item.e+'</div><div style="flex:1;min-width:0;cursor:pointer" onclick="openPopup(\''+item.id+'\')"><div class="nm">'+iname(item)+'</div><div class="zn">'+isub(item)+'</div><div class="pr">'+ff(item.p)+'</div></div><div class="ctrl">'+(q>0?'<div class="qb" onclick="upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span>':'')+'<div class="qb p" onclick="upd(\''+item.id+'\',1)">+</div></div></div>';
+    }).join('')+'</div>';
+  });
 }
 
-// ── Tab switching ─────────────────────────────────────────────
-function switchTab(tab, btn){
-  ['drinks','food','combo'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
-  document.getElementById('tab-'+tab).style.display='block';
-  btn.classList.add('on');
+function renderShop(){
+  ['sv','lc'].forEach(tp=>{
+    const items=SHOP.filter(i=>i.t===tp);
+    document.getElementById('tab-'+tp).innerHTML='<div class="sec">'+t('sec_'+tp)+'</div>'+items.map(item=>{
+      const q=cart[item.id]||0;
+      return '<div class="shop-item"><div style="display:flex;align-items:center;gap:10px;cursor:pointer" onclick="openPopup(\''+item.id+'\')"><div class="em">'+item.e+'</div><div style="flex:1"><span class="scat '+(tp==='sv'?'cat-a':'cat-b')+'">'+(lang==='zh'?item.czh:item.cvi)+'</span><div class="nm">'+iname(item)+'</div><div class="zn">'+isub(item)+'</div></div></div><div class="sf"><span style="font-size:16px;font-weight:700;color:var(--nv)">'+ff(item.p)+'</span>'+(q>0?'<div style="display:flex;align-items:center;gap:6px"><div class="qb" style="width:30px;height:30px;font-size:16px" onclick="upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span><div class="qb p" style="width:30px;height:30px;font-size:16px" onclick="upd(\''+item.id+'\',1)">+</div></div>':'<div style="padding:7px 13px;border-radius:9px;font-size:13px;font-weight:700;color:#fff;background:var(--nv);cursor:pointer" onclick="upd(\''+item.id+'\',1)">'+(lang==='zh'?'+ 添加':lang==='en'?'+ Add':'+ Thêm')+'</div>')+'</div></div>';
+    }).join('');
+  });
 }
 
-// ── Time ──────────────────────────────────────────────────────
-function setTime(val, btn){
-  selectedTime=val;
-  document.querySelectorAll('.time-opt').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('customTime').value='';
-}
-function setCustomTime(val){
-  if(!val) return;
-  selectedTime='Lúc '+val;
-  document.querySelectorAll('.time-opt').forEach(b=>b.classList.remove('on'));
-}
+function renderAll(){renderCafe();renderShop();renderFaq();if(mode==='mem')renderMember();updateUI();}
+function upd(id,d){cart[id]=Math.max(0,(cart[id]||0)+d);if(!cart[id])delete cart[id];renderAll();if(curPopupId===id)renderPopupAction();}
+function updateUI(){const cnt=Object.values(cart).reduce((s,v)=>s+v,0);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);document.getElementById('vcnt').textContent=cnt;document.getElementById('vtot').textContent=cnt?ff(tot):'';document.getElementById('mainBtn').className=cnt?'cart-btn':'cart-btn empty';const bdg=document.getElementById('cbadge');bdg.style.display=cnt?'flex':'none';bdg.textContent=cnt;}
+function switchMode(m,el){mode=m;document.querySelectorAll('.hdr-modes .nb-wide').forEach(b=>b.classList.remove('on'));if(el)el.classList.add('on');['cafe','shop','faq','mem'].forEach(x=>{const s=document.getElementById('sec-'+x);if(s)s.style.display=x===m?'block':'none';});if(m==='mem')renderMember();}
+function showTab(tp){['drinks','food','combo'].forEach(x=>{document.getElementById('tab-'+x).style.display=x===tp?'block':'none';document.getElementById('tb-'+x).className='tab'+(x===tp?' on':'');});}
+function showShopTab(tp){['sv','lc'].forEach(x=>{document.getElementById('tab-'+x).style.display=x===tp?'block':'none';document.getElementById('tb-'+x).className='tab'+(x===tp?' on':'');});}
+function goPage(id){document.querySelectorAll('.pg').forEach(p=>p.className='pg');document.getElementById(id).className='pg on';}
+function openCart(){const contact=member?member.contact:document.getElementById('contact').value.trim();document.getElementById('contact2').value=contact;const keys=Object.keys(cart);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);const el=document.getElementById('cartBody');if(!keys.length){el.innerHTML='<div style="padding:30px 14px;text-align:center;color:var(--mu);font-size:15px;background:#fff">'+t('empty')+'</div>';document.getElementById('obtn').disabled=true;}else{el.innerHTML=keys.map(k=>'<div class="ci2"><div style="flex:1"><div style="font-size:15px;font-weight:700">'+(lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k])+'</div><div style="font-size:13px;color:#555;font-weight:500">'+Nvi[k]+' × '+cart[k]+'</div></div><span style="font-size:15px;font-weight:700;color:var(--nv);white-space:nowrap">'+ff((P[k]||0)*cart[k])+'</span><div class="ci2x" onclick="del(\''+k+'\')">×</div></div>').join('');document.getElementById('obtn').disabled=false;}document.getElementById('cartTot').textContent=ff(tot);document.getElementById('warn').className='warn';document.getElementById('warn-room').className='warn';updateCartLabels();deliveryMode='room';timeMode='now';curTime='';curDay='today';payMode='vcb';document.getElementById('opt-room').className='opt-btn on';document.getElementById('opt-counter').className='opt-btn';document.getElementById('opt-now').className='opt-btn on';document.getElementById('opt-sch').className='opt-btn';document.getElementById('schBox').className='sch-box';document.getElementById('time-result').innerHTML='';document.getElementById('roomInput').value='';document.getElementById('roomInput').classList.remove('err');setPayment('vcb');updateRoomWrap();const now=new Date(),tom=new Date(now);tom.setDate(tom.getDate()+1);const fmt=d=>d.getDate()+'/'+(d.getMonth()+1);document.getElementById('dt-today').textContent=fmt(now);document.getElementById('dt-tomorrow').textContent=fmt(tom);const ccLbl=document.getElementById('cc-lbl'),ccInp=document.getElementById('contact2');if(member){ccLbl.textContent=t('greet')+', '+member.name+' 👋';ccInp.readOnly=true;ccInp.style.background='#F5F8FF';ccInp.style.fontWeight='700';}else{ccLbl.textContent=t('cc_lbl');ccInp.readOnly=false;ccInp.style.background='';ccInp.style.fontWeight='';}goPage('pgCart');}
+function del(id){delete cart[id];updateUI();openCart();}
+function clearErr(){if(!member){document.getElementById('contact2').classList.remove('err');document.getElementById('warn').className='warn';}}
 
-// ── Cart drawer ───────────────────────────────────────────────
-function openCart(){
-  document.getElementById('overlay').classList.add('on');
-  document.getElementById('drawer').classList.add('on');
+async function placeOrder(){
+  const isMember=!!member;const contact=isMember?member.contact:document.getElementById('contact2').value.trim();
+  if(!isMember&&!contact){document.getElementById('contact2').classList.add('err');document.getElementById('contact2').focus();document.getElementById('warn').className='warn on';return;}
+  let roomNo='';if(isMember&&deliveryMode==='room'){roomNo=document.getElementById('roomInput').value.trim();if(!roomNo){document.getElementById('roomInput').classList.add('err');document.getElementById('warn-room').className='warn on';document.getElementById('roomInput').focus();return;}}else if(!isMember){roomNo=contact;}
+  const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);
+  const note=(document.getElementById('note').value+' '+document.getElementById('snote').value).trim();
+  const itemsText=Object.entries(cart).map(([k,v])=>Nzh[k]+'×'+v).join(', ');
+  const lines=Object.entries(cart).map(([k,v])=>'• '+Nvi[k]+' ('+Nzh[k]+') × '+v+'  —  '+ff((P[k]||0)*v)).join('\n');
+  const dIcon=deliveryMode==='room'?'🚪':'🏪';const dVI=B[deliveryMode==='room'?'del_room':'del_counter'].vi;
+  const tIcon=timeMode==='now'?'⚡':'📅';const dayVI=curDay==='today'?'Hôm nay':'Ngày mai';const tVI=timeMode==='now'?'Giao ngay':dayVI+(curTime?' '+curTime:'');
+  const payVI=B['pay_'+payMode].vi;const pIcons={vcb:'🏦',wechat:'💚',alipay:'🔵',cash:'💵'};
+  const ctIcon=isMember?(member.contactType==='wechat'?'💚':member.contactType==='zalo'?'🔵':'📱'):'📋';
+  const roomTG=deliveryMode==='room'&&roomNo?'\n🚪 Phòng: '+roomNo:'';
+  const memLine=isMember?'\n👤 '+member.name+'  '+ctIcon+': '+contact+roomTG:'\n📋 '+contact;
+  const msg='☕ ĐƠN MYA CAFÉ'+memLine+'\n'+dIcon+' '+dVI+'  '+tIcon+' '+tVI+'\n'+pIcons[payMode]+' '+payVI+'\n─────────────\n'+lines+'\n─────────────\n💰 '+ff(tot)+(note?'\n📝 '+note:'');
+  const btn=document.getElementById('obtn');btn.disabled=true;document.getElementById('order-lbl').textContent=t('sending');
+  try{await fetch('https://api.telegram.org/bot'+TG+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT,text:msg})});}catch(e){}
+  if(isMember){orderHistory.push({id:Date.now().toString().slice(-6),items:itemsText,total:tot,time:Date.now(),status:'pending'});try{await window.storage.set('mya_orders',JSON.stringify(orderHistory));}catch(e){}}
+  const noticeKey='ok_notice_'+deliveryMode+'_'+(timeMode==='now'?'now':'sch');
+  const dayLocal=curDay==='today'?t('today'):t('tomorrow');const tLocal=timeMode==='now'?t('now').replace(/^[^\w\u4e00-\u9fa5]+/,''):dayLocal+(curTime?' '+curTime:'');
+  const schNote=timeMode==='sch'&&curTime?'\n📅 '+tLocal:'';
+  document.getElementById('ok-notice').textContent=t(noticeKey)+schNote;
+  const rows=Object.entries(cart).map(([k,v])=>{const foreign=lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k];const lbl=lang==='vi'?'<div class="srv-f">'+foreign+'</div>':'<div class="srv-f">'+foreign+'</div><div class="srv-vi">'+Nvi[k]+'</div>';return srRow(lbl,'<div class="srv-f">×'+v+'  '+ff((P[k]||0)*v)+'</div>');}).join('');
+  const whoLbl=isMember?'👤 '+bl('lbl_name'):'📋 '+bl('lbl_contact');const whoVal='<div class="srv-f">'+(isMember?member.name:contact)+'</div>';
+  const roomRow2=deliveryMode==='room'&&roomNo?srRow('🚪 '+bl('lbl_room'),'<div class="srv-f">'+roomNo+'</div>'):'';
+  const delRow=srRow(dIcon+' '+bl('lbl_del'),bv(deliveryMode==='room'?'del_room':'del_counter'));
+  const timeKeyVI=timeMode==='now'?'Giao ngay':dayVI+(curTime?' '+curTime:'');const timeKeyLocal=timeMode==='now'?t('now').replace(/^[^\w\u4e00-\u9fa5]+/,''):dayLocal+(curTime?' '+curTime:'');
+  const timeVal=lang==='vi'?'<div class="srv-f">'+timeKeyVI+'</div>':'<div class="srv-f">'+timeKeyLocal+'</div><div class="srv-vi">'+timeKeyVI+'</div>';
+  const payRow=srRow(pIcons[payMode]+' '+bl('lbl_pay'),bv('pay_'+payMode));
+  const noteRow=note?srRow('📝 '+bl('lbl_note'),'<div class="srv-f">'+note+'</div>'):'';
+  const totRow='<div class="sr"><div class="srl">'+bl('lbl_total')+'</div><div class="srv"><div class="srv-tot">'+ff(tot)+'</div></div></div>';
+  document.getElementById('sucCard').innerHTML=rows+srRow(whoLbl,whoVal)+roomRow2+delRow+srRow(tIcon+' '+bl('lbl_time'),timeVal)+payRow+noteRow+totRow;
+  cart={};renderAll();btn.disabled=false;document.getElementById('order-lbl').textContent=t('order');goPage('pgOk');
 }
-function closeCart(){
-  document.getElementById('overlay').classList.remove('on');
-  document.getElementById('drawer').classList.remove('on');
-}
-
-// ── Place order ───────────────────────────────────────────────
-function placeOrder(){
-  const room = document.getElementById('roomInput').value.trim();
-  if(!room){ alert('Vui lòng nhập số phòng! / 请输入房间号!'); return; }
-  const total = Object.keys(cart).reduce((s,k)=>s+(cart[k]*prices[k]),0);
-  const note  = document.getElementById('noteInput').value.trim();
-
-  // Build order summary
-  let rows = Object.keys(cart).map(k=>`
-    <div class="od-row"><span>${names[k]} ×${cart[k]}</span><span>${fmt(cart[k]*prices[k])}</span></div>`).join('');
-  rows += `<div class="od-row"><span>Phòng / 房间</span><span>${room}</span></div>`;
-  rows += `<div class="od-row"><span>Giao lúc / 送达</span><span>${selectedTime}</span></div>`;
-  if(note) rows += `<div class="od-row"><span>Ghi chú</span><span>${note}</span></div>`;
-  rows += `<div class="od-row"><span>Tổng / 总计</span><span>${fmt(total)}</span></div>`;
-  document.getElementById('orderDetails').innerHTML = rows;
-
-  closeCart();
-  document.getElementById('successScreen').classList.add('on');
-}
-
-function resetOrder(){
-  cart={};
-  document.getElementById('roomInput').value='';
-  document.getElementById('noteInput').value='';
-  document.getElementById('customTime').value='';
-  selectedTime='Càng sớm càng tốt';
-  document.getElementById('successScreen').classList.remove('on');
-  updateUI();
-}
-
-// ── Init ──────────────────────────────────────────────────────
-renderDrinks(); renderFood(); renderCombos(); updateUI();
+loadData().then(()=>{renderAll();applyLang();});
 </script>
-</body>
-</html>
