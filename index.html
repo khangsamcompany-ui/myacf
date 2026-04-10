@@ -445,6 +445,13 @@ async function loadFromSheet(){
     }
   }catch(e){console.warn('Sheet offline:',e.message);}
 }
+function fixImgUrl(url){
+  if(!url)return'';
+  // Chuyển link Drive gốc thành link trực tiếp
+  const m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if(m)return'https://drive.google.com/uc?export=view&id='+m[1];
+  return url;
+}
 function _applySheetData(d){
   // ── Apply menu từ sheet ──────────────────────────────────────
   if(Array.isArray(d.menu)&&d.menu.length>0){
@@ -454,7 +461,7 @@ function _applySheetData(d){
       const vi=(item.name&&item.name.vi)||'';
       const zh=(item.name&&item.name.zh)||'';
       const en=(item.name&&item.name.en)||'';
-      const img=item.image||'';
+      const img=fixImgUrl(item.image||'');
       // Chỉ cập nhật giá + tên + desc, không xóa CAFE/SHOP
       if(p)P[id]=p;
       if(vi)Nvi[id]=vi;
