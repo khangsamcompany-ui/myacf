@@ -1,28 +1,31 @@
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <style>
+/* mobile */
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Be+Vietnam+Pro:wght@400;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC',sans-serif}
+body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#F5F2EE}body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC',sans-serif}
 :root{--nv:#1B3A6B;--gd:#E8A830;--br:#E2DDD5;--mu:#8A8480;--red:#E24B4A}
-.hdr{background:var(--nv);padding:10px 14px;display:flex;flex-direction:column;gap:9px}
+.hdr{background:var(--nv);padding:10px 14px;display:flex;flex-direction:column;gap:9px;position:sticky;top:0;z-index:50}
 .hdr-top{display:flex;align-items:center;justify-content:space-between}
 .logo{font-family:Georgia,serif;font-size:20px;color:#fff;letter-spacing:2px;font-weight:700;line-height:1}
 .logos{font-size:11px;color:#9FE1CB;letter-spacing:1px;margin-top:2px}
 .hdr-r{display:flex;align-items:center;gap:5px;flex-shrink:0}
-.nb-sm{width:28px;height:28px;border-radius:7px;border:1.5px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;user-select:none;flex-shrink:0}
+.nb-sm{width:40px;height:40px;border-radius:7px;border:1.5px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;user-select:none;flex-shrink:0;touch-action:manipulation}
 .nb-sm.on{background:var(--gd);border-color:var(--gd);color:#111}
 .cart-rel{position:relative;flex-shrink:0}
 .cbadge{position:absolute;top:-4px;right:-4px;background:var(--gd);color:#111;width:14px;height:14px;border-radius:50%;font-size:8px;font-weight:700;align-items:center;justify-content:center;display:none}
-.nb-wide{flex:1;height:36px;padding:0 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;user-select:none}
+.nb-wide{flex:1 1 40%;height:44px;padding:0 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;user-select:none;touch-action:manipulation}
 .nb-wide.on{background:var(--gd);border-color:var(--gd);color:#111}
-.hdr-modes{display:flex;gap:6px}
+.hdr-modes{display:flex;gap:6px;flex-wrap:wrap}
 .greet-bar{background:#EEF2F8;border-bottom:1px solid #C5D0E0;padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
 .greet-txt{font-size:15px;font-weight:700;color:var(--nv)}.greet-sub{font-size:12px;color:var(--mu);margin-top:1px}
 .greet-btn{font-size:13px;font-weight:700;color:var(--nv);background:#fff;border:1.5px solid var(--nv);border-radius:6px;padding:6px 12px;cursor:pointer}
 .cbar{background:#EEF2F8;padding:10px 13px;border-bottom:1px solid #C5D0E0}
-.ci{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:11px 13px;font-size:15px;color:var(--nv);outline:none}
+.ci{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:11px 13px;font-size:16px;color:var(--nv);outline:none}
 .tabs{display:flex;gap:7px;padding:10px 12px;background:#fff;border-bottom:1px solid var(--br)}
-.tab{flex:1;height:40px;border-radius:8px;border:2px solid var(--nv);background:#fff;color:var(--nv);font-size:15px;font-weight:700;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;white-space:nowrap;user-select:none}
+.tab{flex:1;height:44px;border-radius:8px;border:2px solid var(--nv);background:#fff;color:var(--nv);font-size:13px;font-weight:700;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;white-space:nowrap;user-select:none;touch-action:manipulation;min-width:0;overflow:hidden}
 .tab.on{background:var(--gd);border-color:var(--gd);color:#111}
 .sec{padding:12px 14px 5px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--nv);opacity:.6;font-weight:700}
 .lst{padding:0 12px 8px;display:flex;flex-direction:column;gap:8px}
@@ -34,7 +37,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 .zn{font-size:13px;color:#555;font-weight:500;margin-top:2px}
 .pr{font-size:14px;font-weight:700;color:var(--nv);margin-top:3px}
 .ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.qb{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--br);background:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;color:#333}
+.qb{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--br);background:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;color:#333;touch-action:manipulation}
 .qb.p{background:var(--nv);border-color:var(--nv);color:#fff}
 .qn{font-size:14px;font-weight:700;min-width:18px;text-align:center;color:var(--nv)}
 .cmbo{background:var(--nv);border-radius:12px;padding:15px;margin:0 12px 8px;color:#fff;cursor:pointer}
@@ -45,8 +48,8 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 .scat{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;display:inline-block;margin-bottom:3px}
 .cat-a{background:#EEF2F8;color:var(--nv)}.cat-b{background:#FEF3C7;color:#92400E}
 .sf{display:flex;align-items:center;justify-content:space-between;margin-top:9px;padding-top:9px;border-top:1px solid #EDE8DF}
-.bot{background:var(--nv);padding:10px 13px 16px}
-.cart-btn{width:100%;height:50px;border-radius:10px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 16px;user-select:none}
+.bot{background:var(--nv);padding:10px 13px;padding-bottom:max(16px,env(safe-area-inset-bottom,16px))}
+.cart-btn{width:100%;height:56px;border-radius:10px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 16px;user-select:none;touch-action:manipulation}
 .cart-btn.empty{color:rgba(255,255,255,0.4);border-color:rgba(255,255,255,0.3)}
 .vcnt{background:var(--gd);color:#111;width:22px;height:22px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .vtot{font-size:15px;font-weight:700;color:var(--gd)}
@@ -55,10 +58,10 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 .ci2{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--br);background:#fff}
 .ci2x{background:none;border:none;color:#ccc;font-size:20px;cursor:pointer;padding:2px 5px;line-height:1}
 .tr{display:flex;justify-content:space-between;align-items:center;padding:14px;background:#fff;border-top:2px solid var(--br)}
-.obtn{display:block;width:calc(100% - 26px);margin:10px 13px;background:var(--nv);color:#fff;border:none;border-radius:10px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;text-align:center}
+.obtn{display:block;width:calc(100% - 26px);margin:10px 13px;background:var(--nv);color:#fff;border:none;border-radius:10px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;text-align:center;touch-action:manipulation}
 .obtn:disabled{background:var(--br);color:var(--mu);cursor:not-allowed}
 .cc{padding:12px 14px;background:#EEF2F8;border-bottom:1px solid #C5D0E0}
-.cc input{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:11px 13px;font-size:15px;color:var(--nv);outline:none}
+.cc input{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:11px 13px;font-size:16px;color:var(--nv);outline:none}
 .cc input.err{border-color:var(--red);background:#fff5f5;animation:shake .3s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .warn{margin:0 14px;background:#fff3cd;border:1.5px solid #ffc107;border-radius:9px;padding:9px 13px;font-size:13px;color:#664d03;display:none;line-height:1.6}
@@ -66,7 +69,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 .room-input-wrap{padding:8px 14px 10px;background:#EEF2F8;border-bottom:1px solid #C5D0E0;display:none}
 .room-input-wrap.show{display:block}
 .room-input-lbl{font-size:13px;font-weight:700;color:var(--nv);margin-bottom:5px}
-.room-inp{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:10px 13px;font-size:15px;color:var(--nv);outline:none}
+.room-inp{width:100%;background:#fff;border:1.5px solid #C5D0E0;border-radius:9px;padding:10px 13px;font-size:16px;color:var(--nv);outline:none}
 .room-inp.err{border-color:var(--red);background:#fff5f5}
 .opt-section{padding:10px 14px;background:#fff;border-bottom:1px solid var(--br)}
 .opt-title{font-size:11px;font-weight:700;color:var(--nv);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;opacity:.7}
@@ -124,7 +127,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 .srv-vi{font-size:11px;color:var(--mu);margin-top:1px}
 .srv-tot{font-size:15px;font-weight:700;color:var(--nv)}
 .faq-item{border-bottom:1px solid var(--br);background:#fff}
-.faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;gap:10px}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;gap:10px;touch-action:manipulation}
 .faq-q-txt{font-size:15px;font-weight:700;color:var(--nv);flex:1}
 .faq-arr{font-size:16px;color:var(--mu);transition:transform .2s}
 .faq-arr.open{transform:rotate(180deg)}
@@ -144,7 +147,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 .field{margin-bottom:12px}
 .field label{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--nv);margin-bottom:5px}
 .req{color:var(--red)}
-.field input{width:100%;background:#fff;border:1.5px solid var(--br);border-radius:9px;padding:11px 13px;font-size:15px;color:var(--nv);outline:none;transition:border-color .2s}
+.field input{width:100%;background:#fff;border:1.5px solid var(--br);border-radius:9px;padding:11px 13px;font-size:16px;color:var(--nv);outline:none;transition:border-color .2s}
 .field input:focus{border-color:var(--nv)}
 .field input.err{border-color:var(--red);background:#fff5f5}
 .err-msg{font-size:12px;color:var(--red);margin-top:4px;display:none}
@@ -192,7 +195,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 /* ===== POPUP SẢN PHẨM ===== */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;display:none;align-items:flex-end;justify-content:center}
 .popup-overlay.show{display:flex}
-.popup-sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding-bottom:24px;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1)}
+.popup-sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:100%;padding-bottom:max(24px,env(safe-area-inset-bottom,24px));transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);max-height:90vh;overflow-y:auto}
 .popup-overlay.show .popup-sheet{transform:translateY(0)}
 .popup-handle{width:36px;height:4px;background:#DDD;border-radius:2px;margin:12px auto 0}
 .popup-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:#F0F0F0;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#666}
@@ -210,7 +213,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
 .popup-add-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:0 16px;background:var(--nv);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer}
 .popup-add-btn.in-cart{background:var(--gd);color:#111}
 .popup-qty-wrap{display:flex;align-items:center;justify-content:center;gap:14px;width:calc(100% - 32px);margin:0 16px}
-.popup-qty-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--nv);background:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--nv);font-weight:700}
+.popup-qty-btn{width:52px;height:52px;border-radius:50%;border:2px solid var(--nv);background:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--nv);font-weight:700;touch-action:manipulation}
 .popup-qty-btn.plus{background:var(--nv);color:#fff}
 .popup-qty-num{font-size:22px;font-weight:700;color:var(--nv);min-width:32px;text-align:center}
 </style>
@@ -341,7 +344,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
       <div class="pay-btn" id="pay-wechat" onclick="setPayment('wechat')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">💚</span><div><div class="pay-name">WeChat Pay 微信支付</div><div class="pay-sub-txt">扫码付款</div></div></div>
       <div class="pay-detail" id="detail-wechat"><div class="pay-acct">WeChat ID: <b>abcdean</b></div><div class="pay-note" id="wechat-note">-</div></div>
       <div class="pay-btn" id="pay-alipay" onclick="setPayment('alipay')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">🔵</span><div><div class="pay-name">Alipay 支付宝</div><div class="pay-sub-txt">支付宝付款</div></div></div>
-      <div class="pay-detail" id="detail-alipay"><div class="pay-acct">Alipay ID: <b>xxxx@mya.vn</b></div><div class="pay-note" id="alipay-note">-</div></div>
+      <div class="pay-detail" id="detail-alipay"><div class="pay-acct">Alipay ID: <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="493131313109243028673f27">[email&#160;protected]</a></b></div><div class="pay-note" id="alipay-note">-</div></div>
       <div class="pay-btn" id="pay-cash" onclick="setPayment('cash')"><div class="pay-dot"><div class="opt-dot-inner"></div></div><span class="pay-icon">💵</span><div><div class="pay-name" id="lbl-cash">-</div><div class="pay-sub-txt" id="sub-cash">-</div></div></div>
       <div class="pay-detail" id="detail-cash"><div class="pay-note" id="cash-note">-</div></div>
     </div>
@@ -367,7 +370,7 @@ body,button,input,textarea,div,select{font-family:'Be Vietnam Pro','Noto Sans SC
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const TG='8550546799:AAGwgvJT3St333n-0xlZ9hImgNs-unmkYow';
 const CHAT='-1003761092026';
 const ff=n=>n.toLocaleString('vi-VN')+'đ';
@@ -594,7 +597,18 @@ async function placeOrder(){
   const noteRow=note?srRow('📝 '+bl('lbl_note'),'<div class="srv-f">'+note+'</div>'):'';
   const totRow='<div class="sr"><div class="srl">'+bl('lbl_total')+'</div><div class="srv"><div class="srv-tot">'+ff(tot)+'</div></div></div>';
   document.getElementById('sucCard').innerHTML=rows+srRow(whoLbl,whoVal)+roomRow2+delRow+srRow(tIcon+' '+bl('lbl_time'),timeVal)+payRow+noteRow+totRow;
-  cart={};renderAll();btn.disabled=false;document.getElementById('order-lbl').textContent=t('order');goPage('pgOk');
+  goPage('pgOk');
+  cart={};
+  btn.disabled=false;
+  document.getElementById('order-lbl').textContent=t('order');
 }
-loadData().then(()=>{renderAll();applyLang();});
+
+async function init(){
+  await loadData();
+  updateGreetBar();
+  updateModeTabs();
+  renderAll();
+  applyLang();
+}
+init();
 </script>
