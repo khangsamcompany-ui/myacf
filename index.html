@@ -65,6 +65,8 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#EEF2F8}body,but
 .cc input.err{border-color:var(--red);background:#fff5f5;animation:shake .3s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .warn{margin:0 14px;background:#fff3cd;border:1.5px solid #ffc107;border-radius:9px;padding:9px 13px;font-size:13px;color:#664d03;display:none;line-height:1.6}
+.toast-msg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);background:#E24B4A;color:#fff;padding:16px 24px;border-radius:14px;font-size:16px;font-weight:700;text-align:center;z-index:9999;max-width:85vw;line-height:1.7;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 8px 30px rgba(226,75,74,.4)}
+.toast-msg.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .warn.on{display:block}
 .room-input-wrap{padding:12px 14px;background:#fff;border:2px solid var(--nv);border-radius:10px;margin:10px 14px;display:none}
 .room-input-wrap.show{display:block}
@@ -363,7 +365,7 @@ body,
         <div class="nb-sm" onclick="setLang('vi',this)">VN</div>
         <div class="nb-sm" onclick="setLang('en',this)">EN</div>
         <div class="nb-sm on" onclick="setLang('zh',this)">中</div>
-        <div class="cart-rel"><div class="nb-sm" style="font-size:13px" onclick="openCart()">🛒</div><div class="cbadge" id="cbadge">0</div></div>
+        <div class="cart-rel"><div class="nb-sm" style="font-size:13px" onclick="openCartDelayed()">🛒</div><div class="cbadge" id="cbadge">0</div></div>
       </div>
     </div>
     <div class="hdr-modes">
@@ -398,9 +400,10 @@ body,
   <div id="sec-faq" style="display:none"><div id="faqList"></div><div style="height:4px"></div></div>
   <div id="sec-mem" style="display:none"><div id="memContent"></div></div>
   <div style="height:4px"></div>
+  <div id="toast-msg" class="toast-msg"></div>
   <div id="mix-warn" style="display:none;margin:0 13px 8px;background:#fff0f0;border:1.5px solid var(--red);border-radius:9px;padding:10px 13px;font-size:14px;font-weight:700;color:var(--red);line-height:1.6;text-align:center"></div>
   <div class="bot">
-    <div class="cart-btn empty" id="mainBtn" onclick="openCart()">
+    <div class="cart-btn empty" id="mainBtn" onclick="openCartDelayed()">
       <div style="display:flex;align-items:center;gap:10px"><span class="vcnt" id="vcnt">0</span><span id="cart-lbl">-</span></div>
       <span class="vtot" id="vtot"></span>
     </div>
@@ -444,6 +447,7 @@ body,
     </div>
   </div>
   <div class="warn" id="warn-room" style="margin-top:0;margin-bottom:6px"></div>
+  <div id="cutoff-warn" style="display:none;margin:0 14px 8px;background:#fff0f0;border:1.5px solid var(--red);border-radius:9px;padding:10px 13px;font-size:14px;font-weight:700;color:var(--red);line-height:1.6" id="cutoff-warn-txt"></div>
   <div class="opt-section">
     <span id="lbl-opt-delivery" style="display:none"></span><span id="lbl-opt-time" style="display:none"></span>
     <div id="combo-summary" style="display:none;padding:4px 0 8px"></div>
@@ -764,7 +768,7 @@ function renderPopupAction(){
     el.innerHTML='<div class="popup-qty-wrap"><div class="popup-qty-btn" onclick="popMinus()">−</div><div class="popup-qty-num">'+q+'</div><div class="popup-qty-btn plus" onclick="popPlus()">+</div></div>';
   }
 }
-function popAdd(){upd(curPopupId,1);renderPopupAction();}
+function popAdd(){const ok=upd(curPopupId,1);if(ok){setTimeout(()=>{closePopup();},300);}}
 function popPlus(){upd(curPopupId,1);renderPopupAction();}
 function popMinus(){upd(curPopupId,-1);renderPopupAction();}
 function closePopup(){document.getElementById('popupOverlay').classList.remove('show');document.body.style.overflow='';curPopupId=null;}
@@ -774,14 +778,34 @@ function updateRoomWrap(){const show=!!member&&(deliveryMode==='room'||hasComboI
 function setDelivery(m){deliveryMode=m;document.getElementById('opt-room').className='opt-btn'+(m==='room'?' on':'');document.getElementById('opt-counter').className='opt-btn'+(m==='counter'?' on':'');updateRoomWrap();}
 function setTimeMode(m){timeMode=m;curTime='';document.getElementById('opt-now').className='opt-btn'+(m==='now'?' on':'');document.getElementById('opt-sch').className='opt-btn'+(m==='sch'?' on':'');document.getElementById('schBox').className='sch-box'+(m==='sch'?' show':'');if(m==='sch')buildSlots();}
 function selDay(d){curDay=d;curTime='';document.getElementById('d-today').className='day-btn'+(d==='today'?' on':'');document.getElementById('d-tomorrow').className='day-btn'+(d==='tomorrow'?' on':'');document.getElementById('time-result').innerHTML='';buildSlots();}
-function buildSlots(){const now=new Date();const isToday=curDay==='today';let minAvail=isToday?(now.getHours()*60+now.getMinutes()+30):0;minAvail=Math.ceil(minAvail/30)*30;const all=[];for(let m=6*60;m<=21*60+30;m+=30)all.push({t:String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'),min:m});const sa=document.getElementById('slot-area'),noteEl=document.getElementById('timeNote');if(isToday&&all.filter(s=>s.min>=minAvail).length===0){sa.innerHTML='<div class="no-slot">⚠️ '+(lang==='zh'?'今日已结束':lang==='en'?'No slots today':'Hôm nay hết slot')+'</div>';noteEl.textContent='';return;}noteEl.textContent=isToday?t('time_note_today'):t('time_note_tom');sa.innerHTML='<div class="time-grid">'+all.map(s=>{const ok=!isToday||s.min>=minAvail;const n=slotNotes[s.t]||'';return'<div class="tslot'+(ok?'':' off')+'"'+(ok?' onclick="pickSlot(\''+s.t+'\',this)"':'')+'>'+s.t+'<div class="tnote">'+n+'</div></div>';}).join('')+'</div>';}
+function buildSlots(){const now=new Date();const isToday=curDay==='today';let minAvail=isToday?(now.getHours()*60+now.getMinutes()+30):0;minAvail=Math.ceil(minAvail/30)*30;const all=[];for(let m=6*60;m<=21*60+30;m+=30)all.push({t:String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'),min:m});const sa=document.getElementById('slot-area'),noteEl=document.getElementById('timeNote');if(isToday&&all.filter(s=>s.min>=minAvail).length===0){sa.innerHTML='<div class="no-slot">⚠️ '+(lang==='zh'?'今日已结束':lang==='en'?'No slots today':'Hôm nay hết slot')+'</div>';noteEl.textContent='';return;}noteEl.textContent=isToday?t('time_note_today'):'';sa.innerHTML='<div class="time-grid">'+all.map(s=>{const ok=!isToday||s.min>=minAvail;return'<div class="tslot'+(ok?'':' off')+'"'+(ok?' onclick="pickSlot(\''+s.t+'\',this)"':'')+'>'+s.t+'</div>';}).join('')+'</div>';}
 function pickSlot(t_,el){curTime=t_;document.querySelectorAll('.tslot:not(.off)').forEach(b=>b.classList.remove('on'));el.classList.add('on');document.getElementById('time-result').innerHTML='<div class="time-result">✅ '+(curDay==='today'?t('today'):t('tomorrow'))+' · '+t_+'</div>';}
 
 // ── COMBO RULE ──────────────────────────────────────────────
 function hasComboItem(){return Object.keys(cart).some(k=>T[k]==='combo');}
 function hasNonComboItem(){return Object.keys(cart).some(k=>T[k]&&T[k]!=='combo');}
-function showMixWarn(msg){const el=document.getElementById('mix-warn');if(!el)return;el.textContent=msg;el.style.display='block';clearTimeout(el._t);el._t=setTimeout(()=>el.style.display='none',4000);}
+function showToast(msg){const el=document.getElementById('toast-msg');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000);}
+function showMixWarn(msg){showToast(msg);const el=document.getElementById('mix-warn');if(el){el.textContent=msg;el.style.display='block';clearTimeout(el._t2);el._t2=setTimeout(()=>el.style.display='none',4000);}}
 function isAfterCutoff(){const now=new Date();return now.getHours()*60+now.getMinutes()>=21*60+30;}
+function applyAfterCutoffRule(){
+  const hasFoodDrink=Object.keys(cart).some(k=>T[k]&&T[k]!=='combo'&&T[k]!=='sv'&&T[k]!=='lc');
+  const cw=document.getElementById('cutoff-warn');
+  if(!hasFoodDrink||!isAfterCutoff()){if(cw)cw.style.display='none';return;}
+  // Hiện cảnh báo trên phương thức giao hàng
+  const warnMsg=lang==='zh'?'⚠️ 已过21:30，订单将预约明日配送':lang==='en'?'⚠️ After 21:30 — order scheduled for tomorrow':'⚠️ Sau 21:30 — đơn sẽ được giao ngày mai!';
+  if(cw){cw.textContent=warnMsg;cw.style.display='block';}
+  // Ẩn cả 2 nút thời gian (立即/预约), chỉ giữ slot ngày mai
+  document.getElementById('opt-now').closest('.opt-row').style.display='none';
+  // Tự set ngày mai + hẹn giờ
+  timeMode='sch';curDay='tomorrow';curTime='';
+  document.getElementById('opt-now').className='opt-btn';
+  document.getElementById('opt-sch').className='opt-btn on';
+  document.getElementById('schBox').className='sch-box show';
+  document.getElementById('d-today').style.display='none';
+  document.getElementById('d-tomorrow').className='day-btn on';
+  document.getElementById('time-result').innerHTML='';
+  buildSlots();
+}
 function hasShopCart(){return Object.keys(cart).some(k=>T[k]==='sv'||T[k]==='lc');}
 function applyShopRule(){
   const el=document.getElementById('normal-opts');
@@ -830,17 +854,23 @@ function buildComboSlots(){
   const sa=document.getElementById('slot-area');
   const noteEl=document.getElementById('timeNote');
   noteEl.textContent=lang==='zh'?'点餐 — 明日取餐':lang==='en'?'Order — pick up tomorrow':'Đặt món — lấy tại quầy ngày mai';
-  sa.innerHTML='<div class="time-grid">'+slots.map(s=>{const n=lang==='zh'?'早上':lang==='en'?'Morning':'Sáng';return'<div class="tslot" onclick="pickSlot(\''+s+'\',this)">'+s+'<div class="tnote">'+n+'</div></div>';}).join('')+'</div>';
+  sa.innerHTML='<div class="time-grid">'+slots.map(s=>{return'<div class="tslot" onclick="pickSlot(\''+s+'\',this)">'+s+'</div>';}).join('')+'</div>';
+}
+function resetAfterCutoffRule(){
+  document.getElementById('opt-now').style.opacity='';
+  document.getElementById('opt-now').style.pointerEvents='';
 }
 function resetComboRule(){
   const bfWarn=document.getElementById('bf-warn');
   if(bfWarn)bfWarn.style.display='none';
   if(!hasShopCart()){document.getElementById('normal-opts').style.display='';document.getElementById('combo-summary').style.display='none';}
   document.getElementById('opt-room').style.opacity='';document.getElementById('opt-room').style.pointerEvents='';
+  const optRow=document.getElementById('opt-now').closest('.opt-row');if(optRow)optRow.style.display='';
   document.getElementById('opt-now').style.opacity='';document.getElementById('opt-now').style.pointerEvents='';
   document.getElementById('opt-sch').style.opacity='';document.getElementById('opt-sch').style.pointerEvents='';
+  const cw2=document.getElementById('cutoff-warn');if(cw2)cw2.style.display='none';
   const dToday=document.getElementById('d-today');
-  if(dToday){dToday.style.opacity='';dToday.style.pointerEvents='';}
+  if(dToday){dToday.style.display='';dToday.style.opacity='';dToday.style.pointerEvents='';}
   const dTom=document.getElementById('d-tomorrow');
   if(dTom){dTom.style.cssText='';}
   const dayRow=document.querySelector('.day-row');if(dayRow)dayRow.style.display='';
@@ -968,10 +998,9 @@ function upd(id,d){
   const hasCafeInCart=()=>Object.keys(cart).some(k=>T[k]&&T[k]!=='sv'&&T[k]!=='lc');
   const hasShopInCart=()=>Object.keys(cart).some(k=>T[k]==='sv'||T[k]==='lc');
   if(d>0){
-    // Sau 21:30 không cho đặt drinks/food
+    // Sau 21:30: vẫn cho thêm vào giỏ, hiện toast thông báo
     if(!isCombo&&!isShop&&isAfterCutoff()){
-      const msg={vi:'⚠️ Sau 21:30 không nhận đơn đồ uống/đồ ăn nữa. Hẹn gặp lại sáng mai!',zh:'⚠️ 21:30后不再接受饮品/餐食订单，明天见！',en:'⚠️ Orders for drinks/food are closed after 21:30. See you tomorrow!'};
-      showMixWarn(msg[lang]||msg.vi);return;
+      showToast(lang==='zh'?'⏰ 已过21:30，订单将预约明日配送':lang==='en'?'⏰ After 21:30 — order will be scheduled for tomorrow':'⏰ Sau 21:30 — đơn sẽ được giao ngày mai!');
     }
     // Thêm combo nhưng giỏ đang có món thường
     if(isCombo&&hasNonComboItem()){
@@ -994,14 +1023,25 @@ function upd(id,d){
       showMixWarn(msg[lang]||msg.vi);return;
     }
   }
-  cart[id]=Math.max(0,(cart[id]||0)+d);if(!cart[id])delete cart[id];renderAll();if(curPopupId===id)renderPopupAction();
+  cart[id]=Math.max(0,(cart[id]||0)+d);if(!cart[id])delete cart[id];renderAll();if(curPopupId===id)renderPopupAction();return true;
 }
 function updateUI(){const cnt=Object.values(cart).reduce((s,v)=>s+v,0);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);document.getElementById('vcnt').textContent=cnt;document.getElementById('vtot').textContent=cnt?ff(tot):'';document.getElementById('mainBtn').className=cnt?'cart-btn':'cart-btn empty';const bdg=document.getElementById('cbadge');bdg.style.display=cnt?'flex':'none';bdg.textContent=cnt;}
 function switchMode(m,el){mode=m;document.querySelectorAll('.hdr-modes .nb-wide').forEach(b=>b.classList.remove('on'));if(el)el.classList.add('on');['cafe','shop','faq','mem'].forEach(x=>{const s=document.getElementById('sec-'+x);if(s)s.style.display=x===m?'block':'none';});if(m==='mem')renderMember();}
 function showTab(tp){['drinks','food','combo'].forEach(x=>{document.getElementById('tab-'+x).style.display=x===tp?'block':'none';document.getElementById('tb-'+x).className='tab'+(x===tp?' on':'');});}
 function showShopTab(tp){['sv','lc'].forEach(x=>{document.getElementById('tab-'+x).style.display=x===tp?'block':'none';document.getElementById('tb-'+x).className='tab'+(x===tp?' on':'');});}
 function goPage(id){document.querySelectorAll('.pg').forEach(p=>p.className='pg');document.getElementById(id).className='pg on';}
-function openCart(){const contact=member?member.contact:document.getElementById('contact').value.trim();document.getElementById('contact2').value=contact;const keys=Object.keys(cart);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);const el=document.getElementById('cartBody');if(!keys.length){el.innerHTML='<div style="padding:30px 14px;text-align:center;color:var(--mu);font-size:15px;background:#fff">'+t('empty')+'</div>';document.getElementById('obtn').disabled=true;}else{el.innerHTML=keys.map(k=>{const allI=[...CAFE,...SHOP];const itm=allI.find(i=>i.id===k);const subD=itm?(lang==='zh'?itm.dzh:lang==='en'?itm.den:itm.dvi)||'':'';const subLine=subD?'<div style="font-size:13px;font-weight:400;color:#111;margin-top:2px">'+subD+'</div>':'';return '<div class="ci2"><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#111">'+(lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k])+'</div>'+subLine+'<div style="font-size:13px;color:#111;font-weight:400">'+Nvi[k]+' × '+cart[k]+'</div></div><span style="font-size:15px;font-weight:700;color:var(--nv);white-space:nowrap">'+ff((P[k]||0)*cart[k])+'</span><div class="ci2x" onclick="del(\''+k+'\')">×</div></div>';}).join('');document.getElementById('obtn').disabled=false;}document.getElementById('cartTot').textContent=ff(tot);document.getElementById('warn').className='warn';document.getElementById('warn-room').className='warn';updateCartLabels();deliveryMode='room';timeMode='now';curTime='';curDay='today';payMode='vcb';document.getElementById('opt-room').className='opt-btn on';document.getElementById('opt-counter').className='opt-btn';document.getElementById('opt-now').className='opt-btn on';document.getElementById('opt-sch').className='opt-btn';document.getElementById('schBox').className='sch-box';document.getElementById('time-result').innerHTML='';document.getElementById('roomInput').value='';document.getElementById('roomInput').classList.remove('err');setPayment('vcb');updateRoomWrap();const now=new Date(),tom=new Date(now);tom.setDate(tom.getDate()+1);const fmt=d=>d.getDate()+'/'+(d.getMonth()+1);document.getElementById('dt-today').textContent=fmt(now);document.getElementById('dt-tomorrow').textContent=fmt(tom);const ccLbl=document.getElementById('cc-lbl'),ccInp=document.getElementById('contact2');if(member){ccLbl.textContent=t('greet')+', '+member.name+' 👋';ccInp.readOnly=true;ccInp.style.background='#F5F8FF';ccInp.style.fontWeight='700';}else{ccLbl.textContent=t('cc_lbl');ccInp.readOnly=false;ccInp.style.background='';ccInp.style.fontWeight='';}goPage('pgCart');applyComboRule();applyShopRule();}
+function openCartDelayed(){
+  // Kiểm tra có món food/drink không và đã qua 21:30 chưa
+  const hasFoodDrink=Object.keys(cart).some(k=>T[k]&&T[k]!=='combo'&&T[k]!=='sv'&&T[k]!=='lc');
+  if(hasFoodDrink&&isAfterCutoff()){
+    const msg=lang==='zh'?'⏰ 已过21:30，为您预约明日配送 →':lang==='en'?'⏰ After 21:30 — scheduling for tomorrow →':'⏰ Sau 21:30 — đặt cho ngày mai nhé →';
+    showToast(msg);
+    setTimeout(()=>openCart(),2500);
+  } else {
+    openCart();
+  }
+}
+function openCart(){const contact=member?member.contact:document.getElementById('contact').value.trim();document.getElementById('contact2').value=contact;const keys=Object.keys(cart);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);const el=document.getElementById('cartBody');if(!keys.length){el.innerHTML='<div style="padding:30px 14px;text-align:center;color:var(--mu);font-size:15px;background:#fff">'+t('empty')+'</div>';document.getElementById('obtn').disabled=true;}else{el.innerHTML=keys.map(k=>{const allI=[...CAFE,...SHOP];const itm=allI.find(i=>i.id===k);const subD=itm?(lang==='zh'?itm.dzh:lang==='en'?itm.den:itm.dvi)||'':'';const subLine=subD?'<div style="font-size:13px;font-weight:400;color:#111;margin-top:2px">'+subD+'</div>':'';return '<div class="ci2"><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#111">'+(lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k])+'</div>'+subLine+'<div style="font-size:13px;color:#111;font-weight:400">'+Nvi[k]+' × '+cart[k]+'</div></div><span style="font-size:15px;font-weight:700;color:var(--nv);white-space:nowrap">'+ff((P[k]||0)*cart[k])+'</span><div class="ci2x" onclick="del(\''+k+'\')">×</div></div>';}).join('');document.getElementById('obtn').disabled=false;}document.getElementById('cartTot').textContent=ff(tot);document.getElementById('warn').className='warn';document.getElementById('warn-room').className='warn';updateCartLabels();deliveryMode='room';timeMode='now';curTime='';curDay='today';payMode='vcb';document.getElementById('opt-room').className='opt-btn on';document.getElementById('opt-counter').className='opt-btn';document.getElementById('opt-now').className='opt-btn on';document.getElementById('opt-sch').className='opt-btn';document.getElementById('schBox').className='sch-box';document.getElementById('time-result').innerHTML='';document.getElementById('roomInput').value='';document.getElementById('roomInput').classList.remove('err');setPayment('vcb');updateRoomWrap();const now=new Date(),tom=new Date(now);tom.setDate(tom.getDate()+1);const fmt=d=>d.getDate()+'/'+(d.getMonth()+1);document.getElementById('dt-today').textContent=fmt(now);document.getElementById('dt-tomorrow').textContent=fmt(tom);const ccLbl=document.getElementById('cc-lbl'),ccInp=document.getElementById('contact2');if(member){ccLbl.textContent=t('greet')+', '+member.name+' 👋';ccInp.readOnly=true;ccInp.style.background='#F5F8FF';ccInp.style.fontWeight='700';}else{ccLbl.textContent=t('cc_lbl');ccInp.readOnly=false;ccInp.style.background='';ccInp.style.fontWeight='';}goPage('pgCart');applyComboRule();applyShopRule();applyAfterCutoffRule();}
 function del(id){delete cart[id];updateUI();openCart();}
 function clearErr(){if(!member){document.getElementById('contact2').classList.remove('err');document.getElementById('warn').className='warn';}}
 
