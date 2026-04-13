@@ -34,10 +34,10 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#EEF2F8}body,but
 .em:hover{background:#D8E4F0}
 .em img{width:100%;height:100%;object-fit:cover;display:block}
 .menu-main{flex:1;min-width:0;cursor:pointer}
-.nm{font-size:16px;font-weight:700;color:#111;cursor:pointer;line-height:1.35}
+.nm{font-size:19px;font-weight:700;color:#111;cursor:pointer;line-height:1.35}
 .nm:hover{color:var(--nv)}
-.zn{font-size:13px;color:#555;font-weight:500;margin-top:4px;line-height:1.45}
-.pr{font-size:15px;font-weight:700;color:var(--nv);margin-top:6px}
+.zn{font-size:15px;color:#555;font-weight:500;margin-top:4px;line-height:1.45}
+.pr{font-size:18px;font-weight:700;color:var(--nv);margin-top:6px}
 .ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .qb{width:52px;height:52px;border-radius:50%;border:1.5px solid #D7E0EC;background:#fff;font-size:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;color:var(--nv);touch-action:manipulation;box-shadow:0 4px 10px rgba(27,58,107,.12)}
 .qb.p{background:var(--nv);border-color:var(--nv);color:#fff;box-shadow:0 6px 14px rgba(27,58,107,.22)}
@@ -216,22 +216,22 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#EEF2F8}body,but
 .popup-handle{width:40px;height:5px;background:#D8DDE5;border-radius:999px;margin:10px auto 0;flex-shrink:0}
 .popup-close{position:absolute;top:8px;right:10px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.92);border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#667085;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .popup-layout{display:flex;flex:1;min-height:0;position:relative}
-.popup-img-col{width:50%;flex-shrink:0;background:#F6F8FB;overflow:hidden}
+.popup-img-col{width:40%;flex-shrink:0;background:#F6F8FB;overflow:hidden}
 .popup-emoji{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:56px;background:#F6F8FB}
 .popup-emoji img{width:100%;height:100%;object-fit:contain;display:block}
-.popup-content-col{width:50%;display:flex;flex-direction:column;overflow:hidden}
+.popup-content-col{width:60%;display:flex;flex-direction:column;overflow:hidden}
 .popup-header{padding:12px 12px 8px;flex-shrink:0}
-.popup-name-zh{font-size:17px;line-height:1.25;font-weight:800;color:var(--nv);letter-spacing:-.2px;padding-right:28px}
-.popup-name-vi{font-size:12px;color:#667085;margin-top:3px;font-weight:500}
-.popup-price{font-size:22px;font-weight:800;color:var(--gd);margin-top:6px;line-height:1.15}
+.popup-name-zh{font-size:20px;line-height:1.25;font-weight:800;color:var(--nv);letter-spacing:-.2px;padding-right:28px}
+.popup-name-vi{font-size:14px;color:#667085;margin-top:3px;font-weight:500}
+.popup-price{font-size:24px;font-weight:800;color:var(--gd);margin-top:6px;line-height:1.15}
 .popup-divider{height:1px;background:#E7ECF3;margin:0 12px;flex-shrink:0}
 .popup-body{padding:8px 12px 0;overflow-y:auto;flex:1}
-.popup-desc-lbl{font-size:10px;font-weight:800;color:#7A8699;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
-.popup-desc{font-size:13px;color:#243041;line-height:1.65;margin-bottom:8px}
+.popup-desc-lbl{font-size:12px;font-weight:800;color:#7A8699;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.popup-desc{font-size:16px;color:#243041;line-height:1.65;margin-bottom:8px}
 .popup-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
-.popup-tag{font-size:11px;padding:3px 8px;border-radius:999px;background:#EEF2F8;color:var(--nv);font-weight:700}
+.popup-tag{font-size:13px;padding:4px 10px;border-radius:999px;background:#EEF2F8;color:var(--nv);font-weight:700}
 .popup-action-bar{padding:8px 12px;padding-bottom:max(12px,env(safe-area-inset-bottom,12px));background:#fff;border-top:1px solid #F0F3F8;flex-shrink:0}
-.popup-add-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--nv);color:#fff;border:none;border-radius:10px;padding:11px 10px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(27,58,107,.18)}
+.popup-add-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--nv);color:#fff;border:none;border-radius:10px;padding:13px 10px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(27,58,107,.18)}
 .popup-add-btn.in-cart{background:var(--gd);color:#111}
 .popup-qty-wrap{display:flex;align-items:center;justify-content:center;gap:14px;width:100%}
 .popup-qty-btn{width:40px;height:40px;border-radius:50%;border:2px solid var(--nv);background:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--nv);font-weight:800;touch-action:manipulation}
@@ -999,7 +999,7 @@ function renderCafe(){
     const arr=by(tab),root=document.getElementById('tab-'+tab);
     root.innerHTML='<div class="sec">'+t('sec_'+tab)+'</div><div class="lst">'+(arr.length?arr.map(item=>{
       const q=cart[item.id]||0;
-      if(tab==='combo')return '<div class="cmbo" onclick="upd(\''+item.id+'\',1)"><div style="display:flex;gap:12px;align-items:center">'+renderThumb(item)+'<div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:700">'+iname(item)+'</div><div style="font-size:14px;color:#333;margin-top:4px;line-height:1.5">'+(lang==='zh'?item.dzh:lang==='en'?item.den:item.dvi)+'</div><div style="font-size:16px;font-weight:700;color:var(--nv);margin-top:8px">'+ff(item.p)+'</div><div style="font-size:13px;color:var(--red);margin-top:6px">'+(lang==='zh'?'点击添加':'Nhấn để thêm')+'</div></div></div></div>';
+      if(tab==='combo'){const q=cart[item.id]||0;const ctrl=q>0?'<div class="ctrl" style="flex-shrink:0"><div class="qb" onclick="event.stopPropagation();upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span><div class="qb p" onclick="event.stopPropagation();upd(\''+item.id+'\',1)">+</div></div>':'<div class="ctrl" style="flex-shrink:0"><div class="qb p" onclick="event.stopPropagation();upd(\''+item.id+'\',1)">+</div></div>';return '<div class="cmbo"><div style="display:flex;gap:12px;align-items:center">'+renderThumb(item)+'<div style="flex:1;min-width:0" onclick="openPopup(\''+item.id+'\')"><div style="font-size:18px;font-weight:700">'+iname(item)+'</div><div style="font-size:14px;color:#333;margin-top:4px;line-height:1.5">'+(lang==='zh'?item.dzh:lang==='en'?item.den:item.dvi)+'</div><div style="font-size:16px;font-weight:700;color:var(--nv);margin-top:8px">'+ff(item.p)+'</div></div>'+ctrl+'</div></div>';}
       return '<div class="row">'+renderThumb(item)+'<div class="menu-main" onclick="openPopup(\''+item.id+'\')"><div class="nm">'+iname(item)+'</div><div class="zn">'+isub(item)+'</div><div class="pr">'+ff(item.p)+'</div></div><div class="ctrl">'+(q>0?'<div class="qb" onclick="upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span>':'')+'<div class="qb p" onclick="upd(\''+item.id+'\',1)">+</div></div></div>';
     }).join(''):'<div style="padding:20px;color:#777">'+t('empty')+'</div>')+'</div>';
   });
