@@ -1,0 +1,21 @@
+{
+  "name": "MYA CAFE",
+  "short_name": "MYA CAFE",
+  "description": "Trạm dừng cho những kẻ mộng mơ",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#EEF2F8",
+  "theme_color": "#1B3A6B",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/khangsamcompany-ui/myacf/main/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/khangsamcompany-ui/myacf/main/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
