@@ -62,7 +62,10 @@ body{max-width:430px;margin:0 auto;overflow-x:hidden;background:#EEF2F8}body,but
 .vtot{font-size:15px;font-weight:700;color:var(--gd)}
 .pg{display:none}.pg.on{display:block}
 .bk{height:34px;padding:0 13px;border-radius:8px;border:2px solid rgba(255,255,255,0.75);background:transparent;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;user-select:none}
-.ci2{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--br);background:#fff}
+.ci2{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-bottom:1px solid var(--br);background:#fff}
+.ci2-top{display:flex;align-items:flex-start;gap:10px}
+.ci2-note{width:100%;border:1px solid var(--br);border-radius:7px;padding:7px 10px;font-size:13px;font-family:inherit;background:#FAF8F4;resize:none;outline:none;box-sizing:border-box}
+.ci2-note:focus{border-color:var(--nv);background:#fff}
 .ci2x{background:none;border:none;color:#ccc;font-size:20px;cursor:pointer;padding:2px 5px;line-height:1}
 .tr{display:flex;justify-content:space-between;align-items:center;padding:14px;background:#fff;border-top:2px solid var(--br)}
 .obtn{display:block;width:calc(100% - 26px);margin:10px 13px;background:var(--nv);color:#fff;border:none;border-radius:10px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;text-align:center;touch-action:manipulation}
@@ -426,7 +429,7 @@ body,
     <div><div class="greet-txt" id="greetTxt">-</div><div class="greet-sub" id="greetSub">-</div></div>
     <button class="greet-btn" onclick="switchMode('mem',document.getElementById('mbt-mem'))">👤 Profile</button>
   </div>
-  <div id="contactBar" class="cbar"><input class="ci" id="contact" inputmode="text" autocomplete="off" oninput="document.getElementById('contact2').value=this.value"></div>
+  <div id="contactBar" class="cbar"><input class="ci" id="contact" inputmode="text" maxlength="50" autocomplete="off" oninput="document.getElementById('contact2').value=this.value"></div>
   <div id="sec-cafe">
     <div class="tabs">
       <div class="tab on" id="tb-drinks" onclick="showTab('drinks',this)"></div>
@@ -434,7 +437,7 @@ body,
       <div class="tab" id="tb-combo" onclick="showTab('combo',this)"></div>
     </div>
     <div id="tab-drinks"></div><div id="tab-food" style="display:none"></div><div id="tab-combo" style="display:none"></div>
-    <div class="nt"><textarea id="note" rows="2"></textarea></div>
+    <div class="nt"><textarea id="note" rows="2" maxlength="200"></textarea></div>
   </div>
   <div id="sec-shop" style="display:none">
     <div class="tabs">
@@ -442,7 +445,7 @@ body,
       <div class="tab" id="tb-sv" onclick="showShopTab('sv',this)"></div>
     </div>
     <div id="tab-lc"></div><div id="tab-sv" style="display:none"></div>
-    <div class="nt"><textarea id="snote" rows="2"></textarea></div>
+    <div class="nt"><textarea id="snote" rows="2" maxlength="200"></textarea></div>
   </div>
   <div id="sec-faq" style="display:none"><div id="faqList"></div><div style="height:4px"></div></div>
   <div id="sec-mem" style="display:none"><div id="memContent"></div></div>
@@ -491,12 +494,12 @@ body,
     <div class="logo" style="font-size:16px" id="cart-title">-</div>
     <div style="width:60px"></div>
   </div>
-  <div class="cc"><div style="font-size:15px;font-weight:700;color:var(--nv);margin-bottom:6px" id="cc-lbl">-</div><div id="nameRow" style="display:none;margin-bottom:8px"><div style="font-size:13px;font-weight:600;color:var(--mu);margin-bottom:4px" id="name-lbl">-</div><input id="memberName" readonly style="background:#FAF8F4;font-weight:700"></div><div id="contactRow"><div id="contact-sub-lbl" style="font-size:13px;font-weight:600;color:var(--mu);margin-bottom:4px;display:none"></div><input id="contact2" inputmode="text" autocomplete="off" oninput="clearErr()"></div></div>
+  <div class="cc"><div style="font-size:15px;font-weight:700;color:var(--nv);margin-bottom:6px" id="cc-lbl">-</div><div id="nameRow" style="display:none;margin-bottom:8px"><div style="font-size:13px;font-weight:600;color:var(--mu);margin-bottom:4px" id="name-lbl">-</div><input id="memberName" readonly style="background:#FAF8F4;font-weight:700"></div><div id="contactRow"><div id="contact-sub-lbl" style="font-size:13px;font-weight:600;color:var(--mu);margin-bottom:4px;display:none"></div><input id="contact2" inputmode="text" maxlength="50" autocomplete="off" oninput="clearErr()"></div></div>
   <div class="warn" id="warn" style="margin-top:7px"></div>
   <div class="room-input-wrap" id="roomWrap">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="room-input-lbl" id="room-lbl" style="white-space:nowrap;margin-bottom:0">-</div>
-      <input class="room-inp" id="roomInput" inputmode="numeric" autocomplete="off" oninput="this.classList.remove('err')" style="flex:1">
+      <input class="room-inp" id="roomInput" inputmode="numeric" maxlength="3" autocomplete="off" oninput="onRoomInput(this)" style="flex:1">
     </div>
   </div>
   <div class="warn" id="warn-room" style="margin-top:0;margin-bottom:6px"></div>
@@ -602,9 +605,32 @@ body,
 
 <script>
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxH0shhSO23m9JsScooUYOCaRYtpTIXDZagrVc-YKojFnSVnNNyCrROM8k4xVLDOtl_VA/exec';
+const EX_RATE=3500;
 const ff=n=>n.toLocaleString('vi-VN')+'đ';
+const ffcn=n=>Math.ceil(n/EX_RATE)+'元';
+const ffboth=n=>ff(n)+' / '+ffcn(n);
+const ffByLang=n=>lang==='zh'?ffboth(n):ff(n);
 const fdate=ts=>{const d=new Date(ts);return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()+' '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');};
-let cart={},lang='zh',mode='cafe',contactType='phone';
+
+// ===== VALIDATE LIMITS =====
+const MAX_ITEM_NOTE=100;
+const MAX_ORDER_NOTE=200;
+const MAX_NAME_LEN=30;
+const MIN_NAME_LEN=2;
+const VALID_ROOMS=['201','202','206','208','209','301','302','305','306','308','309','401','402','406','408','409','501','502'];
+const MIN_PHONE_LEN=9;
+const MAX_PHONE_LEN=12;
+const MAX_WECHAT_LEN=30;
+const MIN_WECHAT_LEN=5;
+const MAX_CONTACT_LEN=50;
+const MIN_CONTACT_LEN=3;
+
+function validatePhone(s){const d=String(s).replace(/\D/g,'');return d.length>=MIN_PHONE_LEN&&d.length<=MAX_PHONE_LEN;}
+function validateName(s){const t=String(s).trim();return t.length>=MIN_NAME_LEN&&t.length<=MAX_NAME_LEN&&/^[a-zA-Z0-9\u4e00-\u9fa5\s]+$/.test(t);}
+function validateWechat(s){const t=String(s).trim();return t.length>=MIN_WECHAT_LEN&&t.length<=MAX_WECHAT_LEN;}
+function validateRoom(s){return VALID_ROOMS.indexOf(String(s).trim())!==-1;}
+function validateContact(s){const t=String(s).trim();return t.length>=MIN_CONTACT_LEN&&t.length<=MAX_CONTACT_LEN;}
+let cart={},cartNotes={},lang='zh',mode='cafe',contactType='phone';
 let member=null,orderHistory=[],orderFilter='all',registeredNames=[];
 let deliveryMode='room',timeMode='now',curDay='today',curTime='',payMode='vcb';
 const P={},Nvi={},Nzh={},Nen={},DR={};
@@ -811,9 +837,9 @@ const FAQS=[
 ];
 
 const TXT={
-  zh:{contact_ph:'📋 请输入房间号或地址（访客）',tab_drinks:'☕ 饮品',tab_food:'🍽️ 餐食',tab_combo:'🌅 点餐',tab_sv:'🎀 纪念品',tab_lc:'🍱 特产',sec_drinks:'饮品',sec_food:'早餐',sec_combo:'点餐',sec_sv:'纪念品',sec_lc:'越南特产',note_ph:'📝 备注（少糖、多冰...）',cart_lbl:'查看订单',back:'← 返回',cart_title:'购物车',cc_lbl:'📞 联系方式',cc_ph:'必填：电话 / 微信 / Zalo',warn:'<b>⚠️ 请填写联系方式！</b>',room_lbl:'房间号',room_ph:'例如：101、205...',warn_room:'<b>⚠️ 请填写房间号！</b>',tot:'合计',order:'✅ 立即下单',sending:'发送中...',empty:'暂无商品',ok_hdr:'下单成功！',ok_h:'订单已收到！',ok_sub:'工作人员将尽快联系您确认',home:'🏠 返回首页',faq_title:'常见问题',mem_tab:'会员',greet:'你好',greet_sub:'MYA Member',opt_delivery:'📦 取餐方式',room:'送到房间',room_sub:'员工送到您房间',counter:'🏪 前台自取',counter_sub:'更快，到前台拿',opt_time:'🕐 配送时间',now:'⚡ 立即配送',now_sub:'有货即送',sch:'📅 预约时间',sch_sub:'选日期和时间',today:'今天',tomorrow:'明天',pick_time:'⏰ 选择时间',time_note_today:'灰色为已过时间',time_note_tom:'可预约全天',other_time:'其他时间？联系前台',call_lbl:'致电前台',wechat_lbl:'微信联系前台',opt_pay:'💳 付款方式',vcb:'VND 汇款',wechat_pay:'微信支付',alipay_pay:'支付宝',cash:'现金',cash_sub:'收货时付款',vcb_note:'📝 转账备注：[房间/姓名] + MYA',wechat_note:' 转账后截图发给工作人员',alipay_note:'🔵 转账后截图发给工作人员',cash_note:'💵 工作人员送货时或前台付款',ok_notice_room_now:'📲 工作人员确认后尽快送到您的房间。\n请按所选方式完成付款后告知工作人员。',ok_notice_room_sch:'📲 工作人员将在预约时间送到您的房间。\n请按所选方式完成付款。',ok_notice_counter_now:'🏪 准备好后通知您到前台取餐并付款。',ok_notice_counter_sch:'🏪 请在预约时间到前台取餐并付款。',hero_title:'MYA 会员专属',hero_sub:'注册即享优先服务\n历史订单随时查看',perk1:'优先\n配送',perk2:'历史\n订单',perk3:'专属\n优惠',form_title:'还没有账号？注册',f_name:'用户名',f_contact:'联系方式',ph_name:'只能输入字母和数字',ct_phone:'📱 电话',ct_wechat:' 微信',ct_zalo:'🔵 Zalo',hint_phone:'工作人员致电确认',hint_wechat:'通过微信联系',hint_zalo:'通过Zalo联系',ph_phone:'手机号码',ph_wechat:'微信号',ph_zalo:'Zalo ID',err_name:'请填写用户名',err_dup:'该用户名已存在',err_contact:'请选择联系方式',reg_btn:'立即注册',hl_sub:'或致电热线',hl_num:'热线：0123456',prof_info:'个人信息',joined:'注册日期',edit:'修改信息',logout:'退出登录',ord_title:'历史订单',ord_all:'全部',ord_pending:'处理中',ord_done:'已完成',st_pending:'处理中',st_done:'已完成',no_orders:'暂无订单',ord_del:'删除订单',ord_del_confirm:'确认删除此订单？',login_title:'登录',login_btn:'登录',login_ph:'输入用户名',login_err:'用户名或联系方式不正确',choose1:'选择一种',pop_add:'+ 加入购物车',pop_desc_lbl:'产品介绍'},
-  vi:{contact_ph:'📋 Số phòng hoặc địa chỉ (khách vãng lai)',tab_drinks:'☕ ĐỒ UỐNG',tab_food:'🍽️ ĐỒ ĂN',tab_combo:'🌅 ĐẶT MÓN',tab_sv:'🎀 LƯU NIỆM',tab_lc:'🍱 ĐẶC SẢN',sec_drinks:'Đồ uống',sec_food:'Đồ ăn sáng',sec_combo:'Đặt món',sec_sv:'Quà lưu niệm',sec_lc:'Đặc sản Việt Nam',note_ph:'📝 Ghi chú (ít đường, nhiều đá...)',cart_lbl:'Xem giỏ hàng',back:'← Quay lại',cart_title:'Giỏ hàng',cc_lbl:'📞 Liên hệ',cc_ph:'Bắt buộc: SĐT / Zalo / WeChat',warn:'<b>⚠️ Chưa có thông tin liên hệ!</b>',room_lbl:'Số phòng',room_ph:'Ví dụ: P101, 205...',warn_room:'<b>⚠️ Vui lòng nhập số phòng!</b>',tot:'Tổng',order:'✅ Đặt hàng ngay',sending:'Đang gửi...',empty:'Chưa có món',ok_hdr:'Thành công!',ok_h:'Đã nhận đơn!',ok_sub:'Nhân viên sẽ liên hệ xác nhận',home:'🏠 Về trang chủ',faq_title:'Câu hỏi thường gặp',mem_tab:'Thành viên',greet:'Xin chào',greet_sub:'⭐ Thành viên MYA',opt_delivery:'📦 Hình thức nhận',room:'Giao đến phòng',room_sub:'Nhân viên mang đến',counter:'🏪 Đến quầy lấy',counter_sub:'Nhanh hơn, tự lấy',opt_time:'🕐 Thời gian',now:'⚡ Giao ngay',now_sub:'Khi có hàng sẵn',sch:'📅 Hẹn giờ',sch_sub:'Chọn ngày và giờ',today:'Hôm nay',tomorrow:'Ngày mai',pick_time:'⏰ Chọn giờ',time_note_today:'Giờ mờ = đã qua',time_note_tom:'Đặt toàn bộ khung giờ',other_time:'Giờ khác? Liên hệ lễ tân',call_lbl:'Gọi lễ tân',wechat_lbl:'WeChat lễ tân',opt_pay:'💳 Thanh toán',vcb:'Chuyển khoản',wechat_pay:'WeChat Pay',alipay_pay:'Alipay',cash:'Tiền mặt',cash_sub:'Trả khi nhận / tại quầy',vcb_note:'📝 Nội dung CK: [Số phòng / Tên] + MYA',wechat_note:' Chuyển tiền → chụp màn hình → gửi nhân viên',alipay_note:'🔵 Chuyển tiền → chụp màn hình → gửi nhân viên',cash_note:'💵 Nhân viên thu tiền khi giao / tại quầy.',ok_notice_room_now:'📲 Nhân viên xác nhận và mang đến phòng sớm nhất.\nVui lòng thanh toán theo hình thức đã chọn.',ok_notice_room_sch:'📲 Nhân viên sẽ giao đến phòng đúng giờ hẹn.\nVui lòng thanh toán theo hình thức đã chọn.',ok_notice_counter_now:'🏪 Chuẩn bị xong sẽ báo ra quầy lấy và thanh toán.',ok_notice_counter_sch:'🏪 Vui lòng đến quầy đúng giờ hẹn để lấy và thanh toán.',hero_title:'Ưu đãi thành viên MYA',hero_sub:'Đăng ký để được phục vụ ưu tiên\nvà theo dõi đơn hàng',perk1:'Giao\nưu tiên',perk2:'Lịch sử\nđơn hàng',perk3:'Ưu đãi\nriêng',form_title:'Điền thông tin đăng ký',f_name:'Tên đăng nhập',f_contact:'Liên hệ',ph_name:'Chỉ dùng a-z, A-Z, 0-9',ct_phone:'📱 SĐT',ct_wechat:' WeChat',ct_zalo:'🔵 Zalo',hint_phone:'Nhân viên gọi xác nhận',hint_wechat:'Nhân viên liên hệ qua WeChat',hint_zalo:'Nhân viên liên hệ qua Zalo',ph_phone:'Số điện thoại',ph_wechat:'WeChat ID',ph_zalo:'Zalo ID',err_name:'Vui lòng nhập tên hợp lệ',err_dup:'Tên đã tồn tại',err_contact:'Vui lòng chọn 1 cách liên hệ',reg_btn:'Đăng ký thành viên',hl_sub:'Hoặc gọi hotline',hl_num:'Hotline: 0123456',prof_info:'Thông tin cá nhân',joined:'Ngày tham gia',edit:'Chỉnh sửa',logout:'Đăng xuất',ord_title:'Lịch sử đơn hàng',ord_all:'Tất cả',ord_pending:'Đang xử lý',ord_done:'Hoàn thành',st_pending:'Đang xử lý',st_done:'Hoàn thành',no_orders:'Chưa có đơn hàng',ord_del:'Xoá đơn',ord_del_confirm:'Xoá đơn này khỏi lịch sử?',login_title:'Đã có tài khoản?',login_btn:'登录',login_ph:'Nhập tên đăng nhập',login_err:'Tên hoặc liên hệ không đúng',choose1:'Chọn 1 trong 3',pop_add:'+ Thêm vào giỏ',pop_desc_lbl:'Giới thiệu sản phẩm'},
-  en:{contact_ph:'📋 Room no. or address',tab_drinks:'☕ DRINKS',tab_food:'🍽️ FOOD',tab_combo:'🌅 ORDER',tab_sv:'🎀 SOUVENIRS',tab_lc:'🍱 LOCAL',sec_drinks:'Drinks',sec_food:'Breakfast',sec_combo:'Order',sec_sv:'Souvenirs',sec_lc:'Vietnam Specialties',note_ph:'📝 Notes...',cart_lbl:'View Cart',back:'← Back',cart_title:'Cart',cc_lbl:'📞 Contact',cc_ph:'Required: Phone / WeChat / Zalo',warn:'<b>⚠️ Contact required!</b>',room_lbl:'Room number',room_ph:'E.g.: 101, 205...',warn_room:'<b>⚠️ Please enter room number!</b>',tot:'Total',order:'✅ Place Order',sending:'Sending...',empty:'No items',ok_hdr:'Success!',ok_h:'Order Received!',ok_sub:'Staff will contact you to confirm',home:'🏠 Back to Home',faq_title:'FAQ',mem_tab:'Member',greet:'Hello',greet_sub:'⭐ MYA Member',opt_delivery:'📦 Pickup Method',room:'Room Delivery',room_sub:'Staff delivers to room',counter:'🏪 Counter Pickup',counter_sub:'Faster, self pickup',opt_time:'🕐 Delivery Time',now:'⚡ ASAP',now_sub:'When ready',sch:'📅 Schedule',sch_sub:'Choose date & time',today:'Today',tomorrow:'Tomorrow',pick_time:'⏰ Pick time',time_note_today:'Grey = past',time_note_tom:'Full day available',other_time:'Other time? Contact reception',call_lbl:'Call reception',wechat_lbl:'WeChat reception',opt_pay:'💳 Payment',vcb:'Bank Transfer',wechat_pay:'WeChat Pay',alipay_pay:'Alipay',cash:'Cash',cash_sub:'Pay when receiving',vcb_note:'📝 Transfer note: [Room/Name] + MYA',wechat_note:' Transfer → screenshot → send to staff',alipay_note:'🔵 Transfer → screenshot → send to staff',cash_note:'💵 Staff collects on delivery or at counter.',ok_notice_room_now:'📲 Staff will confirm and deliver ASAP.\nPlease complete payment as selected.',ok_notice_room_sch:'📲 Staff will deliver at your scheduled time.\nPlease complete payment as selected.',ok_notice_counter_now:'🏪 We will notify you when ready for pickup.',ok_notice_counter_sch:'🏪 Please come to counter at scheduled time.',hero_title:'MYA Membership',hero_sub:'Register for priority service\nand order tracking',perk1:'Priority\nDelivery',perk2:'Order\nHistory',perk3:'Member\nDeals',form_title:'Registration',f_name:'Username',f_contact:'Contact',ph_name:'Letters and numbers only',ct_phone:'📱 Phone',ct_wechat:' WeChat',ct_zalo:'🔵 Zalo',hint_phone:'Staff calls to confirm',hint_wechat:'Staff contacts via WeChat',hint_zalo:'Staff contacts via Zalo',ph_phone:'Phone number',ph_wechat:'WeChat ID',ph_zalo:'Zalo ID',err_name:'Valid username only',err_dup:'Name exists',err_contact:'Please choose one',reg_btn:'Register Now',hl_sub:'Or call hotline',hl_num:'Hotline: 0123456',prof_info:'Profile',joined:'Member Since',edit:'Edit',logout:'Log Out',ord_title:'Order History',ord_all:'All',ord_pending:'Processing',ord_done:'Done',st_pending:'Processing',st_done:'Completed',no_orders:'No orders yet',ord_del:'Delete order',ord_del_confirm:'Remove this order from history?',login_title:'Already a member?',login_btn:'Log In',login_ph:'Enter username',login_err:'Name or contact incorrect',choose1:'Choose one',pop_add:'+ Add to cart',pop_desc_lbl:'Product Info'},
+  zh:{contact_ph:'📋 请输入房间号或地址（访客）',tab_drinks:'☕ 饮品',tab_food:'🍽️ 餐食',tab_combo:'🌅 点餐',tab_sv:'🎀 纪念品',tab_lc:'🍱 特产',sec_drinks:'饮品',sec_food:'早餐',sec_combo:'点餐',sec_sv:'纪念品',sec_lc:'越南特产',note_ph:'📝 备注（少糖、多冰...）',cart_lbl:'查看订单',back:'← 返回',cart_title:'购物车',cc_lbl:'📞 联系方式',cc_ph:'必填：电话 / 微信 / Zalo',warn:'<b>⚠️ 请填写联系方式！</b>',room_lbl:'房间号',room_ph:'例如：201、305、502',warn_room:'<b>⚠️ 请输入有效的房间号！</b>',tot:'合计',order:'✅ 立即下单',sending:'发送中...',empty:'暂无商品',ok_hdr:'下单成功！',ok_h:'订单已收到！',ok_sub:'工作人员将尽快联系您确认',home:'🏠 返回首页',faq_title:'常见问题',mem_tab:'会员',greet:'你好',greet_sub:'MYA Member',opt_delivery:'📦 取餐方式',room:'送到房间',room_sub:'员工送到您房间',counter:'🏪 前台自取',counter_sub:'更快，到前台拿',opt_time:'🕐 配送时间',now:'⚡ 立即配送',now_sub:'有货即送',sch:'📅 预约时间',sch_sub:'选日期和时间',today:'今天',tomorrow:'明天',pick_time:'⏰ 选择时间',time_note_today:'灰色为已过时间',time_note_tom:'可预约全天',other_time:'其他时间？联系前台',call_lbl:'致电前台',wechat_lbl:'微信联系前台',opt_pay:'💳 付款方式',vcb:'VND 汇款',wechat_pay:'微信支付',alipay_pay:'支付宝',cash:'现金',cash_sub:'收货时付款',vcb_note:'📝 转账备注：[房间/姓名] + MYA',wechat_note:' 转账后截图发给工作人员',alipay_note:'🔵 转账后截图发给工作人员',cash_note:'💵 工作人员送货时或前台付款',ok_notice_room_now:'📲 工作人员确认后尽快送到您的房间。\n请按所选方式完成付款后告知工作人员。',ok_notice_room_sch:'📲 工作人员将在预约时间送到您的房间。\n请按所选方式完成付款。',ok_notice_counter_now:'🏪 准备好后通知您到前台取餐并付款。',ok_notice_counter_sch:'🏪 请在预约时间到前台取餐并付款。',hero_title:'MYA 会员专属',hero_sub:'注册即享优先服务\n历史订单随时查看',perk1:'优先\n配送',perk2:'历史\n订单',perk3:'专属\n优惠',form_title:'还没有账号？注册',f_name:'用户名',f_contact:'联系方式',ph_name:'只能输入字母和数字',ct_phone:'📱 电话',ct_wechat:' 微信',ct_zalo:'🔵 Zalo',hint_phone:'工作人员致电确认',hint_wechat:'通过微信联系',hint_zalo:'通过Zalo联系',ph_phone:'手机号码',ph_wechat:'微信号',ph_zalo:'Zalo ID',err_name:'请填写用户名',err_dup:'该用户名已存在',err_contact:'请选择联系方式',reg_btn:'立即注册',hl_sub:'或致电热线',hl_num:'热线：0123456',prof_info:'个人信息',joined:'注册日期',edit:'修改信息',logout:'退出登录',ord_title:'历史订单',ord_all:'全部',ord_pending:'处理中',ord_done:'已完成',st_pending:'处理中',st_done:'已完成',no_orders:'暂无订单',ord_del:'删除订单',ord_del_confirm:'确认删除此订单？',login_title:'登录',login_btn:'登录',login_ph:'输入用户名',login_err:'用户名或联系方式不正确',choose1:'选择一种',pop_add:'+ 加入购物车',pop_desc_lbl:'产品介绍'},
+  vi:{contact_ph:'📋 Số phòng hoặc địa chỉ (khách vãng lai)',tab_drinks:'☕ ĐỒ UỐNG',tab_food:'🍽️ ĐỒ ĂN',tab_combo:'🌅 ĐẶT MÓN',tab_sv:'🎀 LƯU NIỆM',tab_lc:'🍱 ĐẶC SẢN',sec_drinks:'Đồ uống',sec_food:'Đồ ăn sáng',sec_combo:'Đặt món',sec_sv:'Quà lưu niệm',sec_lc:'Đặc sản Việt Nam',note_ph:'📝 Ghi chú (ít đường, nhiều đá...)',cart_lbl:'Xem giỏ hàng',back:'← Quay lại',cart_title:'Giỏ hàng',cc_lbl:'📞 Liên hệ',cc_ph:'Bắt buộc: SĐT / Zalo / WeChat',warn:'<b>⚠️ Chưa có thông tin liên hệ!</b>',room_lbl:'Số phòng',room_ph:'Ví dụ: 201, 305, 502',warn_room:'<b>⚠️ Số phòng không hợp lệ!</b>',tot:'Tổng',order:'✅ Đặt hàng ngay',sending:'Đang gửi...',empty:'Chưa có món',ok_hdr:'Thành công!',ok_h:'Đã nhận đơn!',ok_sub:'Nhân viên sẽ liên hệ xác nhận',home:'🏠 Về trang chủ',faq_title:'Câu hỏi thường gặp',mem_tab:'Thành viên',greet:'Xin chào',greet_sub:'⭐ Thành viên MYA',opt_delivery:'📦 Hình thức nhận',room:'Giao đến phòng',room_sub:'Nhân viên mang đến',counter:'🏪 Đến quầy lấy',counter_sub:'Nhanh hơn, tự lấy',opt_time:'🕐 Thời gian',now:'⚡ Giao ngay',now_sub:'Khi có hàng sẵn',sch:'📅 Hẹn giờ',sch_sub:'Chọn ngày và giờ',today:'Hôm nay',tomorrow:'Ngày mai',pick_time:'⏰ Chọn giờ',time_note_today:'Giờ mờ = đã qua',time_note_tom:'Đặt toàn bộ khung giờ',other_time:'Giờ khác? Liên hệ lễ tân',call_lbl:'Gọi lễ tân',wechat_lbl:'WeChat lễ tân',opt_pay:'💳 Thanh toán',vcb:'Chuyển khoản',wechat_pay:'WeChat Pay',alipay_pay:'Alipay',cash:'Tiền mặt',cash_sub:'Trả khi nhận / tại quầy',vcb_note:'📝 Nội dung CK: [Số phòng / Tên] + MYA',wechat_note:' Chuyển tiền → chụp màn hình → gửi nhân viên',alipay_note:'🔵 Chuyển tiền → chụp màn hình → gửi nhân viên',cash_note:'💵 Nhân viên thu tiền khi giao / tại quầy.',ok_notice_room_now:'📲 Nhân viên xác nhận và mang đến phòng sớm nhất.\nVui lòng thanh toán theo hình thức đã chọn.',ok_notice_room_sch:'📲 Nhân viên sẽ giao đến phòng đúng giờ hẹn.\nVui lòng thanh toán theo hình thức đã chọn.',ok_notice_counter_now:'🏪 Chuẩn bị xong sẽ báo ra quầy lấy và thanh toán.',ok_notice_counter_sch:'🏪 Vui lòng đến quầy đúng giờ hẹn để lấy và thanh toán.',hero_title:'Ưu đãi thành viên MYA',hero_sub:'Đăng ký để được phục vụ ưu tiên\nvà theo dõi đơn hàng',perk1:'Giao\nưu tiên',perk2:'Lịch sử\nđơn hàng',perk3:'Ưu đãi\nriêng',form_title:'Điền thông tin đăng ký',f_name:'Tên đăng nhập',f_contact:'Liên hệ',ph_name:'Chỉ dùng a-z, A-Z, 0-9',ct_phone:'📱 SĐT',ct_wechat:' WeChat',ct_zalo:'🔵 Zalo',hint_phone:'Nhân viên gọi xác nhận',hint_wechat:'Nhân viên liên hệ qua WeChat',hint_zalo:'Nhân viên liên hệ qua Zalo',ph_phone:'Số điện thoại',ph_wechat:'WeChat ID',ph_zalo:'Zalo ID',err_name:'Vui lòng nhập tên hợp lệ',err_dup:'Tên đã tồn tại',err_contact:'Vui lòng chọn 1 cách liên hệ',reg_btn:'Đăng ký thành viên',hl_sub:'Hoặc gọi hotline',hl_num:'Hotline: 0123456',prof_info:'Thông tin cá nhân',joined:'Ngày tham gia',edit:'Chỉnh sửa',logout:'Đăng xuất',ord_title:'Lịch sử đơn hàng',ord_all:'Tất cả',ord_pending:'Đang xử lý',ord_done:'Hoàn thành',st_pending:'Đang xử lý',st_done:'Hoàn thành',no_orders:'Chưa có đơn hàng',ord_del:'Xoá đơn',ord_del_confirm:'Xoá đơn này khỏi lịch sử?',login_title:'Đã có tài khoản?',login_btn:'登录',login_ph:'Nhập tên đăng nhập',login_err:'Tên hoặc liên hệ không đúng',choose1:'Chọn 1 trong 3',pop_add:'+ Thêm vào giỏ',pop_desc_lbl:'Giới thiệu sản phẩm'},
+  en:{contact_ph:'📋 Room no. or address',tab_drinks:'☕ DRINKS',tab_food:'🍽️ FOOD',tab_combo:'🌅 ORDER',tab_sv:'🎀 SOUVENIRS',tab_lc:'🍱 LOCAL',sec_drinks:'Drinks',sec_food:'Breakfast',sec_combo:'Order',sec_sv:'Souvenirs',sec_lc:'Vietnam Specialties',note_ph:'📝 Notes...',cart_lbl:'View Cart',back:'← Back',cart_title:'Cart',cc_lbl:'📞 Contact',cc_ph:'Required: Phone / WeChat / Zalo',warn:'<b>⚠️ Contact required!</b>',room_lbl:'Room number',room_ph:'E.g.: 201, 305, 502',warn_room:'<b>⚠️ Invalid room number!</b>',tot:'Total',order:'✅ Place Order',sending:'Sending...',empty:'No items',ok_hdr:'Success!',ok_h:'Order Received!',ok_sub:'Staff will contact you to confirm',home:'🏠 Back to Home',faq_title:'FAQ',mem_tab:'Member',greet:'Hello',greet_sub:'⭐ MYA Member',opt_delivery:'📦 Pickup Method',room:'Room Delivery',room_sub:'Staff delivers to room',counter:'🏪 Counter Pickup',counter_sub:'Faster, self pickup',opt_time:'🕐 Delivery Time',now:'⚡ ASAP',now_sub:'When ready',sch:'📅 Schedule',sch_sub:'Choose date & time',today:'Today',tomorrow:'Tomorrow',pick_time:'⏰ Pick time',time_note_today:'Grey = past',time_note_tom:'Full day available',other_time:'Other time? Contact reception',call_lbl:'Call reception',wechat_lbl:'WeChat reception',opt_pay:'💳 Payment',vcb:'Bank Transfer',wechat_pay:'WeChat Pay',alipay_pay:'Alipay',cash:'Cash',cash_sub:'Pay when receiving',vcb_note:'📝 Transfer note: [Room/Name] + MYA',wechat_note:' Transfer → screenshot → send to staff',alipay_note:'🔵 Transfer → screenshot → send to staff',cash_note:'💵 Staff collects on delivery or at counter.',ok_notice_room_now:'📲 Staff will confirm and deliver ASAP.\nPlease complete payment as selected.',ok_notice_room_sch:'📲 Staff will deliver at your scheduled time.\nPlease complete payment as selected.',ok_notice_counter_now:'🏪 We will notify you when ready for pickup.',ok_notice_counter_sch:'🏪 Please come to counter at scheduled time.',hero_title:'MYA Membership',hero_sub:'Register for priority service\nand order tracking',perk1:'Priority\nDelivery',perk2:'Order\nHistory',perk3:'Member\nDeals',form_title:'Registration',f_name:'Username',f_contact:'Contact',ph_name:'Letters and numbers only',ct_phone:'📱 Phone',ct_wechat:' WeChat',ct_zalo:'🔵 Zalo',hint_phone:'Staff calls to confirm',hint_wechat:'Staff contacts via WeChat',hint_zalo:'Staff contacts via Zalo',ph_phone:'Phone number',ph_wechat:'WeChat ID',ph_zalo:'Zalo ID',err_name:'Valid username only',err_dup:'Name exists',err_contact:'Please choose one',reg_btn:'Register Now',hl_sub:'Or call hotline',hl_num:'Hotline: 0123456',prof_info:'Profile',joined:'Member Since',edit:'Edit',logout:'Log Out',ord_title:'Order History',ord_all:'All',ord_pending:'Processing',ord_done:'Done',st_pending:'Processing',st_done:'Completed',no_orders:'No orders yet',ord_del:'Delete order',ord_del_confirm:'Remove this order from history?',login_title:'Already a member?',login_btn:'Log In',login_ph:'Enter username',login_err:'Name or contact incorrect',choose1:'Choose one',pop_add:'+ Add to cart',pop_desc_lbl:'Product Info'},
 };
 function t(k){return(TXT[lang]||TXT.zh)[k]||k;}
 function iname(i){return lang==='zh'?i.zh:lang==='en'?i.en:i.vi;}
@@ -843,7 +869,7 @@ function openPopup(id){
   }
   document.getElementById('pop-name-main').textContent=nameMain;
   document.getElementById('pop-name-sub').textContent=nameSub;
-  document.getElementById('pop-price').textContent=ff(item.p);
+  document.getElementById('pop-price').textContent=ffByLang(item.p);
   document.getElementById('pop-desc-lbl').textContent=t('pop_desc_lbl');
   document.getElementById('pop-desc').textContent=desc||(lang==='zh'?'暂无介绍':'Chưa có mô tả');
   document.getElementById('pop-tags').innerHTML=tags.map(tg=>'<span class="popup-tag">'+tg+'</span>').join('');
@@ -856,7 +882,7 @@ function renderPopupAction(){
   const q=cart[id]||0;
   const el=document.getElementById('pop-action');
   if(q===0){
-    el.innerHTML='<button class="popup-add-btn" onclick="popAdd()">'+t('pop_add')+' · '+ff(P[id])+'</button>';
+    el.innerHTML='<button class="popup-add-btn" onclick="popAdd()">'+t('pop_add')+' · '+ffByLang(P[id])+'</button>';
   }else{
     el.innerHTML='<div class="popup-qty-wrap"><div class="popup-qty-btn" onclick="popMinus()">−</div><div class="popup-qty-num">'+q+'</div><div class="popup-qty-btn plus" onclick="popPlus()">+</div></div>';
   }
@@ -994,10 +1020,10 @@ function renderMember(){
         <div class="member-card">
           <div class="member-title">${loginTitle}</div>
           <div class="field">
-            <input id="li-name" placeholder="${t('login_ph')}" style="width:100%;background:#fff;border:1.5px solid var(--br);border-radius:9px;padding:11px 13px;font-size:16px;color:var(--nv);outline:none;box-sizing:border-box">
+            <input id="li-name" maxlength="30" placeholder="${t('login_ph')}" style="width:100%;background:#fff;border:1.5px solid var(--br);border-radius:9px;padding:11px 13px;font-size:16px;color:var(--nv);outline:none;box-sizing:border-box">
           </div>
           <div class="field" style="margin-bottom:8px">
-            <input id="li-contact" placeholder="${t('ph_phone')}" style="width:100%;background:#fff;border:1.5px solid var(--br);border-radius:9px;padding:11px 13px;font-size:16px;color:var(--nv);outline:none;box-sizing:border-box">
+            <input id="li-contact" maxlength="30" placeholder="${t('ph_phone')}" style="width:100%;background:#fff;border:1.5px solid var(--br);border-radius:9px;padding:11px 13px;font-size:16px;color:var(--nv);outline:none;box-sizing:border-box">
           </div>
           <div style="font-size:12px;color:var(--red);margin:4px 0 8px;display:none" id="err-login">${t('login_err')}</div>
           <button class="reg-btn" onclick="loginMember()">${t('login_btn')}</button>
@@ -1007,7 +1033,7 @@ function renderMember(){
           <div class="member-title">${t('form_title')}</div>
           <div class="field">
             <label>${t('f_name')} <span class="req">*</span></label>
-            <input id="rn" placeholder="${t('ph_name')}" oninput="filterName(this)">
+            <input id="rn" maxlength="30" placeholder="${t('ph_name')}" oninput="filterName(this)">
             <div class="err-msg" id="err-rn">${t('err_name')}</div>
           </div>
           <div class="field">
@@ -1018,7 +1044,7 @@ function renderMember(){
                 <button class="ctype" onclick="selCType('wechat',this)">${t('ct_wechat')}</button>
                 <button class="ctype" onclick="selCType('zalo',this)">${t('ct_zalo')}</button>
               </div>
-              <div class="cinput-wrap"><input id="rc" placeholder="${t('ph_phone')}"></div>
+              <div class="cinput-wrap"><input id="rc" maxlength="30" placeholder="${t('ph_phone')}"></div>
               
             </div>
             <div class="err-msg" id="err-rc">${t('err_contact')}</div>
@@ -1042,16 +1068,73 @@ function renderMember(){
     contactType='phone';
   }else{
     const ctLabel=member.contactType==='wechat'?'WeChat':member.contactType==='zalo'?'Zalo':'SĐT';
-    const filtered=orderFilter==='all'?orderHistory:orderHistory.filter(o=>o.status===orderFilter);
-    const oh=filtered.length===0?'<div class="empty-state"><div style="font-size:36px;margin-bottom:8px">📭</div><div style="font-size:15px">'+t('no_orders')+'</div></div>':filtered.slice().reverse().map(o=>'<div class="order-card"><div class="order-card-hdr"><div><div class="order-id">MYA-'+o.id+'</div><div class="order-time">'+fdate(o.time)+'</div></div><div style="display:flex;align-items:center;gap:8px"><span class="st st-'+o.status+'">'+t('st_'+o.status)+'</span>'+(o.status==='done'?'<button onclick="delOrder(\''+o.id+'\')" style="background:none;border:none;color:#999;font-size:18px;cursor:pointer;padding:2px 6px;line-height:1" title="'+t('ord_del')+'">×</button>':'')+'</div></div><div class="order-items-txt">'+o.items+'</div><div class="order-footer"><span class="order-total">'+ff(o.total)+'</span></div></div>').join('');
-    el.innerHTML='<div><div class="profile-body" style="padding-top:10px"><div class="info-card" style="margin-top:0;text-align:left"><div class="mi"><div><div class="mi-lbl">'+ctLabel+':</div><div class="mi-val">'+member.contact+'</div></div></div><div class="mi"><div><div class="mi-lbl">'+t('joined')+':</div><div class="mi-val">'+fdate(member.joinDate)+'</div></div></div></div><div class="action-row"><button class="act-btn btn-edit" onclick="editMember()">'+t('edit')+'</button><button class="act-btn btn-out" onclick="logoutMember()">'+t('logout')+'</button></div><div class="info-card" style="margin-top:13px;background:#fff;border:1px solid var(--br)"><div class="info-card-hdr">'+t('ord_title')+' ('+orderHistory.length+')</div><div class="order-tabs"><button class="otab'+(orderFilter==='all'?' on':'')+'" onclick="setOF(\'all\')">'+t('ord_all')+'</button><button class="otab'+(orderFilter==='pending'?' on':'')+'" onclick="setOF(\'pending\')">'+t('ord_pending')+'</button><button class="otab'+(orderFilter==='done'?' on':'')+'" onclick="setOF(\'done\')">'+t('ord_done')+'</button></div><div style="padding:4px 0 8px">'+oh+'</div></div></div></div>';
+    // Auto sync orders từ Sheet khi mở tab member (chỉ chạy nếu có member_id)
+    if(member.member_id&&!member._syncing){syncOrdersFromSheet();}
+    const filtered=orderFilter==='all'?orderHistory:orderFilter==='pending'?orderHistory.filter(o=>o.status==='pending'||o.status==='confirmed'):orderHistory.filter(o=>o.status===orderFilter);
+    const oh=filtered.length===0?'<div class="empty-state"><div style="font-size:36px;margin-bottom:8px">📭</div><div style="font-size:15px">'+t('no_orders')+'</div></div>':filtered.slice().reverse().map(o=>{
+      const displayId=o.id&&o.id.indexOf('MYA-')===0?o.id:'MYA-'+(o.id||'');
+      const statusKey=(o.status==='done'||o.status==='cancelled')?o.status:'pending';
+      const statusIcon=o.status==='done'?'✅':o.status==='cancelled'?'❌':o.status==='confirmed'?'✔️':'⏳';
+      const statusText=o.status==='confirmed'?(lang==='zh'?'已确认':lang==='en'?'Confirmed':'Đã xác nhận'):o.status==='cancelled'?(lang==='zh'?'已取消':lang==='en'?'Cancelled':'Đã hủy'):t('st_'+statusKey);
+      return '<div class="order-card"><div class="order-card-hdr"><div><div class="order-id">'+displayId+'</div><div class="order-time">'+fdate(o.time)+'</div></div><div style="display:flex;align-items:center;gap:8px"><span class="st st-'+statusKey+'">'+statusIcon+' '+statusText+'</span>'+(o.status==='done'||o.status==='cancelled'?'<button onclick="delOrder(\''+o.id+'\')" style="background:none;border:none;color:#999;font-size:18px;cursor:pointer;padding:2px 6px;line-height:1" title="'+t('ord_del')+'">×</button>':'')+'</div></div><div class="order-items-txt">'+o.items+'</div><div class="order-footer"><span class="order-total">'+ffByLang(o.total)+'</span></div></div>';
+    }).join('');
+    el.innerHTML='<div><div class="profile-body" style="padding-top:10px"><div class="info-card" style="margin-top:0;text-align:left"><div class="mi"><div><div class="mi-lbl">'+ctLabel+':</div><div class="mi-val">'+member.contact+'</div></div></div><div class="mi"><div><div class="mi-lbl">'+t('joined')+':</div><div class="mi-val">'+fdate(member.joinDate)+'</div></div></div></div><div class="action-row"><button class="act-btn btn-edit" onclick="editMember()">'+t('edit')+'</button><button class="act-btn btn-out" onclick="logoutMember()">'+t('logout')+'</button></div><div class="info-card" style="margin-top:13px;background:#fff;border:1px solid var(--br)"><div class="info-card-hdr">'+t('ord_title')+' ('+orderHistory.length+')<button onclick="syncOrdersFromSheet(true)" style="float:right;background:none;border:none;color:var(--nv);font-size:13px;cursor:pointer" title="'+(lang==='zh'?'刷新':lang==='en'?'Refresh':'Tải lại')+'">🔄</button></div><div class="order-tabs"><button class="otab'+(orderFilter==='all'?' on':'')+'" onclick="setOF(\'all\')">'+t('ord_all')+'</button><button class="otab'+(orderFilter==='pending'?' on':'')+'" onclick="setOF(\'pending\')">'+t('ord_pending')+'</button><button class="otab'+(orderFilter==='done'?' on':'')+'" onclick="setOF(\'done\')">'+t('ord_done')+'</button></div><div style="padding:4px 0 8px">'+oh+'</div></div></div></div>';
   }
+}
+async function syncOrdersFromSheet(forceShow){
+  if(!member||!member.member_id)return;
+  if(member._syncing)return;
+  member._syncing=true;
+  if(forceShow){showToast(lang==='zh'?'🔄 同步中...':lang==='en'?'🔄 Syncing...':'🔄 Đang đồng bộ...');}
+  try{
+    const _p=new URLSearchParams({action:'orders',member_id:member.member_id,limit:'30'});
+    const _r=await fetch(SCRIPT_URL+'?'+_p.toString());
+    const _j=await _r.json();
+    if(_j&&_j.ok&&Array.isArray(_j.data)){
+      // Convert response từ Sheet thành format orderHistory
+      const fromSheet=_j.data.map(o=>{
+        // timestamp dd/MM/yyyy HH:mm → epoch
+        let tms=Date.now();
+        if(o.timestamp){
+          const m=o.timestamp.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}):(\d{1,2})/);
+          if(m){tms=new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5]).getTime();}
+        }
+        return{id:o.order_id,items:lang==='zh'?o.items_zh:o.items_vi,total:o.total,time:tms,status:o.status||'pending'};
+      });
+      orderHistory=fromSheet;
+      try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}
+      member._syncing=false;
+      renderMember();
+      return;
+    }
+  }catch(e){console.warn('sync orders failed:',e.message);}
+  member._syncing=false;
 }
 function setOF(f){orderFilter=f;renderMember();}
 function filterName(inp){inp.value=inp.value.replace(/[^a-zA-Z0-9 ]/g,'');inp.classList.remove('err');document.getElementById('err-rn').classList.remove('show');}
 function selCType(type,btn){contactType=type;document.querySelectorAll('.ctype').forEach(b=>b.className='ctype');btn.className='ctype on';const ph={phone:t('ph_phone'),wechat:t('ph_wechat'),zalo:t('ph_zalo')};document.getElementById('rc').placeholder=ph[type];document.getElementById('rc').value='';document.getElementById('rc').inputMode=type==='phone'?'tel':'text';const hintEl=document.getElementById('rc-hint');if(hintEl)hintEl.textContent='';document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}
-function registerMember(){const name=document.getElementById('rn').value.trim();const contact=document.getElementById('rc').value.trim();let ok=true;if(!name||!/^[a-zA-Z0-9 ]+$/.test(name)){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_name');document.getElementById('err-rn').classList.add('show');ok=false;}else if(registeredNames.includes(name.toLowerCase().replace(/ /g,''))){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_dup');document.getElementById('err-rn').classList.add('show');ok=false;}else{document.getElementById('rn').classList.remove('err');document.getElementById('err-rn').classList.remove('show');}if(!contact){document.getElementById('csBox').classList.add('err');document.getElementById('err-rc').classList.add('show');ok=false;}else{document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}if(!ok)return;registeredNames.push(name.toLowerCase().replace(/ /g,''));member={name,contact,contactType,joinDate:Date.now()};saveAll();updateGreetBar();renderMember();
-  try{const _mp=new URLSearchParams({action:'add_member',name,contact,contact_type:contactType,lang:lang});fetch(SCRIPT_URL+'?'+_mp.toString()).catch(()=>{});}catch(e){}
+function registerMember(){const name=document.getElementById('rn').value.trim();const contact=document.getElementById('rc').value.trim();let ok=true;
+  // Validate tên
+  if(!validateName(name)){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_name')+' (2-30 ký tự)';document.getElementById('err-rn').classList.add('show');ok=false;}
+  else if(registeredNames.includes(name.toLowerCase().replace(/ /g,''))){document.getElementById('rn').classList.add('err');document.getElementById('err-rn').textContent=t('err_dup');document.getElementById('err-rn').classList.add('show');ok=false;}
+  else{document.getElementById('rn').classList.remove('err');document.getElementById('err-rn').classList.remove('show');}
+  // Validate contact theo loại
+  let contactOk=false;let contactErr='';
+  if(!contact){contactErr=t('err_contact');}
+  else if(contactType==='phone'){if(validatePhone(contact))contactOk=true;else contactErr=lang==='zh'?'电话号码必须是9-12位数字':lang==='en'?'Phone must be 9-12 digits':'SĐT phải có 9-12 chữ số';}
+  else{if(validateWechat(contact))contactOk=true;else contactErr=lang==='zh'?'ID必须是5-30位字符':lang==='en'?'ID must be 5-30 characters':'ID phải có 5-30 ký tự';}
+  if(!contactOk){document.getElementById('csBox').classList.add('err');document.getElementById('err-rc').textContent=contactErr;document.getElementById('err-rc').classList.add('show');ok=false;}
+  else{document.getElementById('csBox').classList.remove('err');document.getElementById('err-rc').classList.remove('show');}
+  if(!ok)return;
+  registeredNames.push(name.toLowerCase().replace(/ /g,''));member={name,contact,contactType,joinDate:Date.now()};saveAll();updateGreetBar();renderMember();
+  // Gửi đăng ký lên Apps Script và lấy member_id về
+  try{
+    const _mp=new URLSearchParams({action:'add_member',name,contact,contact_type:contactType,lang:lang});
+    fetch(SCRIPT_URL+'?'+_mp.toString())
+      .then(r=>r.json())
+      .then(j=>{if(j&&j.ok&&j.member_id){member.member_id=j.member_id;saveAll();}})
+      .catch(()=>{});
+  }catch(e){}
 }
 function editMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;saveAll();updateGreetBar();renderMember();}
 function logoutMember(){if(member)registeredNames=registeredNames.filter(n=>n!==member.name.toLowerCase().replace(/ /g,''));member=null;orderHistory=[];saveAll();updateGreetBar();renderMember();}
@@ -1094,8 +1177,8 @@ function renderCafe(){
     const arr=by(tab),root=document.getElementById('tab-'+tab);
     root.innerHTML='<div class="sec">'+t('sec_'+tab)+'</div><div class="lst">'+(arr.length?arr.map(item=>{
       const q=cart[item.id]||0;
-      if(tab==='combo'){const q=cart[item.id]||0;const ctrl=q>0?'<div class="ctrl" style="flex-shrink:0"><div class="qb" onclick="event.stopPropagation();upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span><div class="qb p" onclick="event.stopPropagation();upd(\''+item.id+'\',1)">+</div></div>':'<div class="ctrl" style="flex-shrink:0"><div class="qb p" onclick="event.stopPropagation();upd(\''+item.id+'\',1)">+</div></div>';return '<div class="cmbo"><div style="display:flex;gap:12px;align-items:center">'+renderThumb(item)+'<div style="flex:1;min-width:0" onclick="openPopup(\''+item.id+'\')"><div style="font-size:18px;font-weight:700">'+iname(item)+'</div><div style="font-size:14px;color:#333;margin-top:4px;line-height:1.5">'+(lang==='zh'?item.dzh:lang==='en'?item.den:item.dvi)+'</div><div style="font-size:16px;font-weight:700;color:var(--nv);margin-top:8px">'+ff(item.p)+'</div></div>'+ctrl+'</div></div>';}
-      return '<div class="row">'+renderThumb(item)+'<div class="menu-main" onclick="openPopup(\''+item.id+'\')"><div class="nm">'+iname(item)+'</div><div class="zn">'+isub(item)+'</div><div class="pr">'+ff(item.p)+'</div></div><div class="ctrl">'+(q>0?'<div class="qb" onclick="upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span>':'')+'<div class="qb p" onclick="upd(\''+item.id+'\',1)">+</div></div></div>';
+      if(tab==='combo'){const q=cart[item.id]||0;const ctrl=q>0?'<div class="ctrl" style="flex-shrink:0"><div class="qb" onclick="event.stopPropagation();upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span><div class="qb p" onclick="event.stopPropagation();upd(\''+item.id+'\',1)">+</div></div>':'<div class="ctrl" style="flex-shrink:0"><div class="qb p" onclick="event.stopPropagation();upd(\''+item.id+'\',1)">+</div></div>';return '<div class="cmbo"><div style="display:flex;gap:12px;align-items:center">'+renderThumb(item)+'<div style="flex:1;min-width:0" onclick="openPopup(\''+item.id+'\')"><div style="font-size:18px;font-weight:700">'+iname(item)+'</div><div style="font-size:14px;color:#333;margin-top:4px;line-height:1.5">'+(lang==='zh'?item.dzh:lang==='en'?item.den:item.dvi)+'</div><div style="font-size:16px;font-weight:700;color:var(--nv);margin-top:8px">'+ffByLang(item.p)+'</div></div>'+ctrl+'</div></div>';}
+      return '<div class="row">'+renderThumb(item)+'<div class="menu-main" onclick="openPopup(\''+item.id+'\')"><div class="nm">'+iname(item)+'</div><div class="zn">'+isub(item)+'</div><div class="pr">'+ffByLang(item.p)+'</div></div><div class="ctrl">'+(q>0?'<div class="qb" onclick="upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span>':'')+'<div class="qb p" onclick="upd(\''+item.id+'\',1)">+</div></div></div>';
     }).join(''):'<div style="padding:20px;color:#777">'+t('empty')+'</div>')+'</div>';
   });
 }
@@ -1106,7 +1189,7 @@ function renderShop(){
   ['sv','lc'].forEach(tp=>{
     const arr=by(tp),root=document.getElementById('tab-'+tp);
     root.innerHTML='<div class="sec">'+t('sec_'+tp)+'</div>'+(arr.length?arr.map(item=>{const q=cart[item.id]||0;
-      return '<div class="shop-item"><div style="display:flex;align-items:center;gap:12px;cursor:pointer" onclick="openPopup(\''+item.id+'\')">'+renderThumb(item)+'<div style="flex:1;min-width:0"><span class="scat '+(tp==='sv'?'cat-a':'cat-b')+'">'+(lang==='zh'?item.czh:item.cvi)+'</span><div class="nm">'+iname(item)+'</div><div class="zn">'+isub(item)+'</div></div></div><div class="sf"><span style="font-size:16px;font-weight:700;color:var(--nv)">'+ff(item.p)+'</span>'+(q>0?'<div style="display:flex;align-items:center;gap:6px"><div class="qb" style="width:30px;height:30px;font-size:16px" onclick="upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span><div class="qb p" style="width:30px;height:30px;font-size:16px" onclick="upd(\''+item.id+'\',1)">+</div></div>':'<div style="padding:7px 13px;border-radius:9px;font-size:13px;font-weight:700;color:#fff;background:var(--nv);cursor:pointer" onclick="upd(\''+item.id+'\',1)">'+(lang==='zh'?'+ 添加':lang==='en'?'+ Add':'+ Thêm')+'</div>')+'</div></div>';
+      return '<div class="shop-item"><div style="display:flex;align-items:center;gap:12px;cursor:pointer" onclick="openPopup(\''+item.id+'\')">'+renderThumb(item)+'<div style="flex:1;min-width:0"><span class="scat '+(tp==='sv'?'cat-a':'cat-b')+'">'+(lang==='zh'?item.czh:item.cvi)+'</span><div class="nm">'+iname(item)+'</div><div class="zn">'+isub(item)+'</div></div></div><div class="sf"><span style="font-size:16px;font-weight:700;color:var(--nv)">'+ffByLang(item.p)+'</span>'+(q>0?'<div style="display:flex;align-items:center;gap:6px"><div class="qb" style="width:30px;height:30px;font-size:16px" onclick="upd(\''+item.id+'\',-1)">−</div><span class="qn">'+q+'</span><div class="qb p" style="width:30px;height:30px;font-size:16px" onclick="upd(\''+item.id+'\',1)">+</div></div>':'<div style="padding:7px 13px;border-radius:9px;font-size:13px;font-weight:700;color:#fff;background:var(--nv);cursor:pointer" onclick="upd(\''+item.id+'\',1)">'+(lang==='zh'?'+ 添加':lang==='en'?'+ Add':'+ Thêm')+'</div>')+'</div></div>';
     }).join(''):'<div style="padding:20px 14px;color:#777">'+t('empty')+'</div>');
   });
 }
@@ -1146,7 +1229,7 @@ function upd(id,d){
   }
   cart[id]=Math.max(0,(cart[id]||0)+d);if(!cart[id])delete cart[id];renderAll();if(curPopupId===id)renderPopupAction();return true;
 }
-function updateUI(){const cnt=Object.values(cart).reduce((s,v)=>s+v,0);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);document.getElementById('vcnt').textContent=cnt;document.getElementById('vtot').textContent=cnt?ff(tot):'';document.getElementById('mainBtn').className=cnt?'cart-btn':'cart-btn empty';const bdg=document.getElementById('cbadge');bdg.style.display=cnt?'flex':'none';bdg.textContent=cnt;}
+function updateUI(){const cnt=Object.values(cart).reduce((s,v)=>s+v,0);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);document.getElementById('vcnt').textContent=cnt;document.getElementById('vtot').textContent=cnt?ffByLang(tot):'';document.getElementById('mainBtn').className=cnt?'cart-btn':'cart-btn empty';const bdg=document.getElementById('cbadge');bdg.style.display=cnt?'flex':'none';bdg.textContent=cnt;}
 function switchMode(m,el){mode=m;document.querySelectorAll('.hdr-modes .nb-wide').forEach(b=>b.classList.remove('on'));if(el)el.classList.add('on');['cafe','shop','faq','mem'].forEach(x=>{const s=document.getElementById('sec-'+x);if(s)s.style.display=x===m?'block':'none';});if(m==='mem')renderMember();}
 function showTab(tp){['drinks','food','combo'].forEach(x=>{document.getElementById('tab-'+x).style.display=x===tp?'block':'none';document.getElementById('tb-'+x).className='tab'+(x===tp?' on':'');});}
 function showShopTab(tp){['sv','lc'].forEach(x=>{document.getElementById('tab-'+x).style.display=x===tp?'block':'none';document.getElementById('tb-'+x).className='tab'+(x===tp?' on':'');});}
@@ -1162,29 +1245,45 @@ function openCartDelayed(){
     openCart();
   }
 }
-function openCart(){const contact=member?member.contact:document.getElementById('contact').value.trim();document.getElementById('contact2').value=contact;const keys=Object.keys(cart);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);const el=document.getElementById('cartBody');if(!keys.length){el.innerHTML='<div style="padding:30px 14px;text-align:center;color:var(--mu);font-size:15px;background:#fff">'+t('empty')+'</div>';document.getElementById('obtn').disabled=true;}else{el.innerHTML=keys.map(k=>{const allI=[...CAFE,...SHOP];const itm=allI.find(i=>i.id===k);const subD=itm?(lang==='zh'?itm.dzh:lang==='en'?itm.den:itm.dvi)||'':'';const subLine=subD?'<div style="font-size:13px;font-weight:400;color:#111;margin-top:2px">'+subD+'</div>':'';return '<div class="ci2"><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#111">'+(lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k])+'</div>'+subLine+'<div style="font-size:13px;color:#111;font-weight:400">'+Nvi[k]+' × '+cart[k]+'</div></div><span style="font-size:15px;font-weight:700;color:var(--nv);white-space:nowrap">'+ff((P[k]||0)*cart[k])+'</span><div class="ci2x" onclick="del(\''+k+'\')">×</div></div>';}).join('');document.getElementById('obtn').disabled=false;}document.getElementById('cartTot').textContent=ff(tot);document.getElementById('warn').className='warn';document.getElementById('warn-room').className='warn';updateCartLabels();deliveryMode='room';timeMode='now';curTime='';curDay='today';payMode='vcb';document.getElementById('opt-room').className='opt-btn on';document.getElementById('opt-counter').className='opt-btn';document.getElementById('opt-now').className='opt-btn on';document.getElementById('opt-sch').className='opt-btn';document.getElementById('schBox').className='sch-box';document.getElementById('time-result').innerHTML='';document.getElementById('roomInput').value='';document.getElementById('roomInput').classList.remove('err');setPayment('vcb');updateRoomWrap();const now=new Date(),tom=new Date(now);tom.setDate(tom.getDate()+1);const fmt=d=>d.getDate()+'/'+(d.getMonth()+1);document.getElementById('dt-today').textContent=fmt(now);document.getElementById('dt-tomorrow').textContent=fmt(tom);const ccLbl=document.getElementById('cc-lbl'),ccInp=document.getElementById('contact2');const nameRow=document.getElementById('nameRow'),memberNameInp=document.getElementById('memberName'),nameLbl=document.getElementById('name-lbl'),contactSubLbl=document.getElementById('contact-sub-lbl');if(member){ccLbl.textContent=t('greet')+', '+member.name+' 👋';nameRow.style.display='block';memberNameInp.value=member.name;nameLbl.textContent=lang==='zh'?'姓名':lang==='en'?'Name':'Tên';const ctLbl=member.contactType==='wechat'?(lang==='zh'?'微信':'WeChat'):member.contactType==='zalo'?'Zalo':(lang==='zh'?'电话':lang==='en'?'Phone':'SĐT');contactSubLbl.textContent=ctLbl;contactSubLbl.style.display='block';ccInp.readOnly=true;ccInp.style.background='#FAF8F4';ccInp.style.fontWeight='700';}else{ccLbl.innerHTML=t('cc_lbl')+' <span style="color:var(--red)">*</span>';nameRow.style.display='none';contactSubLbl.style.display='none';ccInp.readOnly=false;ccInp.style.background='';ccInp.style.fontWeight='';}goPage('pgCart');applyComboRule();applyShopRule();applyAfterCutoffRule();}
-function del(id){delete cart[id];updateUI();openCart();}
+function openCart(){const contact=member?member.contact:document.getElementById('contact').value.trim();document.getElementById('contact2').value=contact;const keys=Object.keys(cart);const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);const el=document.getElementById('cartBody');if(!keys.length){el.innerHTML='<div style="padding:30px 14px;text-align:center;color:var(--mu);font-size:15px;background:#fff">'+t('empty')+'</div>';document.getElementById('obtn').disabled=true;}else{const notePh=lang==='zh'?'📝 备注此项（少糖、多冰...）':lang==='en'?'📝 Note for this item...':'📝 Ghi chú món này (ít đường, nhiều đá...)';el.innerHTML=keys.map(k=>{const allI=[...CAFE,...SHOP];const itm=allI.find(i=>i.id===k);const subD=itm?(lang==='zh'?itm.dzh:lang==='en'?itm.den:itm.dvi)||'':'';const subLine=subD?'<div style="font-size:13px;font-weight:400;color:#111;margin-top:2px">'+subD+'</div>':'';const noteVal=(cartNotes[k]||'').replace(/"/g,'&quot;');return '<div class="ci2"><div class="ci2-top"><div style="flex:1"><div style="font-size:15px;font-weight:700;color:#111">'+(lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k])+'</div>'+subLine+'<div style="font-size:13px;color:#111;font-weight:400">'+Nvi[k]+' × '+cart[k]+'</div></div><span style="font-size:15px;font-weight:700;color:var(--nv);white-space:nowrap;text-align:right;line-height:1.3">'+ffByLang((P[k]||0)*cart[k])+'</span><div class="ci2x" onclick="del(\''+k+'\')">×</div></div><textarea class="ci2-note" rows="1" maxlength="'+MAX_ITEM_NOTE+'" placeholder="'+notePh+'" oninput="setItemNote(\''+k+'\',this.value)">'+noteVal+'</textarea></div>';}).join('');document.getElementById('obtn').disabled=false;}document.getElementById('cartTot').textContent=ffByLang(tot);document.getElementById('warn').className='warn';document.getElementById('warn-room').className='warn';updateCartLabels();deliveryMode='room';timeMode='now';curTime='';curDay='today';payMode='vcb';document.getElementById('opt-room').className='opt-btn on';document.getElementById('opt-counter').className='opt-btn';document.getElementById('opt-now').className='opt-btn on';document.getElementById('opt-sch').className='opt-btn';document.getElementById('schBox').className='sch-box';document.getElementById('time-result').innerHTML='';document.getElementById('roomInput').value='';document.getElementById('roomInput').classList.remove('err');setPayment('vcb');updateRoomWrap();const now=new Date(),tom=new Date(now);tom.setDate(tom.getDate()+1);const fmt=d=>d.getDate()+'/'+(d.getMonth()+1);document.getElementById('dt-today').textContent=fmt(now);document.getElementById('dt-tomorrow').textContent=fmt(tom);const ccLbl=document.getElementById('cc-lbl'),ccInp=document.getElementById('contact2');const nameRow=document.getElementById('nameRow'),memberNameInp=document.getElementById('memberName'),nameLbl=document.getElementById('name-lbl'),contactSubLbl=document.getElementById('contact-sub-lbl');if(member){ccLbl.textContent=t('greet')+', '+member.name+' 👋';nameRow.style.display='block';memberNameInp.value=member.name;nameLbl.textContent=lang==='zh'?'姓名':lang==='en'?'Name':'Tên';const ctLbl=member.contactType==='wechat'?(lang==='zh'?'微信':'WeChat'):member.contactType==='zalo'?'Zalo':(lang==='zh'?'电话':lang==='en'?'Phone':'SĐT');contactSubLbl.textContent=ctLbl;contactSubLbl.style.display='block';ccInp.readOnly=true;ccInp.style.background='#FAF8F4';ccInp.style.fontWeight='700';}else{ccLbl.innerHTML=t('cc_lbl')+' <span style="color:var(--red)">*</span>';nameRow.style.display='none';contactSubLbl.style.display='none';ccInp.readOnly=false;ccInp.style.background='';ccInp.style.fontWeight='';}goPage('pgCart');applyComboRule();applyShopRule();applyAfterCutoffRule();}
+function setItemNote(id,val){cartNotes[id]=val;}
+function del(id){delete cart[id];delete cartNotes[id];updateUI();openCart();}
+function onRoomInput(inp){
+  // Lọc chỉ cho phép số
+  inp.value=inp.value.replace(/\D/g,'');
+  const v=inp.value.trim();
+  const wr=document.getElementById('warn-room');
+  // Khi rỗng hoặc chưa đủ 3 chữ số: clear báo lỗi
+  if(v.length<3){inp.classList.remove('err');if(wr)wr.className='warn';return;}
+  // Đủ 3 chữ số rồi: validate ngay
+  if(validateRoom(v)){inp.classList.remove('err');if(wr)wr.className='warn';}
+  else{inp.classList.add('err');if(wr)wr.className='warn on';}
+}
 function clearErr(){if(!member){document.getElementById('contact2').classList.remove('err');document.getElementById('warn').className='warn';}}
 
 async function placeOrder(){
   const isMember=!!member;const contact=isMember?member.contact:document.getElementById('contact2').value.trim();
-  if(!isMember&&(!contact||contact.length<3)){document.getElementById('contact2').classList.add('err');document.getElementById('contact2').focus();document.getElementById('warn').className='warn on';return;}
-  let roomNo='';if(deliveryMode==='room'||hasComboItem()){roomNo=document.getElementById('roomInput').value.trim();if(!roomNo){document.getElementById('roomInput').classList.add('err');document.getElementById('warn-room').className='warn on';document.getElementById('roomInput').focus();return;}}
+  if(!isMember&&!validateContact(contact)){document.getElementById('contact2').classList.add('err');document.getElementById('contact2').focus();document.getElementById('warn').className='warn on';return;}
+  let roomNo='';if(deliveryMode==='room'||hasComboItem()){roomNo=document.getElementById('roomInput').value.trim();if(!validateRoom(roomNo)){document.getElementById('roomInput').classList.add('err');document.getElementById('warn-room').className='warn on';document.getElementById('roomInput').focus();return;}}
   const tot=Object.entries(cart).reduce((s,[k,v])=>s+(P[k]||0)*v,0);
+  // Confirm trước khi đặt đơn
+  const confirmMsg=lang==='zh'?'确认下单？\n合计：'+ffboth(tot):lang==='en'?'Confirm order?\nTotal: '+ffboth(tot):'Xác nhận đặt đơn?\nTổng: '+ffboth(tot);
+  if(!confirm(confirmMsg))return;
   const note=(document.getElementById('note').value+' '+document.getElementById('snote').value).trim();
-  const itemsText=Object.entries(cart).map(([k,v])=>Nzh[k]+'×'+v).join(', ');
-  const lines=Object.entries(cart).map(([k,v])=>'• '+Nvi[k]+' ('+Nzh[k]+') × '+v+'  —  '+ff((P[k]||0)*v)).join('\n');
+  const itemsText=Object.entries(cart).map(([k,v])=>{const n=cartNotes[k]?' ('+cartNotes[k]+')':'';return Nzh[k]+'×'+v+n;}).join(', ');
+  const lines=Object.entries(cart).map(([k,v])=>{const itemNote=cartNotes[k]?'\n   📝 '+cartNotes[k]:'';return '• '+Nvi[k]+' ('+Nzh[k]+') × '+v+'  —  '+ff((P[k]||0)*v)+' / '+ffcn((P[k]||0)*v)+itemNote;}).join('\n');
   const dIcon=deliveryMode==='room'?'🚪':'🏪';const dVI=B[deliveryMode==='room'?'del_room':'del_counter'].vi;
   const tIcon=timeMode==='now'?'⚡':'📅';const dayVI=curDay==='today'?'Hôm nay':'Ngày mai';const tVI=timeMode==='now'?'Giao ngay':dayVI+(curTime?' '+curTime:'');
   const payVI=B['pay_'+payMode].vi;const pIcons={vcb:'🏦',wechat:'',alipay:'🔵',cash:'💵'};
   const ctIcon=isMember?(member.contactType==='wechat'?'':member.contactType==='zalo'?'🔵':'📱'):'📋';
   const roomTG=roomNo?'\nPhòng: '+roomNo:'';
   const memLine=isMember?'\n👤 '+member.name+'  '+ctIcon+': '+contact+roomTG:'\n📋 '+contact+roomTG;
-  const msg='☕ ĐƠN MYA CAFÉ'+memLine+'\n'+dIcon+' '+dVI+'  '+tIcon+' '+tVI+'\n'+pIcons[payMode]+' '+payVI+'\n─────────────\n'+lines+'\n─────────────\n💰 '+ff(tot)+(note?'\n📝 '+note:'');
+  const msg='☕ ĐƠN MYA CAFÉ'+memLine+'\n'+dIcon+' '+dVI+'  '+tIcon+' '+tVI+'\n'+pIcons[payMode]+' '+payVI+'\n─────────────\n'+lines+'\n─────────────\n💰 '+ff(tot)+' / '+ffcn(tot)+(note?'\n📝 '+note:'');
   const btn=document.getElementById('obtn');btn.disabled=true;document.getElementById('order-lbl').textContent=t('sending');
   // Gửi đơn lên Apps Script — Apps Script lo lưu sheet + gửi Telegram
+  let realOrderId='';
   try{
-    const itemsVI=Object.entries(cart).map(([k,v])=>Nvi[k]+'×'+v).join(', ');
+    const itemsVI=Object.entries(cart).map(([k,v])=>{const n=cartNotes[k]?' ('+cartNotes[k]+')':'';return Nvi[k]+'×'+v+n;}).join(', ');
     const _p=new URLSearchParams({
       action:'add_order',
       member_id:isMember?(member.member_id||''):'',
@@ -1205,18 +1304,19 @@ async function placeOrder(){
     const _r=await fetch(SCRIPT_URL+'?'+_p.toString());
     const _j=await _r.json();
     if(!_j.ok){throw new Error(_j.error||'error');}
+    realOrderId=_j.order_id||'';
   }catch(e){
     btn.disabled=false;
     document.getElementById('order-lbl').textContent=t('order');
     alert(lang==='zh'?'⚠️ 网络错误，请重试':lang==='en'?'⚠️ Network error, please retry':'⚠️ Lỗi mạng, vui lòng thử lại');
     return;
   }
-  if(isMember){orderHistory.push({id:Date.now().toString().slice(-6),items:itemsText,total:tot,time:Date.now(),status:'pending'});try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}}
+  if(isMember){orderHistory.push({id:realOrderId||('LOCAL-'+Date.now().toString().slice(-6)),items:itemsText,total:tot,time:Date.now(),status:'pending'});try{localStorage.setItem('mya_orders',JSON.stringify(orderHistory));}catch(e){}}
   const noticeKey='ok_notice_'+deliveryMode+'_'+(timeMode==='now'?'now':'sch');
   const dayLocal=curDay==='today'?t('today'):t('tomorrow');const tLocal=timeMode==='now'?t('now').replace(/^[^\w\u4e00-\u9fa5]+/,''):dayLocal+(curTime?' '+curTime:'');
   const schNote=timeMode==='sch'&&curTime?'\n📅 '+tLocal:'';
   document.getElementById('ok-notice').textContent=t(noticeKey)+schNote;
-  const rows=Object.entries(cart).map(([k,v])=>{const foreign=lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k];const allItems=[...CAFE,...SHOP];const itm=allItems.find(i=>i.id===k);const subDesc=itm?(lang==='zh'?itm.dzh:lang==='en'?itm.den:itm.dvi)||'':'';const subHtml=subDesc?'<div class="srv-vi" style="font-size:11px;opacity:.7">'+subDesc+'</div>':'';const lbl=lang==='vi'?'<div class="srv-f">'+foreign+'</div>'+subHtml:'<div class="srv-f">'+foreign+'</div><div class="srv-vi">'+Nvi[k]+'</div>'+subHtml;return itemRow(lbl,v,ff((P[k]||0)*v));}).join('');
+  const rows=Object.entries(cart).map(([k,v])=>{const foreign=lang==='zh'?Nzh[k]:lang==='en'?Nen[k]:Nvi[k];const allItems=[...CAFE,...SHOP];const itm=allItems.find(i=>i.id===k);const subDesc=itm?(lang==='zh'?itm.dzh:lang==='en'?itm.den:itm.dvi)||'':'';const subHtml=subDesc?'<div class="srv-vi" style="font-size:11px;opacity:.7">'+subDesc+'</div>':'';const itemNoteHtml=cartNotes[k]?'<div class="srv-vi" style="font-size:11px;color:var(--nv);font-style:italic">📝 '+cartNotes[k]+'</div>':'';const lbl=lang==='vi'?'<div class="srv-f">'+foreign+'</div>'+subHtml+itemNoteHtml:'<div class="srv-f">'+foreign+'</div><div class="srv-vi">'+Nvi[k]+'</div>'+subHtml+itemNoteHtml;return itemRow(lbl,v,ffByLang((P[k]||0)*v));}).join('');
   const whoLbl=isMember?'👤 '+bl('lbl_name'):'📋 '+bl('lbl_contact');const whoVal='<div class="srv-f">'+(isMember?member.name:contact)+'</div>';
   const roomRow2=roomNo?srRow(''+bl('lbl_room'),'<div class="srv-f">'+roomNo+'</div>'):'';;
   const delRow=srRow(dIcon+' '+bl('lbl_del'),bv(deliveryMode==='room'?'del_room':'del_counter'));
@@ -1224,10 +1324,11 @@ async function placeOrder(){
   const timeVal=lang==='vi'?'<div class="srv-f">'+timeKeyVI+'</div>':'<div class="srv-f">'+timeKeyLocal+'</div><div class="srv-vi">'+timeKeyVI+'</div>';
   const payRow=srRow(pIcons[payMode]+' '+bl('lbl_pay'),bv('pay_'+payMode));
   const noteRow=note?srRow('📝 '+bl('lbl_note'),'<div class="srv-f">'+note+'</div>'):'';
-  const totRow='<div class="sr"><div class="srl">'+bl('lbl_total')+'</div><div class="srv"><div class="srv-tot">'+ff(tot)+'</div></div></div>';
+  const totRow='<div class="sr"><div class="srl">'+bl('lbl_total')+'</div><div class="srv"><div class="srv-tot">'+ffByLang(tot)+'</div></div></div>';
   document.getElementById('sucCard').innerHTML=rows+srRow(whoLbl,whoVal)+roomRow2+delRow+srRow(tIcon+' '+bl('lbl_time'),timeVal)+payRow+noteRow+totRow;
   goPage('pgOk');
   cart={};
+  cartNotes={};
   btn.disabled=false;
   document.getElementById('order-lbl').textContent=t('order');
 }
