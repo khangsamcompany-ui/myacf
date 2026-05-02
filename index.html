@@ -373,24 +373,33 @@ body,
 @keyframes helpPulse{0%,100%{box-shadow:0 4px 14px rgba(212,175,55,.4)}50%{box-shadow:0 4px 22px rgba(212,175,55,.7)}}
 .tut-overlay{position:fixed;inset:0;background:rgba(20,15,5,.85);backdrop-filter:blur(4px);z-index:9999;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 12px}
 .tut-overlay.show{display:flex}
-.tut-card{background:linear-gradient(180deg,#FFF8E7 0%,#FAEBC8 100%);border-radius:18px;max-width:420px;width:100%;padding:22px 18px 16px;box-shadow:0 12px 40px rgba(0,0,0,.4);position:relative;margin:auto;animation:tutSlide .35s cubic-bezier(.2,.9,.3,1.2)}
+.tut-card{background:linear-gradient(180deg,#FFF8E7 0%,#FAEBC8 100%);border-radius:18px;max-width:440px;width:100%;padding:26px 20px 18px;box-shadow:0 12px 40px rgba(0,0,0,.4);position:relative;margin:auto;animation:tutSlide .35s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes tutSlide{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 .tut-close{position:absolute;top:10px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.1);border:none;font-size:18px;cursor:pointer;color:#5C3A00;display:flex;align-items:center;justify-content:center}
 .tut-close:hover{background:rgba(0,0,0,.2)}
 .tut-head{text-align:center;margin-bottom:14px}
-.tut-emoji{font-size:38px;margin-bottom:4px}
-.tut-title{font-size:19px;font-weight:800;color:#5C3A00;margin-bottom:2px;letter-spacing:.3px}
-.tut-sub{font-size:12px;color:#8B6914;font-weight:500}
+.tut-emoji{font-size:44px;margin-bottom:6px}
+.tut-title{font-size:22px;font-weight:800;color:#5C3A00;margin-bottom:4px;letter-spacing:.3px}
+.tut-sub{font-size:14px;color:#8B6914;font-weight:500}
 .tut-steps{display:flex;flex-direction:column;gap:10px;margin:12px 0}
-.tut-step{background:#fff;border-radius:14px;padding:11px 12px;display:flex;align-items:flex-start;gap:11px;box-shadow:0 2px 6px rgba(140,90,0,.08);border:1.5px solid rgba(212,175,55,.25)}
-.tut-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#B8941F);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(212,175,55,.4)}
+.tut-step{background:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 2px 6px rgba(140,90,0,.08);border:1.5px solid rgba(212,175,55,.25)}
+.tut-num{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#B8941F);color:#fff;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(212,175,55,.4)}
 .tut-body{flex:1;min-width:0}
-.tut-step-title{font-size:14px;font-weight:700;color:#3D2400;margin-bottom:3px}
-.tut-step-desc{font-size:11.5px;color:#6B4D1A;line-height:1.45}
-.tut-tag{display:inline-block;background:#FFEFC2;color:#7A5500;padding:1px 7px;border-radius:5px;font-size:11px;font-weight:700;margin:0 1px;border:1px solid #E8C76A}
-.tut-cta{width:100%;background:linear-gradient(135deg,#1A1A1A 0%,#3D2400 100%);color:#FFD96B;border:none;border-radius:11px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 12px rgba(0,0,0,.2);margin-top:6px}
+.tut-step-title{font-size:16px;font-weight:700;color:#3D2400;margin-bottom:5px}
+.tut-step-desc{font-size:13.5px;color:#6B4D1A;line-height:1.55}
+.tut-tag{display:inline-block;background:#FFEFC2;color:#7A5500;padding:2px 9px;border-radius:5px;font-size:12.5px;font-weight:700;margin:0 2px;border:1px solid #E8C76A}
+.tut-cta{width:100%;background:linear-gradient(135deg,#1A1A1A 0%,#3D2400 100%);color:#FFD96B;border:none;border-radius:11px;padding:14px;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 12px rgba(0,0,0,.2);margin-top:6px}
 .tut-cta:hover{transform:translateY(-1px)}
-.tut-foot{text-align:center;font-size:10.5px;color:#8B6914;margin-top:8px;font-style:italic}
+.tut-foot{text-align:center;font-size:12px;color:#8B6914;margin-top:10px;font-style:italic}
+.tut-contact{background:#fff;border-radius:12px;padding:12px 14px;margin-top:10px;border:1.5px dashed #D4AF37}
+.tut-contact-title{font-size:13px;font-weight:700;color:#5C3A00;margin-bottom:8px;text-align:center}
+.tut-contact-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px}
+.tut-contact-row+.tut-contact-row{border-top:1px solid #F0E0C8}
+.tut-contact-icon{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#FFF4D6;display:flex;align-items:center;justify-content:center;font-size:16px}
+.tut-contact-info{flex:1;min-width:0}
+.tut-contact-label{font-size:11px;color:#8B6914;font-weight:600}
+.tut-contact-value{font-size:14px;color:#3D2400;font-weight:700;letter-spacing:.3px;word-break:break-all}
+
 
 </style>
 
@@ -568,6 +577,23 @@ body,
       <div class="tut-sub" id="tutSub">4步轻松点单</div>
     </div>
     <div class="tut-steps" id="tutSteps"></div>
+    <div class="tut-contact">
+      <div class="tut-contact-title" id="tutContactTitle">需要帮助？</div>
+      <div class="tut-contact-row">
+        <div class="tut-contact-icon">📞</div>
+        <div class="tut-contact-info">
+          <div class="tut-contact-label" id="tutHotlineLbl">热线 · Hotline</div>
+          <div class="tut-contact-value" id="tutHotline">0976 008 822 · 0837 321 958</div>
+        </div>
+      </div>
+      <div class="tut-contact-row">
+        <div class="tut-contact-icon">💚</div>
+        <div class="tut-contact-info">
+          <div class="tut-contact-label">WeChat</div>
+          <div class="tut-contact-value" id="tutWechat">qhuy021 / myanh58</div>
+        </div>
+      </div>
+    </div>
     <button class="tut-cta" id="tutCta" onclick="closeTutorial()">我知道了</button>
     <div class="tut-foot" id="tutFoot">点击右下角 ❓ 可重新查看</div>
   </div>
@@ -1249,7 +1275,8 @@ const TUT={
       {n:'4',t:'✅ 提交订单',d:'选择送餐方式和付款方式<br>点击 <span class="tut-tag">✅ 立即下单</span> 完成'},
     ],
     cta:'我知道了，开始点单 ✨',
-    foot:'点击右下角 ❓ 可重新查看'
+    foot:'点击右下角 ❓ 可重新查看',
+    contact_title:'需要帮助？请联系我们'
   },
   vi:{
     emoji:'☕',
@@ -1262,7 +1289,8 @@ const TUT={
       {n:'4',t:'✅ Đặt hàng',d:'Chọn cách nhận và thanh toán<br>Bấm <span class="tut-tag">✅ Đặt hàng ngay</span>'},
     ],
     cta:'Đã hiểu, đặt món ngay ✨',
-    foot:'Bấm ❓ góc phải dưới để xem lại'
+    foot:'Bấm ❓ góc phải dưới để xem lại',
+    contact_title:'Cần hỗ trợ? Liên hệ ngay'
   },
   en:{
     emoji:'☕',
@@ -1275,7 +1303,8 @@ const TUT={
       {n:'4',t:'✅ Place Order',d:'Choose delivery and payment<br>Tap <span class="tut-tag">✅ Place Order</span>'},
     ],
     cta:'Got it, let us order ✨',
-    foot:'Tap ❓ at bottom right to view again'
+    foot:'Tap ❓ at bottom right to view again',
+    contact_title:'Need help? Contact us'
   }
 };
 const TUT_KEY='mya_tut_seen_v1';
@@ -1288,6 +1317,26 @@ function renderTutorial(){
   document.getElementById('tutSub').textContent=tt.sub;
   document.getElementById('tutCta').innerHTML=tt.cta;
   document.getElementById('tutFoot').textContent=tt.foot;
+  document.getElementById('tutContactTitle').textContent=tt.contact_title;
+  // Đọc hotline & wechat từ config (nếu đã load)
+  try{
+    const hotEl=document.getElementById('rec-hotline');
+    if(hotEl && hotEl.textContent && hotEl.textContent!=='0123456'){
+      // Hiển thị số chính + số phụ (nếu config chỉ có 1 số)
+      const main=hotEl.textContent.trim();
+      const backup='0837 321 958';
+      const tutHot=document.getElementById('tutHotline');
+      if(main.indexOf(backup.replace(/ /g,''))===-1 && main.indexOf(backup)===-1){
+        tutHot.textContent=main+' · '+backup;
+      } else {
+        tutHot.textContent=main;
+      }
+    }
+    const wcEl=document.getElementById('rec-wechat');
+    if(wcEl && wcEl.textContent && wcEl.textContent!=='abcdean'){
+      document.getElementById('tutWechat').textContent=wcEl.textContent;
+    }
+  }catch(e){}
   const stepsHtml=tt.steps.map(function(s){
     return '<div class="tut-step"><div class="tut-num">'+s.n+'</div><div class="tut-body"><div class="tut-step-title">'+s.t+'</div><div class="tut-step-desc">'+s.d+'</div></div></div>';
   }).join('');
